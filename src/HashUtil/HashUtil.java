@@ -1,3 +1,5 @@
+package HashUtil;
+
 import java.security.MessageDigest;
 
 public class HashUtil {
@@ -23,4 +25,5 @@ public class HashUtil {
    throw new RuntimeException(e);
   }
  }
+ 
 }

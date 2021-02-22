@@ -1,5 +1,4 @@
 package BlockChain;
-
 import java.util.Date;
 
 public class Blocks {
@@ -23,4 +22,5 @@ public class Blocks {
     public int getIndex() {
         return index;
     }
+
 }
