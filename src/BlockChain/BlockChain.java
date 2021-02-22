@@ -1,3 +1,5 @@
+package BlockChain;
+
 import java.util.Date;
 
 public class BlockChain {
@@ -6,7 +8,7 @@ public class BlockChain {
     private Blocks[] blocks; //Tableau de blocs
     //private char[] UTXO;
 
-    public BlockChain(int difficulte, int nbBlock) { //Constructeur de BlockChain
+    public BlockChain(int difficulte, int nbBlock) { //Constructeur de BlockChain.BlockChain
         this.difficulte = difficulte;
         this.nbBlock = nbBlock;
         blocks = new Blocks[nbBlock];

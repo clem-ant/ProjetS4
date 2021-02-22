@@ -1,3 +1,5 @@
+import BlockChain.BlockChain;
+
 import java.util.Scanner;
 
 /**
@@ -15,6 +17,6 @@ public class Main {
         System.out.println("Combien de blocs voulez vous pour votre blockchain : ");
         nbBlock = clavier.nextInt();
         BlockChain blockChain = new BlockChain(1, nbBlock);
-            System.out.println(blockChain.getBlocks(1).getTimeStamp());
+            System.out.println(blockChain.getBlocks(0).getTimeStamp());
     }
 }
