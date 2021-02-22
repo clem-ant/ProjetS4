@@ -1,5 +1,6 @@
 package BlockChain;
 import java.util.Date;
+import HashUtil.HashUtil;
 
 public class Blocks {
     private int index; //Genesis = 0
@@ -21,6 +22,11 @@ public class Blocks {
 
     public int getIndex() {
         return index;
+    }
+
+    public String hashing(){
+        return " ";
+        //return HashUtil.applySha256();
     }
 
 }
