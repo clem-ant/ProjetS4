@@ -27,14 +27,21 @@ public class Blocks {
         return hashBlockCourant;
     }
 
-    public String transaction(String input){ //TODO Minage
-        return hashing(input, hashPrecedent);
+    public String transaction(String input, int difficulte){ //TODO Minage
+        return hashing(input, hashPrecedent, difficulte);
     }
 
+    public String getHashPrecedent() {
+        return hashPrecedent;
+    }
 
-    public String hashing(String message, String ancienHash){ //TODO ajouter arbre de Merkle
-        hashBlockCourant = HashUtil.applySha256(message + timeStamp + ancienHash);
-        return nonce+hashBlockCourant;
+    public String hashing(String message, String hashPrecedent, int difficulte){ //TODO ajouter arbre de Merkle
+        this.hashPrecedent = hashPrecedent;
+        do {
+            hashBlockCourant = HashUtil.applySha256(String.valueOf(nonce) + message + timeStamp + hashPrecedent);
+            nonce++;
+        }while(!hashBlockCourant.matches("[0]{"+difficulte+"}(.*)"));
+        return hashBlockCourant;
     }
 
 }

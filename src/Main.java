@@ -16,9 +16,8 @@ public class Main {
         Scanner clavier = new Scanner(System.in);
         System.out.println("Combien de blocs voulez vous pour votre blockchain : ");
         nbBlock = clavier.nextInt();
-        BlockChain blockChain = new BlockChain(1, nbBlock);
-        blockChain.CalculOfAllTheBlocks();
-        blockChain.CalculFrom0ToI(7);
+        BlockChain blockChain = new BlockChain(5, nbBlock);
+        blockChain.CalculFrom0ToI(5);
         //System.out.println(blockChain.getBlocks(1).hashing("Astérix envoie 10 BnB à Obélix"));
     }
 }

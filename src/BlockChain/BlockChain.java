@@ -26,7 +26,7 @@ public class BlockChain {
     public void CalculOfAllTheBlocks(){
         System.out.println("Hash Genesis  : " + hashPrecedent);
         for(int i = 1; i < nbBlock; i++){
-            hashPrecedent = blocks[i].hashing("Un message random qui donne 1000 Bnb", hashPrecedent);
+            hashPrecedent = blocks[i].hashing("Un message random qui donne 1000 Bnb", hashPrecedent, difficulte);
             System.out.println("Hash numero " + i + " : " + hashPrecedent);
         }
     }
@@ -34,7 +34,7 @@ public class BlockChain {
     public void CalculFrom0ToI(int index){
         System.out.println("Hash Genesis  : " + hashPrecedent);
         for(int i = 1; i < index; i++){
-            hashPrecedent = blocks[i].hashing("Un message random qui donne 1000 Bnb", hashPrecedent);
+            hashPrecedent = blocks[i].hashing("Un message random qui donne 1000 Bnb", hashPrecedent, difficulte);
             System.out.println("Hash numero " + i + " : " + hashPrecedent);
         }
     }
