@@ -23,7 +23,7 @@ public class BlockChain {
         return blocks[index];
     }
 
-    public void CalculOfAllTheBlocks(){
+    public void calculOfAllTheBlocks(){
         System.out.println("Hash Genesis  : " + hashPrecedent);
         for(int i = 1; i < nbBlock; i++){
             hashPrecedent = blocks[i].hashing("Un message random qui donne 1000 Bnb", hashPrecedent, difficulte);
@@ -31,12 +31,16 @@ public class BlockChain {
         }
     }
 
-    public void CalculFrom0ToI(int index){
+    public void calculFrom0ToI(int index){
         System.out.println("Hash Genesis  : " + hashPrecedent);
         for(int i = 1; i < index; i++){
             hashPrecedent = blocks[i].hashing("Un message random qui donne 1000 Bnb", hashPrecedent, difficulte);
             System.out.println("Hash numero " + i + " : " + hashPrecedent);
         }
+    }
+
+    public String transaction(int index, String message){
+       return this.getBlocks(index).transaction(message, difficulte);
     }
 
 }

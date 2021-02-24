@@ -8,15 +8,12 @@ public class Blocks {
     private String hashPrecedent; //Hash du block précédent de la chaine
     private String hashRootMerkle;
     private String hashBlockCourant;
+    private String listeTransaction = "";
     private int nbTranstaction;
     private int nonce = 0; //En cryptographie, un nonce est un nombre arbitraire destiné à être utilisé une seule fois. Il s'agit souvent d'un nombre aléatoire ou pseudo-aléatoire émis dans un protocole d'authentification pour garantir que les anciennes communications ne peuvent pas être réutilisées dans des attaques par rejeu
 
     public Blocks(int index){
         this.index = index;
-    }
-
-    public Date getTimeStamp() {
-        return timeStamp;
     }
 
     public int getIndex() {
@@ -27,12 +24,14 @@ public class Blocks {
         return hashBlockCourant;
     }
 
-    public String transaction(String input, int difficulte){ //TODO Minage
-        return hashing(input, hashPrecedent, difficulte);
+    public String getListeTransaction() {
+        return listeTransaction;
     }
 
-    public String getHashPrecedent() {
-        return hashPrecedent;
+    public String transaction(String input, int difficulte){ //TODO Minage
+        listeTransaction += input + " ";
+        nbTranstaction++;
+        return hashing(input, hashPrecedent, difficulte);
     }
 
     public String hashing(String message, String hashPrecedent, int difficulte){ //TODO ajouter arbre de Merkle

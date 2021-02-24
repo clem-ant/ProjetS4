@@ -1,4 +1,6 @@
 import BlockChain.BlockChain;
+import HashUtil.HashUtil;
+import Utilisateurs.User;
 
 import java.util.Scanner;
 
@@ -16,8 +18,10 @@ public class Main {
         Scanner clavier = new Scanner(System.in);
         System.out.println("Combien de blocs voulez vous pour votre blockchain : ");
         nbBlock = clavier.nextInt();
-        BlockChain blockChain = new BlockChain(5, nbBlock);
-        blockChain.CalculFrom0ToI(5);
-        //System.out.println(blockChain.getBlocks(1).hashing("Astérix envoie 10 BnB à Obélix"));
+        BlockChain blockChain = new BlockChain(4, nbBlock);
+        User tony = new User("Tony", HashUtil.applySha256("Mon Mot de passe je sais pas"), 1);
+        System.out.println(tony.getHashUser());
+        //blockChain.calculOfAllTheBlocks();
+        //blockChain.calculFrom0ToI(5);
     }
 }
