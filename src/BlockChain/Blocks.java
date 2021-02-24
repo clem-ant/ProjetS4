@@ -7,13 +7,15 @@ public class Blocks {
     private Date timeStamp = new Date(); //La date au moment de la création
     private String hashPrecedent; //Hash du block précédent de la chaine
     private String hashRootMerkle;
+    private BlockChain blockChain;
     private String hashBlockCourant;
     private String listeTransaction = "";
     private int nbTranstaction;
     private int nonce = 0; //En cryptographie, un nonce est un nombre arbitraire destiné à être utilisé une seule fois. Il s'agit souvent d'un nombre aléatoire ou pseudo-aléatoire émis dans un protocole d'authentification pour garantir que les anciennes communications ne peuvent pas être réutilisées dans des attaques par rejeu
 
-    public Blocks(int index){
+    public Blocks(int index, BlockChain blockChain){
         this.index = index;
+        this.blockChain = blockChain;
     }
 
     public int getIndex() {
@@ -31,7 +33,7 @@ public class Blocks {
     public String transaction(String input, int difficulte){ //TODO Minage
         listeTransaction += input + " ";
         nbTranstaction++;
-        return hashing(input, hashPrecedent, difficulte);
+        return hashing(listeTransaction, hashPrecedent, difficulte);
     }
 
     public String hashing(String message, String hashPrecedent, int difficulte){ //TODO ajouter arbre de Merkle

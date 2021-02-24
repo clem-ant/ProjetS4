@@ -17,9 +17,9 @@ public class Genesis extends Blocks{
         return hashing("Genesis");
     }
 
-    private String hashing(String message){ //TODO ajouter arbre de Merkle, Surcharge de la methode hashing qui prend un ancien hash
+    private String hashing(String message){ //TODO ajouter arbre de Merkle
         hashBlockCourant = HashUtil.applySha256(message+timeStamp);
-        return 0+hashBlockCourant; //0 = nonce
+        return hashBlockCourant; //0 = nonce
     }
 
 }
