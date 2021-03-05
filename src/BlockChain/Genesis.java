@@ -9,10 +9,10 @@ public class Genesis extends Blocks{
     private Date timeStamp = new Date();
     private String hashBlockCourant;
 
-    public Genesis(int index) {
-        super(index);
-    }
+    public Genesis(BlockChain blockChain) {
+        super(blockChain);
 
+    }
     public String initGenesis(){
         return hashing("Genesis");
     }

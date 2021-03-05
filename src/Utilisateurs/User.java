@@ -11,9 +11,9 @@ public class User {
         this.Bnb = Bnb;
     }
 
-    public String getHashUser() {
+    public String getHashUserPublic() {
         return hashUser;
-    }
+    } //TODO creer hash secret
 
     public void donnerArgent(User destinataire, int montantDeBnb){
         if(Bnb >= montantDeBnb) {
