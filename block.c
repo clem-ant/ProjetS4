@@ -12,6 +12,7 @@ void initTxList(TxList txList){
 void initBlock(Block* block, const char hashCodePredecessor[64]){
     time_t localTimeInSecond = time(NULL);
     block->nonce = 0;
+    block->txNumber = 0;
     block->timestamp = localtime(&localTimeInSecond);
     for (int i=0; i < 64; i++){
         block->hashCodePredecessor[i] = hashCodePredecessor[i];

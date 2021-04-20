@@ -11,7 +11,8 @@ typedef struct Blockchain Blockchain;
 struct Blockchain{
     int difficulty;
     int currentBlock;
-    Block* blockchain;
+    int length;
+    Block *blocks;
 };
 
 void initBlockchain(Blockchain* blockchain, int difficulty, int length);

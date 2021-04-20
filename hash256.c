@@ -53,6 +53,5 @@ int numberCharBlock(const Block block){
 char* hash256(const char* item, char* hashRes){
     sha256ofString((BYTE *)item, hashRes); // hashRes contient maintenant le hash de l'item
     int long_hash = (int) strlen(hashRes); // sa longueur en caractères hexadécimaux
-    printf("%s \n", hashRes);
     return hashRes;
 }

@@ -6,7 +6,7 @@
 #define PROJET_S4_BLOCK_H
 #include <time.h>
 #include <string.h>
-#define MAXIMAL_TX 10
+#define MAXIMAL_TX 50
 
 typedef struct TxList TxList;
 struct TxList{
@@ -17,6 +17,7 @@ struct TxList{
 typedef struct Block Block;
 struct Block{
     int nonce;
+    int txNumber;
     struct tm *timestamp;
     char hashCode[64];
     char hashCodePredecessor[64];

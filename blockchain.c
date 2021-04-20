@@ -8,9 +8,10 @@
 void initBlockchain(Blockchain* blockchain, int difficulty, int length){
     blockchain->difficulty = difficulty;
     blockchain->currentBlock = 0;
-    blockchain->blockchain = malloc(length * sizeof(Block));
+    blockchain->length = length;
+    blockchain->blocks = malloc(length * sizeof(Block));
 }
 
 char* getHashCodePredecessor(Blockchain blockchain, int indexCurrentBlock){
-    return blockchain.blockchain[indexCurrentBlock-1].hashCode;
+    return blockchain.blocks[indexCurrentBlock-1].hashCode;
 }
