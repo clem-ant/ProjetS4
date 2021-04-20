@@ -37,11 +37,37 @@ public class Blocks {
     }
 
     public String hashing(String message, int difficulte){ //TODO ajouter arbre de Merkle
+        
         do {
             hashBlockCourant = HashUtil.applySha256(String.valueOf(nonce) + message + timeStamp + getHashPrecedent());
             nonce++;
         }while(!hashBlockCourant.matches("[0]{"+blockChain.getDifficulte()+"}(.*)"));
         return hashBlockCourant;
+    }
+    
+    public List<String> merkleTree(){
+        ArrayList<String> tree=new ArrayList<>;
+        //On commence d'abord à ajouter les transactions en tant que des "leaves" de l'arbre de Merkle
+        tree.add(tree.hash(listeTransaction));
+        int levelOffset=0;
+        
+        //Parcourir chaque niveau, en nous arrêtant que lorsque nous atteignons la racine
+        //(levelSize==1)
+        
+        for (int levelSize=listeTransaction.size(); levelSize>1; levelSize=(levelSize+1)/2) {
+            //Pour chaque pair de nodes à ce niveau
+            for (int left=0; left<levelSize; left+=2){
+                //Le node de droite peut être le même que celui de la gauche dans le cas où nous n'avons pas assez de transactions
+                int right = Math.min(left + 1, levelSize - 1);
+				String tleft = tree.get(levelOffset + left);
+				String tright = tree.get(levelOffset + right);
+                tree.add(getHashBlockCourant(tleft + tright));
+            }
+            //Passez au niveau suivant
+            levelOffset += levelSize;
+        }
+        return tree;
+        
     }
 
 
