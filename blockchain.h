@@ -10,11 +10,13 @@
 typedef struct Blockchain Blockchain;
 struct Blockchain{
     int difficulty;
-    int currentBlock;
+    int nextBlock;
     int length;
-    Block *blocks;
+    Block **blocks;
 };
 
 Blockchain *initBlockchain(int difficulty, int length);
+Block *addBlock(Blockchain *blockchain);
+void deleteBlockchain(Blockchain *blockchain);
 
 #endif //PROJET_S4_BLOCKCHAIN_H

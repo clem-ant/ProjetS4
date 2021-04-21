@@ -27,5 +27,6 @@ struct Block{
 };
 
 Block *initBlock(const char hashCodePredecessor[64]);
+Block *addTx(Block *block, char* tx);
 
 #endif //PROJET_S4_BLOCK_H
