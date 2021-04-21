@@ -5,11 +5,13 @@
 #include <stdlib.h>
 #include "blockchain.h"
 
-void initBlockchain(Blockchain* blockchain, int difficulty, int length){
+Blockchain *initBlockchain(int difficulty, int length){
+    Blockchain *blockchain = malloc(sizeof(Blockchain));
     blockchain->difficulty = difficulty;
     blockchain->currentBlock = 0;
     blockchain->length = length;
     blockchain->blocks = malloc(length * sizeof(Block));
+    return blockchain;
 }
 
 char* getHashCodePredecessor(Blockchain blockchain, int indexCurrentBlock){

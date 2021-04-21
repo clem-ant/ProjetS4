@@ -15,5 +15,6 @@ struct Blockchain{
     Block *blocks;
 };
 
-void initBlockchain(Blockchain* blockchain, int difficulty, int length);
+Blockchain *initBlockchain(int difficulty, int length);
+
 #endif //PROJET_S4_BLOCKCHAIN_H

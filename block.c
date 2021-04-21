@@ -3,19 +3,22 @@
 //
 
 #include <time.h>
+#include <stdlib.h>
 #include "block.h"
 
-void initTxList(TxList txList){
-    txList.txIndex = 0;
+TxList *initTxList(){
+    TxList *txList = malloc(sizeof(TxList));
+    txList->txNumber = 0;
+    txList->tx = malloc(MAXIMAL_TX * sizeof(char*));
+    return txList;
 }
 
-void initBlock(Block* block, const char hashCodePredecessor[64]){
+Block *initBlock(const char hashCodePredecessor[64]){
+    Block *block = malloc(sizeof(Block));
     time_t localTimeInSecond = time(NULL);
     block->nonce = 0;
-    block->txNumber = 0;
     block->timestamp = localtime(&localTimeInSecond);
-    for (int i=0; i < 64; i++){
-        block->hashCodePredecessor[i] = hashCodePredecessor[i];
-    }
-    initTxList(block->txList);
+    strcpy(block->hashCodePredecessor, hashCodePredecessor);
+    block->txList = initTxList();
+    return block;
 }
