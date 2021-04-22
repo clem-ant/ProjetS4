@@ -6,11 +6,11 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "../block.h"
-#include "../Sha256/sha256.h"
-#include "../hash256.h"
-#include "minage.h"
+#include "../Sha256/sha256_utils.h"
+#include "mining_utils.h"
+#include "mining.h"
 
-bool difficultyCheck(Block *block, const char hashRes[SHA256_BLOCK_SIZE*2 + 1]){
+bool difficultyHashCheck(const char hashRes[SHA256_BLOCK_SIZE*2 + 1]){
     int difficulty = DIFFICULTY;
     for(int i = 0; i < difficulty; i++){
         if(hashRes[i] != '0'){
@@ -23,17 +23,15 @@ bool difficultyCheck(Block *block, const char hashRes[SHA256_BLOCK_SIZE*2 + 1]){
 void mining(Block *block){
     int i = numberCharBlock(*block);
     int bufferSize = SHA256_BLOCK_SIZE;
-    char *item = malloc((i+1) * sizeof(char));
+    BYTE *blockContent = malloc((i+1) * sizeof(BYTE));
     char hashRes[bufferSize*2 + 1]; // contiendra le hash en hexadécimal
-
     while(true){
-        blockItemsToString(*block, item);
-        hash256(item, hashRes);
-        printf("%d - %s\n", block->nonce, hashRes);
-        if(difficultyCheck(block, hashRes)){
+        blockItemsToString(*block, (char*) blockContent);
+        sha256ofString(blockContent, hashRes);
+        if(difficultyHashCheck(hashRes)){
             strcpy(block->hashCode, hashRes);
             printf("%d - %s\n", block->nonce, hashRes);
-            free(item);
+            free(blockContent);
             return;
         }
         block->nonce++;

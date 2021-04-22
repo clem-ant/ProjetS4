@@ -5,9 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "block.h"
-#include "blockchain.h"
-#include "./Sha256/sha256.h"
-#include "hash256.h"
 #include "./Sha256/sha256.h"
 #include "./Sha256/sha256_utils.h"
 
@@ -18,10 +15,10 @@ void getMerkleRoot(Block *block);
 char** initTransactionHashing (Block *block, char** transactionHashList) {
     int bufferSize = SHA256_BLOCK_SIZE;
     char hashRes[bufferSize*2 + 1];
-    for(int i = 0; i < block->txNumber; i++){
-        sha256ofString((BYTE*) block->txList.tx[i], hashRes);
-        transactionHashList[i] = strdup(hashRes);
-        printf("%s -> %s\n", block->txList.tx[i], transactionHashList[i]);
+    for(int i = 0; i < block->txList->txNumber; i++){
+        sha256ofString((BYTE*) block->txList->tx[i], hashRes);
+        transactionHashList[i] = strdup(hashRes); //strcpy + malloc
+        printf("%s -> %s\n", block->txList->tx[i], transactionHashList[i]);
     }
     printf("\n");
     return transactionHashList;
@@ -29,10 +26,10 @@ char** initTransactionHashing (Block *block, char** transactionHashList) {
 
 void getMerkleRoot(Block *block){
     int bufferSize = SHA256_BLOCK_SIZE;
-    char** transactionHashList = (char**) malloc((block->txNumber + 1) * sizeof(char[bufferSize*2+1]));
+    char** transactionHashList = (char**) malloc((block->txList->txNumber + 1) * sizeof(char[bufferSize*2+1]));
     char hashRes[bufferSize*2 + 1];
     transactionHashList = initTransactionHashing(block, transactionHashList);
-    for(int i = block->txNumber; i > 1; i /= 2){
+    for(int i = block->txList->txNumber; i > 1; i /= 2){
         if (i % 2 != 0) { // dédoublement du dernier hash dans la liste
             transactionHashList[i] = transactionHashList[i - 1];
             i++;
