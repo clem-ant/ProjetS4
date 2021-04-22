@@ -17,12 +17,11 @@ int main(int argc, char *argv[]) {
     block->txList->tx[3] = "g give 12";
     block->txList->tx[4] = "g give 13";
     block->txList->txNumber = 5;
-
     getMerkleRoot(block);
-
     printf("Merkle root : %s\n", block->hashMerkleTreeRoot);
     mining(block);
     printf("Hash du block : %s\n", block->hashCode);
+    deleteBlockchain(blockchain);
 
 
     return 0;

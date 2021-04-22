@@ -21,18 +21,18 @@ bool difficultyHashCheck(const char hashRes[SHA256_BLOCK_SIZE*2 + 1]){
 }
 
 void mining(Block *block){
-    int i = numberCharBlock(*block);
+    int i = numberCharBlock(block);
     int bufferSize = SHA256_BLOCK_SIZE;
-    BYTE *blockContent = malloc((i+1) * sizeof(BYTE));
+    char *blockContent = malloc((i+1) * sizeof(char));
     char hashRes[bufferSize*2 + 1]; // contiendra le hash en hexadécimal
     while(true){
-        blockItemsToString(*block, (char*) blockContent);
-        sha256ofString(blockContent, hashRes);
+        blockItemsToString(block, blockContent);
+        sha256ofString((BYTE*) blockContent, hashRes);
         if(difficultyHashCheck(hashRes)){
             strcpy(block->hashCode, hashRes);
             free(blockContent);
             return;
         }
-        block->nonce++;
+        block->nonce += 1;
     }
 }

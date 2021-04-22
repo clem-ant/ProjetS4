@@ -25,9 +25,8 @@ char** initTransactionHashing (Block *block) {
     return transactionHashList;
 }
 
-void deleteTransactionHashList(char ** transactionHashList, int size){
+void deleteTransactionHashList(char **transactionHashList, int size){
     for(int i = 0; i < size ; i++){
-        printf("%s\n", transactionHashList[i]);
         free(transactionHashList[i]);
     }
     free(transactionHashList);
@@ -35,8 +34,7 @@ void deleteTransactionHashList(char ** transactionHashList, int size){
 }
 
 char* concatenateHash(char* firstHash,char* secondHash){
-    char* destination;
-    destination= malloc((strlen(firstHash)+strlen(secondHash)+1)*sizeof(char));
+    char* destination = malloc((strlen(firstHash)+strlen(secondHash)+1)*sizeof(char));
     strcpy(destination,firstHash);
     strcat(destination,secondHash);
     return destination;
@@ -56,9 +54,10 @@ void getMerkleRoot(Block *block){
             char *hashConcatenated = concatenateHash(transactionHashList[j], transactionHashList[j + 1]);
             sha256ofString((BYTE*) hashConcatenated, hashRes);
             transactionHashList[k]=hashRes;
+            free(hashConcatenated);
         }
     }
 
     strcpy(block->hashMerkleTreeRoot, hashRes);
-    deleteTransactionHashList(transactionHashList, (block->txList->txNumber));
+    deleteTransactionHashList(transactionHashList, block->txList->txNumber);
 }

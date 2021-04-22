@@ -5,6 +5,6 @@
 #ifndef PROJET_S4_MINING_UTILS_H
 #define PROJET_S4_MINING_UTILS_H
 int numberDigitsInteger(int number);
-char* blockItemsToString(const Block block, char* blockItems);
-int numberCharBlock(const Block block);
+char* blockItemsToString(const Block *block, char* blockItems);
+int numberCharBlock(const Block *block);
 #endif //PROJET_S4_MINING_UTILS_H

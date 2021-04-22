@@ -4,6 +4,6 @@
 
 #ifndef PROJET_S4_MINING_H
 #define PROJET_S4_MINING_H
-#define DIFFICULTY 4;
+#define DIFFICULTY 1;
 void mining(Block *block);
 #endif //PROJET_S4_MINING_H

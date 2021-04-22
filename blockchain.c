@@ -4,6 +4,7 @@
 
 #include <stdlib.h>
 #include "blockchain.h"
+#include "block.h"
 
 char* getHashCodePredecessor(Blockchain *blockchain){
     return blockchain->blocks[blockchain->nextBlock]->hashCode;
@@ -20,14 +21,14 @@ Blockchain *initBlockchain(int difficulty, int length){
 
 Block *addBlock(Blockchain *blockchain){
     //Block *block = initBlock(getHashCodePredecessor(blockchain));
-    Block *block = initBlock("hdfsdsdfhjhjkhjkfghjkjkhfdsghjkfghjkgfhjkhjkdg");
+    Block *block = initBlock("hdfsdsdfhjhjkhjkfgfgfdfggfgffgfdfgdghjkjkhfdsghjkfghjkgfhjkhjkdg");
     blockchain->blocks[blockchain->nextBlock++] = block;
     return block;
 }
 
 void deleteBlockchain(Blockchain *blockchain){
     for(int i = 0; i < blockchain->length; i++){
-        free(blockchain->blocks[i]->txList->tx);
+        //free(blockchain->blocks[i]->txList->tx);
         free(blockchain->blocks[i]->txList);
         free(blockchain->blocks[i]);
     }

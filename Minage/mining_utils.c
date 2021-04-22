@@ -2,15 +2,16 @@
 // Created by TONY DE FREITAS on 17/03/2021.
 //
 
+#include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
 #include "../block.h"
 #include <time.h>
 #define STRLONG 60
 
+
 char* blockItemsToString(const Block *block, char* blockItems){
     char nonce[10];
-    itoa(block->nonce, nonce, 10);
+    sprintf(nonce, "%d", block->nonce);
     strcpy(blockItems, nonce);
     strcat(blockItems, asctime(block->timestamp));
     strcat(blockItems, block->hashCodePredecessor);
