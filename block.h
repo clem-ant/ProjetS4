@@ -7,6 +7,7 @@
 
 #include <time.h>
 #include <string.h>
+#include "./Sha256/sha256.h"
 
 #define MAXIMAL_TX 50
 
@@ -20,13 +21,13 @@ typedef struct Block Block;
 struct Block{
     int nonce;
     struct tm *timestamp;
-    char hashCode[64];
-    char hashCodePredecessor[64];
-    char hashMerkleTreeRoot[64];
+    char hashCode[SHA256_BLOCK_SIZE*2+1];
+    char hashCodePredecessor[SHA256_BLOCK_SIZE*2+1];
+    char hashMerkleTreeRoot[SHA256_BLOCK_SIZE*2+1];
     TxList *txList;
 };
 
-Block *initBlock(const char hashCodePredecessor[64]);
+Block *initBlock(const char hashCodePredecessor[SHA256_BLOCK_SIZE*2+1]);
 Block *addTx(Block *block, char* tx);
 
 #endif //PROJET_S4_BLOCK_H

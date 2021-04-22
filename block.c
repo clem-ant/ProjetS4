@@ -13,7 +13,7 @@ TxList *initTxList(){
     return txList;
 }
 
-Block *initBlock(const char hashCodePredecessor[64]){
+Block *initBlock(const char hashCodePredecessor[SHA256_BLOCK_SIZE*2+1]){
     Block *block = malloc(sizeof(Block));
     time_t localTimeInSecond = time(NULL);
     block->nonce = 0;

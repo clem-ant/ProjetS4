@@ -30,7 +30,6 @@ void mining(Block *block){
         sha256ofString(blockContent, hashRes);
         if(difficultyHashCheck(hashRes)){
             strcpy(block->hashCode, hashRes);
-            printf("%d - %s\n", block->nonce, hashRes);
             free(blockContent);
             return;
         }

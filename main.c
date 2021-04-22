@@ -18,8 +18,12 @@ int main(int argc, char *argv[]) {
     block->txList->tx[4] = "g give 13";
     block->txList->txNumber = 5;
 
-    //getMerkleRoot(&block);
-    //printf("Merkle root : %s", block.hashMerkleTreeRoot);
+    getMerkleRoot(block);
+
+    printf("Merkle root : %s\n", block->hashMerkleTreeRoot);
     mining(block);
+    printf("Hash du block : %s\n", block->hashCode);
+
+
     return 0;
 }

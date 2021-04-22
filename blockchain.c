@@ -21,8 +21,7 @@ Blockchain *initBlockchain(int difficulty, int length){
 Block *addBlock(Blockchain *blockchain){
     //Block *block = initBlock(getHashCodePredecessor(blockchain));
     Block *block = initBlock("hdfsdsdfhjhjkhjkfghjkjkhfdsghjkfghjkgfhjkhjkdg");
-    blockchain->blocks[blockchain->nextBlock] = block;
-    blockchain->nextBlock++;
+    blockchain->blocks[blockchain->nextBlock++] = block;
     return block;
 }
 
