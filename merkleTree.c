@@ -30,7 +30,7 @@ void deleteTransactionHashList(char **transactionHashList, int size){
         free(transactionHashList[i]);
     }
     free(transactionHashList);
-    transactionHashList = NULL;
+    //transactionHashList = NULL;
 }
 
 char* concatenateHash(char* firstHash, char* secondHash, char* hashConcatenated){
@@ -59,5 +59,5 @@ void getMerkleRoot(Block *block){
     }
 
     strcpy(block->hashMerkleTreeRoot, hashRes);
-    deleteTransactionHashList(transactionHashList, block->txList->txNumber);
+    deleteTransactionHashList(transactionHashList, block->txList->txNumber+1);
 }

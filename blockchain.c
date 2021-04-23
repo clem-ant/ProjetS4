@@ -28,10 +28,10 @@ Block *addBlock(Blockchain *blockchain){
 }
 
 void deleteBlockchain(Blockchain *blockchain){
-    for(int i = 0; i < blockchain->length; i++){
+    for(int i = 0; i < blockchain->nextBlock; i++){
         printf("\n%d",i);
         free(blockchain->blocks[i]->txList->tx);
-        //free(blockchain->blocks[i]->txList);
+        free(blockchain->blocks[i]->txList);
         free(blockchain->blocks[i]);
     }
     free(blockchain->blocks);
