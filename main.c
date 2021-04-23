@@ -11,12 +11,11 @@
 int main(int argc, char *argv[]) {
     Blockchain *blockchain = initBlockchain(4, 10);
     Block *block = addBlock(blockchain);
-    block->txList->tx[0] = "g give 10";
-    block->txList->tx[1] = "g give 15";
-    block->txList->tx[2] = "g give 11";
-    block->txList->tx[3] = "g give 12";
-    block->txList->tx[4] = "g give 13";
-    block->txList->txNumber = 5;
+    addTx(block, "g give 10");
+    addTx(block, "g give 15");
+    addTx(block, "g give 12");
+    addTx(block, "g give 50");
+
     getMerkleRoot(block);
     printf("Merkle root : %s\n", block->hashMerkleTreeRoot);
     mining(block);
