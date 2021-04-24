@@ -22,6 +22,5 @@ int main(int argc, char *argv[]) {
     printf("Hash du block : %s\n", block->hashCode);
     deleteBlockchain(blockchain);
 
-
     return 0;
 }
