@@ -4,10 +4,7 @@
 
 #ifndef PROJET_S4_VERIFICATION_H
 #define PROJET_S4_VERIFICATION_H
+#include <stdbool.h>
 
-bool isGenesis(Block *block);
-bool isMerkleRoot(Block *block);
-bool isHashCode(Block *block);
-bool isWellChained(Blockchain *blockchain);
-
+bool blockchainIntegrity(const Blockchain *blockchain);
 #endif //PROJET_S4_VERIFICATION_H
