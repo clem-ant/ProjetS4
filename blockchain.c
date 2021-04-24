@@ -7,31 +7,47 @@
 #include "block.h"
 #include <stdio.h>
 
-char* getHashCodePredecessor(Blockchain *blockchain){
-    return blockchain->blocks[blockchain->nextBlock]->hashCode;
+char* getHashCodePredecessor(Blockchain *blockchain, char *hashCodePredecessor){
+    if(blockchain->blockCursor == 0){
+        strcpy(hashCodePredecessor, "0");
+        return "0";
+    }
+    strcpy(hashCodePredecessor, blockchain->blocks[blockchain->blockCursor-1]->hashCode);
+    return blockchain->blocks[blockchain->blockCursor-1]->hashCode;
 }
 
 Blockchain *initBlockchain(int difficulty, int length){
     Blockchain *blockchain = malloc(sizeof(Blockchain));
     blockchain->difficulty = difficulty;
-    blockchain->nextBlock = 0;
+    blockchain->blockCursor = 0;
     blockchain->length = length;
     blockchain->blocks = malloc(length * sizeof(Block*));
     return blockchain;
 }
 
 Block *addBlock(Blockchain *blockchain){
-    //Block *block = initBlock(getHashCodePredecessor(blockchain));
-    blockchain->blocks[blockchain->nextBlock] = initBlock("hdfsdsdfhjhjkhjkfgfgfdfggfgffgfdfgdghjkjkhfdsghjkfghjkgfhjkhjkdg");
-    blockchain->nextBlock++;
-    return blockchain->blocks[blockchain->nextBlock-1];
+    char* hashCodePredecessor = malloc(sizeof(char) * (SHA256_BLOCK_SIZE*2+1));
+    getHashCodePredecessor(blockchain, hashCodePredecessor);
+    blockchain->blocks[blockchain->blockCursor] = initBlock(hashCodePredecessor);
+    blockchain->blockCursor++;
+    free(hashCodePredecessor);
+    return blockchain->blocks[blockchain->blockCursor - 1];
+}
+
+Block *createGenesis(Blockchain *blockchain){
+    Block *block = addBlock(blockchain);
+    addTx(block, "Genesis");
+    strcpy(block->hashCode, "0");
+    return block;
 }
 
 void deleteBlockchain(Blockchain *blockchain){
-    for(int i = 0; i < blockchain->nextBlock; i++){
+    for(int i = 0; i < blockchain->blockCursor; i++){
         free(blockchain->blocks[i]->txList->tx);
         free(blockchain->blocks[i]->txList);
+        free(blockchain->blocks[i]->timestamp);
         free(blockchain->blocks[i]);
+
     }
     free(blockchain->blocks);
     free(blockchain);

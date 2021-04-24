@@ -20,7 +20,7 @@ struct TxList{
 typedef struct Block Block;
 struct Block{
     int nonce;
-    struct tm *timestamp;
+    char* timestamp;
     char hashCode[SHA256_BLOCK_SIZE*2+1];
     char hashCodePredecessor[SHA256_BLOCK_SIZE*2+1];
     char hashMerkleTreeRoot[SHA256_BLOCK_SIZE*2+1];
