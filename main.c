@@ -8,6 +8,7 @@
 #include "Minage/mining_utils.h"
 #include "./Minage/mining.h"
 #include "./Verification/verification.h"
+#include "cheaterTransaction.h"
 
 
 int main(int argc, char *argv[]) {
@@ -42,6 +43,8 @@ int main(int argc, char *argv[]) {
     merkleTree(block4);
     mining(block4);
 
+    blockchainIntegrity(blockchain);
+    deleteTransaction(blockchain, 2, 1);
     blockchainIntegrity(blockchain);
     deleteBlockchain(blockchain);
     return 0;
