@@ -8,7 +8,7 @@
 #include "block.h"
 #include "./Sha256/sha256_utils.h"
 
-char** initTransactionHashing (Block *block) {
+char** initTransactionHashing (const Block *block) {
     int bufferSize = SHA256_BLOCK_SIZE;
     char hashRes[bufferSize*2 + 1];
 
@@ -39,10 +39,12 @@ char* concatenateHash(char* firstHash, char* secondHash, char* hashConcatenated)
     return hashConcatenated;
 }
 
-void getMerkleRoot(Block *block){
+char* getMerkleRoot(const Block *block){
     int bufferSize = SHA256_BLOCK_SIZE;
     char hashRes[bufferSize*2 + 1];
+    char *hashMerkleRoot = malloc((bufferSize*2+1) * sizeof(char));
     char** transactionHashList = initTransactionHashing(block);
+    sha256ofString((BYTE*) transactionHashList[0], hashRes); //S'il n'y a qu'une seule transaction
 
     for(int i = block->txList->txNumber; i > 1; i /= 2){
         if (i % 2 != 0) { // dédoublement du dernier hash dans la liste
@@ -58,6 +60,13 @@ void getMerkleRoot(Block *block){
         }
     }
 
-    strcpy(block->hashMerkleTreeRoot, hashRes);
+    strcpy(hashMerkleRoot, hashRes);
     deleteTransactionHashList(transactionHashList, block->txList->txNumber+1);
+    return hashMerkleRoot;
+}
+
+void merkleTree(Block *block){
+    char* merkleRoot = getMerkleRoot(block);
+    strcpy(block->hashMerkleTreeRoot, merkleRoot);
+    free(merkleRoot);
 }

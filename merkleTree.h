@@ -4,5 +4,6 @@
 
 #ifndef PROJET_S4_MERKLETREE_H
 #define PROJET_S4_MERKLETREE_H
-void* getMerkleRoot(Block *block);
+char* getMerkleRoot(const Block *block);
+void merkleTree(Block *block);
 #endif //PROJET_S4_MERKLETREE_H
