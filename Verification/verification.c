@@ -81,6 +81,6 @@ bool blockchainIntegrity(const Blockchain *blockchain){
     printf(RESET "Test 1 - Genesis : %s\n", testGenesis);
     printf(RESET "Test 2 - Chainage des hash : %s\n", testWellChained);
     printf(RESET "Test 3 - Validite des hash : %s\n", testHashCode);
-    printf(RESET "Test 4 - Validite des hash merkle root : %s\n", testMerkleRoot);
+    printf(RESET "Test 4 - Validite des hash merkle root : %s\n" RESET, testMerkleRoot);
     return false;
 }
