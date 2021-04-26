@@ -43,11 +43,7 @@ Block *createGenesis(Blockchain *blockchain){
 
 void deleteBlockchain(Blockchain *blockchain){
     for(int i = 0; i < blockchain->blockCursor; i++){
-        free(blockchain->blocks[i]->txList->tx);
-        free(blockchain->blocks[i]->txList);
-        free(blockchain->blocks[i]->timestamp);
-        free(blockchain->blocks[i]);
-
+        deleteBlock(blockchain->blocks[i]);
     }
     free(blockchain->blocks);
     free(blockchain);

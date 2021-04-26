@@ -34,3 +34,11 @@ Block *addTx(Block *block, char* tx){
     block->txList->tx[block->txList->txNumber++] = tx;
     return block;
 }
+
+void deleteBlock(Block *block){
+    free(block->txList->tx);
+    free(block->txList);
+    free(block->timestamp);
+    free(block);
+    block = NULL;
+}
