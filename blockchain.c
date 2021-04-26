@@ -7,6 +7,8 @@
 #include "block.h"
 #include <stdio.h>
 
+#define YEL   "\x1B[33m"
+
 char* getHashCodePredecessor(Blockchain *blockchain, char *hashCodePredecessor){
     if(blockchain->blockCursor == 0){
         strcpy(hashCodePredecessor, "0");
@@ -47,4 +49,12 @@ void deleteBlockchain(Blockchain *blockchain){
     }
     free(blockchain->blocks);
     free(blockchain);
+}
+
+void printBlockchain(Blockchain * blockchain){
+    printf(YEL "[Contenu de la blockchain]\n");
+
+    for(int i = 0; i < blockchain->blockCursor; i++){
+        printBlock(blockchain->blocks[i], i);
+    }
 }

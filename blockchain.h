@@ -19,5 +19,5 @@ Blockchain *initBlockchain(int difficulty, int length);
 Block *addBlock(Blockchain *blockchain);
 void deleteBlockchain(Blockchain *blockchain);
 Block *createGenesis(Blockchain *blockchain);
-
+void printBlockchain(Blockchain * blockchain);
 #endif //PROJET_S4_BLOCKCHAIN_H

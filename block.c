@@ -7,6 +7,9 @@
 #include "block.h"
 #include <stdio.h>
 
+#define YEL   "\x1B[33m"
+#define RESET "\x1B[0m"
+
 char* getTimeStamp(){
     char* localTime = malloc(sizeof(char) * 26);
     time_t ltime = time(NULL);
@@ -41,4 +44,17 @@ void deleteBlock(Block *block){
     free(block->timestamp);
     free(block);
     block = NULL;
+}
+
+void printBlock(Block *block, int blockIndex){
+    printf(YEL "[Block n°%d]\n", blockIndex);
+    printf(RESET "| Date de creation : %s", block->timestamp);
+    printf("| Hashcode predecessor : %s\n", block->hashCodePredecessor);
+    printf("| Nonce : %d\n", block->nonce);
+    printf("| Liste de transaction :\n");
+    for (int i = 0; i < block->txList->txNumber; i++){
+        printf("   | %d - %s\n", i, block->txList->tx[i]);
+    }
+    printf("| Hash merkle root : %s\n", block->hashMerkleTreeRoot);
+    printf("| Hashcode du block : %s\n\n", block->hashCode);
 }
