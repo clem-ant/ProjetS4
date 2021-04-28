@@ -7,44 +7,35 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include "./BCB/user.h"
+#include "./utils/queue.h"
 
-char* users[10]={"Sabrina", "Simran","Tony","Clement","Alice","Bob","Chloe","Emma","Laura","Gerard"};
+
 // peut etre faire une fonction add/delete user pour les rajouter dans la liste
 
-void generateTransactions(Block *block){
-    int TxNumber =genRandomTxNumber();
-    char* user2;
-    char* user1;
-    srand(time(0));
+void generateRandomTransaction(User **user, int usersNumber, Queue *queue){
+    int n1,n2,amount;
 
-    for (int i=0;i<TxNumber;i++){
-        int n1=rand()%10;
-        int n2=rand()%10;
-        int amount=rand();
+    srand((queueSize(queue)+1) * time(NULL));
+    int txNumber = (rand() % 10) + 1;
+
+    for (int i=0; i < txNumber; i++){
+        n1 = rand() % usersNumber;
+        n2 = rand() % usersNumber;
+        amount= rand();
         while(n1==n2)
         {
-            n2=rand()%10;
+            n2=rand() % usersNumber;
         }
-       user1  =users[n1];
-        user2  =users[n2];
-        addTx(block, generateChar(user1,user2,amount));
-        printf("%s\n",block->txList->tx[i]);
-        }
+        queuePush(queue, generateChar(user[n1]->name, user[n2]->name, amount));
     }
-
-
-
-// génère un nombre entre 1 et 10
-int genRandomTxNumber(){
-    srand(time(NULL));
-    int TxNumber= (rand()%10)+1;
-    return TxNumber;
 }
+
 
 char* generateChar(char* user1,char* user2,int amount){
     char* str= malloc(150*sizeof (char));
     char buffer [33];
-    itoa(amount,buffer,10);
+    sprintf(buffer, "%d", amount);
     strcpy(str, user1);
     strcat(str, " donne ");
     strcat(str, buffer);
