@@ -3,10 +3,10 @@
 //
 
 #include "cheaterTransaction.h"
-#include "merkleTree.h"
+#include "../merkleTree.h"
 #include <stdio.h>
 #include <time.h>
-#include "Minage/mining.h"
+#include "../Minage/mining.h"
 
 #define RED   "\x1B[31m"
 #define GRN   "\x1B[32m"

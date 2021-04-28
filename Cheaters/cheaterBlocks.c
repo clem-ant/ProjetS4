@@ -3,7 +3,7 @@
 //
 
 #include "cheaterBlocks.h"
-#include "Minage/mining.h"
+#include "../Minage/mining.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>

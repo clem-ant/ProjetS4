@@ -4,8 +4,8 @@
 
 #ifndef MAIN_C_CHEATERTRANSACTION_H
 #define MAIN_C_CHEATERTRANSACTION_H
-#include "block.h"
-#include "blockchain.h"
+#include "../block.h"
+#include "../blockchain.h"
 
 
 void deleteTransaction(Blockchain *blockchain,int blockIndex, int txIndex);
