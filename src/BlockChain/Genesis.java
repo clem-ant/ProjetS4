@@ -3,23 +3,30 @@ package BlockChain;
 import HashUtil.HashUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 public class Genesis extends Block{
-    private Date timeStamp = new Date();
-    private String hashBlockCourant;
+    private Date timeStamp;
+    private ArrayList<String> listeTransaction = new ArrayList<>(Arrays.asList("Genesis"));
     private String hashRootMerkle;
+    private String hashBlockCourant = "0";
 
     public Genesis(BlockChain blockChain) {
         super(blockChain);
-        hashing("Genesis bonobo");
+        this.timeStamp = new Date();
+        this.hashRootMerkle = calculateMerkleRoot(listeTransaction).toString();
     }
 
-    private String hashing(String message){
-        ArrayList<String> hash = new ArrayList<String>();
-        hash.add(message);
-        hashBlockCourant = HashUtil.applySha256(message+timeStamp);
-        hashRootMerkle = hashBlockCourant;
+    public String getHashRootMerkle() {
+        return hashRootMerkle;
+    }
+
+    public String getHashBlockCourant() {
         return hashBlockCourant;
+    }
+
+    public ArrayList<String> getListeTransaction() {
+        return listeTransaction;
     }
 }

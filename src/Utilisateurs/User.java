@@ -21,8 +21,9 @@ public class User {
         if(Bnb >= montantDeBnb) {
             destinataire.Bnb += montantDeBnb;
             Bnb -= montantDeBnb;
+        }else{
+            System.out.println("Vous n'avez pas assez d'argent");
         }
-
     }
 
 }
