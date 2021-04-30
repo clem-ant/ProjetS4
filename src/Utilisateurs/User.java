@@ -13,6 +13,10 @@ public class User {
         this.Bnb = Bnb; //Nombre de bonobos sur son compte à la création.
     }
 
+    public String getNom() {
+        return nom;
+    }
+
     public String getHashUserPublic() {
         return hashUser;
     } //TODO creer hash secret
