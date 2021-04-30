@@ -18,6 +18,8 @@ public class BlockChain {
     private int nbTransactionMax;
     private int nbTransaction = 1;
     private int indexBlock = 1;
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
 
     public BlockChain(int difficulte, int nbBlock, Creator createur, int NB_TRANSACTION_MAX) { //Constructeur de BlockChain.BlockChain
         this.NB_TRANSACTION_MAX = NB_TRANSACTION_MAX;
@@ -78,11 +80,18 @@ public class BlockChain {
     }
 
     public void printBC(){
+        System.out.println("\u001B[33m[Contenu de la BlockChain]");
         for(int i = 0; i < nbBlock; i++){
-            System.out.println("=================================================================================================");
-            System.out.println("Hash Merkle root du block    " + i + " : " + getBlocks(i).getHashRootMerkle());
-            System.out.println("Hash du block courant        " + i + " : " + getBlocks(i).getHashBlockCourant());
-            System.out.println("Listetransaction du block :  " + i + " : " + getBlocks(i).getListeTransaction());
+            System.out.println(ANSI_YELLOW + "[Block n°"+i+"]" + ANSI_RESET);
+            System.out.println("| Date de création : " + getBlocks(i).getTimeStamp());
+            System.out.println("| Nonce : " + getBlocks(i).getNonce());
+            System.out.println("| Liste de transaction : ");
+            ArrayList<String> listTransaction = getBlocks(i).getListeTransaction();
+            for(int j = 0; j < listTransaction.size(); j++){
+                System.out.println("    | " + j + " - " + listTransaction.get(j));
+            }
+            System.out.println("| Hash Merkle root : " + getBlocks(i).getHashRootMerkle());
+            System.out.println("| Hash du block    : " + getBlocks(i).getHashBlockCourant() + "\n");
         }
     }
 
@@ -104,7 +113,7 @@ public class BlockChain {
         int nom;
         ArrayList<String> listePrenoms = new ArrayList<>(Arrays.asList("joyce","lola","brian","louis", "an", "charles","diane","ravi","achille","nathan","javier","chance","lois","dominique","pedro","karl","rose","james","constance","roland","christine","archibald","renard","angel","mary","sam","stepan","eugenio","eden","justice","bart","alix","guy","mo","alfred","francine","brigitte","iris","eddie","otto","fabia","roger","maurice","louise","camille","luis","sabine","chantal","val","paulo","lin","giselle","caroline","sandra","trace","michel","andré","pauline","jung","colombe","lou","miguel","francisco","gladys","edgar","rodrigo","oscar","young","ion","carl","li","edward","alex","fernando","avril","albert","temple","catherine","lourdes","sage","marin","douglas","gordon","jacqueline","colin","paco","julius","josé","scott","roy","felipe","ariane","marek","denise","london","taylor","hermine","philip","indigo","malvina"));
         for(int i = 0; i < nbUsers; i++){
-            nom = RandomNumber.getRandomNumberInRange(0,nbUsers);
+            nom = RandomNumber.getRandomNumberInRange(0,nbUsers-1);
             users[i] = new Mineur(listePrenoms.get(nom), listePrenoms.get(nom), 10);
         }
         return users;

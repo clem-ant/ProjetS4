@@ -11,7 +11,7 @@ public class Block {
     private BlockChain blockChain;
     private String hashBlockCourant;
     private ArrayList<String> listeTransaction = new ArrayList<>();
-    private int nonce = 0; //En cryptographie, un nonce est un nombre arbitraire destiné à être utilisé une seule fois. Il s'agit souvent d'un nombre aléatoire ou pseudo-aléatoire émis dans un protocole d'authentification pour garantir que les anciennes communications ne peuvent pas être réutilisées dans des attaques par rejeu
+    private int nonce; //En cryptographie, un nonce est un nombre arbitraire destiné à être utilisé une seule fois. Il s'agit souvent d'un nombre aléatoire ou pseudo-aléatoire émis dans un protocole d'authentification pour garantir que les anciennes communications ne peuvent pas être réutilisées dans des attaques par rejeu
 
     public Block(BlockChain blockChain){
         this.blockChain = blockChain;
@@ -25,6 +25,14 @@ public class Block {
     public String getHashPrecedent() {
         hashPrecedent = blockChain.getPreviousBlocks().hashBlockCourant;
         return hashPrecedent;
+    }
+
+    public Date getTimeStamp() {
+        return timeStamp;
+    }
+
+    public int getNonce() {
+        return nonce;
     }
 
 
@@ -74,6 +82,7 @@ public class Block {
             hashBlockCourant = HashUtil.applySha256(String.valueOf(nonce) + getHashPrecedent() + hashRootMerkle + timeStamp);
             nonce++;
         }while(!hashBlockCourant.matches("[0]{"+difficulte+"}(.*)")); //Regex : On cherche uniquement [0]{difficulte} et ça fini par ce qu'on veut
+        this.nonce = nonce;
         return hashBlockCourant;
     }
 
