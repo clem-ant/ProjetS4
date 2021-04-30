@@ -5,5 +5,4 @@ public class Mineur extends User{
         super(nom, hashUser, Bnb);
     }
 
-
 }

@@ -1,33 +1,49 @@
 import BlockChain.BlockChain;
-import HashUtil.HashUtil;
-import Tools.BCJsonUtils;
+import Tools.BCGui;
 import Utilisateurs.Creator;
-import Utilisateurs.Mineur;
 import Utilisateurs.User;
-import com.google.gson.Gson;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import javax.swing.*;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import java.util.Scanner;
+
+
+
 
 /**
  * The type Main.
  */
 public class Main {
+
     /**
      * Main.
      *
      * @param args the args
      */
-    public static void main(String[] args) {
-        int nbBlock;
-        Scanner clavier = new Scanner(System.in);
+    public static void main(String[] args) throws Exception{
+        UIManager.setLookAndFeel(new NimbusLookAndFeel());
+        BCGui guiBC = new BCGui();
+        guiBC.setTitle("BlockChain");
+        guiBC.pack();
+        guiBC.setLocale(null);
+        guiBC.setSize(700,225);
+        guiBC.setVisible(true);
+        guiBC.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        while(!guiBC.isGo()){
+            System.out.print("");
+        }
+        int difficulte = guiBC.getDiff();
+        int nbBlock = guiBC.getNbBlock();
+        int nbMaxTransac = guiBC.getDifMax();
+        System.out.println("teststestststes");
+        System.out.println(difficulte);
+        /*Scanner clavier = new Scanner(System.in);
         System.out.print("Combien de blocs voulez vous pour votre blockchain : ");
-        nbBlock = clavier.nextInt();
+        int nbBlock = clavier.nextInt();
         System.out.print("Quelle difficulté voulez vous : ");
         int difficulte = clavier.nextInt();
         System.out.print("Nombre maximum de transactions par block : ");
-        int nbMaxTransac = clavier.nextInt();
+        int nbMaxTransac = clavier.nextInt();*/
 
 
         Creator simrun = new Creator("Simran", "Jesaispasencore", 20);
