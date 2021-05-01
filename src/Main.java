@@ -40,10 +40,8 @@ public class Main {
         blockChain.remplirBC(users);
         blockChain.printBC();
         guiBC.setBC(blockChain);
-
-
+        System.out.println(blockChain.checkIntegriteBC());
         //TODO Marche pas
         //BCJsonUtils.BCJsonWriter(blockChain, "test");
-        System.out.println(blockChain.checkIntegriteBC());
     }
 }
