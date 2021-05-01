@@ -56,6 +56,9 @@ public class BlockChain {
         }
     }
 
+    public int getNbBlock() {
+        return nbBlock;
+    }
     public Block getPreviousBlocks() {
         return blocks[indexBlock-1];
     }
