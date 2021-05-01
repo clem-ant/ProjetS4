@@ -1,8 +1,10 @@
 import BlockChain.BlockChain;
 import Tools.BCGui;
+import Tools.BCJsonUtils;
 import Tools.CreateGui;
 import Utilisateurs.Creator;
 import Utilisateurs.User;
+import com.google.gson.Gson;
 
 import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
@@ -41,7 +43,8 @@ public class Main {
         blockChain.printBC();
         guiBC.setBC(blockChain);
         System.out.println(blockChain.checkIntegriteBC());
-        //TODO Marche pas
-        //BCJsonUtils.BCJsonWriter(blockChain, "test");
+
+        BCJsonUtils jsonUtils = new BCJsonUtils();
+        jsonUtils.BCJsonWriter(blockChain, "out.json");
     }
 }

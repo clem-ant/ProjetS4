@@ -12,14 +12,13 @@ import java.util.Arrays;
 public class BlockChain {
     private int difficulte; //Difficultée de la blockChain
     private int nbBlock; //Nombre de blocs de la blockChain ? Genesis ?
-    private Genesis genesis;
     private Block[] blocks; //Tableau de blocs
-    private int NB_TRANSACTION_MAX; //Nombre de transaction max par blocs
+    private final int  NB_TRANSACTION_MAX; //Nombre de transaction max par blocs
     private int nbTransactionMax;
     private int nbTransaction = 1;
     private int indexBlock = 1;
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_YELLOW = "\u001B[33m";
 
     public BlockChain(int difficulte, int nbBlock, Creator createur, int NB_TRANSACTION_MAX) { //Constructeur de BlockChain.BlockChain
         this.NB_TRANSACTION_MAX = NB_TRANSACTION_MAX;
@@ -27,7 +26,7 @@ public class BlockChain {
         this.difficulte = difficulte;
         this.nbBlock = nbBlock;
         blocks = new Block[nbBlock];
-        blocks[0] = new Genesis(this);
+        blocks[0] = createur.createFirstBlock(this);
         for(int i = 1; i < nbBlock; i++){
             blocks[i] = new Block(this);
         }
@@ -89,12 +88,12 @@ public class BlockChain {
             System.out.println("| Date de création : " + getBlocks(i).getTimeStamp());
             System.out.println("| Nonce : " + getBlocks(i).getNonce());
             System.out.println("| Liste de transaction : ");
-            ArrayList<String> listTransaction = getBlocks(i).getListeTransaction();
+            ArrayList<String> listTransaction = getBlocks(i).getListeTransactionGenesis();
             for(int j = 0; j < listTransaction.size(); j++){
                 System.out.println("    | " + j + " - " + listTransaction.get(j));
             }
-            System.out.println("| Hash Merkle root : " + getBlocks(i).getHashRootMerkle());
-            System.out.println("| Hash du block    : " + getBlocks(i).getHashBlockCourant() + "\n");
+            System.out.println("| Hash Merkle root : " + getBlocks(i).getHashRootMerkleGenesis());
+            System.out.println("| Hash du block    : " + getBlocks(i).getHashBlockCourantGenesis() + "\n");
         }
     }
 

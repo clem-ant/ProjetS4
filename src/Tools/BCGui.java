@@ -4,7 +4,6 @@ import BlockChain.BlockChain;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -67,8 +66,8 @@ public class BCGui extends JFrame{
         for (int i = 0; i < BC.getNbBlock(); i++) {
             model.setValueAt(i, i, 0);
             model.setValueAt(BC.getBlocks(i).getNonce(), i, 1);
-            model.setValueAt(BC.getBlocks(i).getHashRootMerkle(), i, 2);
-            model.setValueAt(BC.getBlocks(i).getHashBlockCourant(), i, 3);
+            model.setValueAt(BC.getBlocks(i).getHashRootMerkleGenesis(), i, 2);
+            model.setValueAt(BC.getBlocks(i).getHashBlockCourantGenesis(), i, 3);
         }
     }
 
