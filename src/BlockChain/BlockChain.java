@@ -115,7 +115,6 @@ public class BlockChain {
     public Mineur trouverMineur(User[] users){
         Mineur mineur = null;
         int rand3 = (int) (Math.random()*users.length);
-
         while(true){ //Tant qu'on a pas trouvé de mineur dans les users
             if(users[rand3] instanceof Mineur){
                 mineur = (Mineur) users[rand3];
