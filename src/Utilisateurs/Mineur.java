@@ -8,13 +8,13 @@ public class Mineur extends User{
         super(nom, hashUser, Bnb);
     }
 
-    public String mining(int difficulte, int nonce, Block block){
+    public String mining(int difficulte, int nonce, Block block, int recompense){
         String hashBlockCourant;
         do {
             hashBlockCourant = HashUtil.applySha256(String.valueOf(nonce++) + block.getHashPrecedent() + block.getHashMerkleRoot() + block.getTimeStamp());
         }while(!hashBlockCourant.matches("[0]{"+difficulte+"}(.*)")); //Regex : On cherche uniquement [0]{difficulte} et ça fini par ce qu'on veut
         block.setNonce(nonce);
-        this.recevoirBnb(50); //On récompense le mineur pour son minage avec 50 Bnb
+        this.recevoirBnb(recompense); //On récompense le mineur pour son minage avec 50 Bnb
         return hashBlockCourant;
     }
 

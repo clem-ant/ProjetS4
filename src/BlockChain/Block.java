@@ -75,8 +75,8 @@ public class Block {
         listeTransaction.add(message);
     }
 
-    public void calculateHashing(Mineur mineur){
-        hashBlockCourant = mineur.mining(blockChain.getDifficulte(), 0, this);
+    public void calculateHashing(Mineur mineur, int recompense){
+        hashBlockCourant = mineur.mining(blockChain.getDifficulte(), 0, this, recompense);
     }
 
 

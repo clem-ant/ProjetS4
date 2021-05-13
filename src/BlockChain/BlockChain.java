@@ -44,13 +44,16 @@ public class BlockChain {
         if(indexBlock >= nbBlock){
             return;
         }
+        if(indexBlock % 16 == 0){ //Inflation tous les 16 blocks
+            recompense /= 2;
+        }
         if(nbTransaction <= nbTransactionMax){
             this.getCurrentBlocks().transaction(message);
             nbTransaction++;
-        }else{//TODO pb quand le NB_TRANSACTION_MAX == 1 pour le dernier block : Hashbock = null & Merkleroot ==
+        }else{
             nbTransactionMax = RandomNumber.getRandomNumberInRange(1, NB_TRANSACTION_MAX); //On regenère un nombre aléatoire de transaction pour le prochain block.
             this.getCurrentBlocks().setHashRootMerkle();
-            this.getCurrentBlocks().calculateHashing(mineur);
+            this.getCurrentBlocks().calculateHashing(mineur, recompense);
             nbTransaction = 1;
             indexBlock++;
             transaction(message, mineur);

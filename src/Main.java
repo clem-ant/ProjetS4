@@ -15,6 +15,9 @@ import java.util.Arrays;
  */
 public class Main {
 
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_YELLOW = "\u001B[33m";
+
     public static User[] createNUsers(int nbUsers){
         User[] users = new User[nbUsers];
         int nom, type;
@@ -22,7 +25,7 @@ public class Main {
         users[0] = new Creator(listePrenoms.get(RandomNumber.getRandomNumberInRange(0,1)), listePrenoms.get(RandomNumber.getRandomNumberInRange(0,1)), 0);
         for(int i = 1; i < nbUsers; i++){
             type = RandomNumber.getRandomNumberInRange(0,1);
-            nom = RandomNumber.getRandomNumberInRange(0,nbUsers-1);
+            nom = RandomNumber.getRandomNumberInRange(0,100-1);
             if(type == 0){
                 users[i] = new User(listePrenoms.get(nom), listePrenoms.get(nom), 0);
             }else{
@@ -31,6 +34,16 @@ public class Main {
         }
         return users;
     }
+
+    public static void printUsers(User[] users){
+        System.out.println("\u001B[33m[Contenu de User]");
+        for(int i = 0; i < users.length; i++){
+            System.out.println(ANSI_YELLOW + "[User n°"+i+"]" + ANSI_RESET);
+            System.out.println("| Type : " + users[i].getClass().getName());
+            System.out.println("| Nom  : " + users[i].getNom() + "\n");
+        }
+    }
+
     /**
      * Main.
      *
@@ -55,8 +68,9 @@ public class Main {
 
         blockChain.printBC(); //Print dans la console la blockchain
         guiBC.setBC(blockChain); //Rempli le tableau sur l'interface
+        //printUsers(users);
         System.out.println(blockChain.checkIntegriteBC(blockChain.trouverMineur(users))); //On demande a un mineur de vérifier que la BC est integre. On choisit au hasard entre les 100 users
 
-        BCJsonUtils.BCJsonWriter(blockChain, "out.json");
+        BCJsonUtils.BCJsonWriter(blockChain, "BC.json");
     }
 }
