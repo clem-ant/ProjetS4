@@ -3,8 +3,8 @@ package Utilisateurs;
 import HashUtil.HashUtil;
 
 public class User {
-    private String nom;
-    private String hashUser;
+    private final String nom;
+    private final String hashUser;
     private int Bnb;
 
     public User(String nom, String phraseHash, int Bnb){

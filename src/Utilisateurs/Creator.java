@@ -10,7 +10,6 @@ public class Creator extends User {
     }
 
     public Block createFirstBlock(BlockChain bChain){
-        Genesis block = new Genesis(bChain);
-        return block;
+        return new Genesis(bChain);
     }
 }

@@ -5,10 +5,10 @@ import HashUtil.HashUtil;
 import Utilisateurs.Mineur;
 
 public class Block {
-    private Date timeStamp; //La date au moment de la création
+    private final Date timeStamp; //La date au moment de la création
     private String hashPrecedent; //Hash du block précédent de la chaine
     private String hashRootMerkle = "";
-    private transient BlockChain blockChain; //Transient pour pas que le json soit recursif et donc infini
+    private final transient BlockChain blockChain; //Transient pour pas que le json soit recursif et donc infini
     private String hashBlockCourant;
     private ArrayList<String> listeTransaction = new ArrayList<>();
     private int nonce; //En cryptographie, un nonce est un nombre arbitraire destiné à être utilisé une seule fois. Il s'agit souvent d'un nombre aléatoire ou pseudo-aléatoire émis dans un protocole d'authentification pour garantir que les anciennes communications ne peuvent pas être réutilisées dans des attaques par rejeu

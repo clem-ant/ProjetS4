@@ -5,14 +5,12 @@ import java.util.Arrays;
 import java.util.Date;
 
 public class Genesis extends Block{
-    private Date time;
-    private ArrayList<String> listeTransactionGenesis = new ArrayList<>(Arrays.asList("Genesis"));
-    private String hashRootMerkleGenesis;
-    private String hashBlockCourantGenesis = "0";
+    private final ArrayList<String> listeTransactionGenesis = new ArrayList<>(Arrays.asList("Genesis"));
+    private final String hashRootMerkleGenesis;
 
     public Genesis(BlockChain blockChain) {
         super(blockChain);
-        this.time = new Date();
+        Date time = new Date();
         this.hashRootMerkleGenesis = calculateMerkleRoot(listeTransactionGenesis).toString();
     }
 
@@ -21,6 +19,7 @@ public class Genesis extends Block{
     }
 
     public String getHashBlockCourant() {
+        String hashBlockCourantGenesis = "0";
         return hashBlockCourantGenesis;
     }
 

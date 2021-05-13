@@ -38,7 +38,6 @@ public class Main {
         guiBC.setBC(blockChain); //Rempli le tableau sur l'interface
         System.out.println(blockChain.checkIntegriteBC((Mineur)users[RandomNumber.getRandomNumberInRange(0,99)])); //On demande a un mineur de vérifier que la BC est integre. On choisit au hasard entre les 100 users
 
-        BCJsonUtils jsonUtils = new BCJsonUtils();
         BCJsonUtils.BCJsonWriter(blockChain, "out.json");
     }
 }
