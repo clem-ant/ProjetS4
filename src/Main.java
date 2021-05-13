@@ -6,11 +6,13 @@ import Utilisateurs.Creator;
 import Utilisateurs.Mineur;
 import Utilisateurs.User;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 
 /**
+ * @author Clément PAYET
  * The type Main.
  */
 public class Main {
@@ -18,6 +20,12 @@ public class Main {
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_YELLOW = "\u001B[33m";
 
+    /**
+     * Create n users user [ ].
+     *
+     * @param nbUsers the nb users
+     * @return User list with 1 creators, n users and r mineurs
+     */
     public static User[] createNUsers(int nbUsers){
         User[] users = new User[nbUsers];
         int nom, type;
@@ -35,6 +43,11 @@ public class Main {
         return users;
     }
 
+    /**
+     * Print users.
+     *
+     * @param users the users
+     */
     public static void printUsers(User[] users){
         System.out.println("\u001B[33m[Contenu de User]");
         for(int i = 0; i < users.length; i++){
@@ -45,22 +58,25 @@ public class Main {
     }
 
     /**
-     * Main.
+     * Main, Creer les users, la blockchain, appel les fonctions pour faire les transactions et les vérifications
      *
      * @param args the args
+     * @throws Exception Si le style NimbusLookAndFeel n'est pas dispo
+     * @see CreateGui
      */
     public static void main(String[] args) throws Exception {
         CreateGui guiBC = new CreateGui();
         int difficulte = guiBC.getDifficulte();
         int nbBlock = guiBC.getNbBlock();
         int nbMaxTransac = guiBC.getNbMaxTransac();
-
+        JCheckBox jsonCheckBox = guiBC.getJsonCheckBox();
         User[] users = createNUsers(100);
+        guiBC.setUsers(users);
         Creator simrun = (Creator) users[0];
         BlockChain blockChain = new BlockChain(difficulte, nbBlock, simrun, nbMaxTransac);
         simrun.recevoirBnb(50); //Recompense pour avoir créer le genesis par la coinbase
 
-        for(int i = 0; i < 100; i++){
+        for(int i = 1; i < users.length; i++){ //On commence à 1 pour pas donner au Createur qui a déjà recu pour la création du genesis
             users[i].recevoirBnb(50); //Helicopter money
         }
 
@@ -70,7 +86,8 @@ public class Main {
         guiBC.setBC(blockChain); //Rempli le tableau sur l'interface
         //printUsers(users);
         System.out.println(blockChain.checkIntegriteBC(blockChain.trouverMineur(users))); //On demande a un mineur de vérifier que la BC est integre. On choisit au hasard entre les 100 users
-
-        BCJsonUtils.BCJsonWriter(blockChain, "BC.json");
+        if(jsonCheckBox.isSelected()){
+            BCJsonUtils.BCJsonWriter(blockChain, "BC.json");
+        }
     }
 }

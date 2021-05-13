@@ -6,9 +6,12 @@ import Utilisateurs.Mineur;
 import Utilisateurs.User;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
+/**
+ * @author Clément PAYET
+ * The type Blockchain.
+ */
 public class BlockChain {
     private final int difficulte; //Difficultée de la blockChain
     private final int nbBlock; //Nombre de blocs de la blockChain ? Genesis ?
@@ -16,14 +19,22 @@ public class BlockChain {
     private transient int nbTransactionMax;
     private transient int nbTransaction = 1;
     private transient int indexBlock = 1;
+    private int recompense = 50;
     private final Block[] blocks; //Tableau de blocs
 
-    private int recompense = 50;
 
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_BLUE = "\u001B[34m";
 
+    /**
+     * Instantiates a new Block chain.
+     *
+     * @param difficulte         the difficulte
+     * @param nbBlock            the nb block
+     * @param createur           the createur
+     * @param NB_TRANSACTION_MAX the nb transaction max
+     */
     public BlockChain(int difficulte, int nbBlock, Creator createur, int NB_TRANSACTION_MAX) { //Constructeur de BlockChain.BlockChain
         this.NB_TRANSACTION_MAX = NB_TRANSACTION_MAX;
         this.nbTransactionMax = NB_TRANSACTION_MAX;
@@ -36,16 +47,79 @@ public class BlockChain {
         }
     }
 
+    /**
+     * Gets nb transaction max.
+     *
+     * @return the nb transaction max
+     */
     public int getNbTransactionMax() {
         return nbTransactionMax;
     }
 
+    /**
+     * Sets index block.
+     *
+     * @param indexBlock the index block
+     */
+    public void setIndexBlock(int indexBlock) {
+        this.indexBlock = indexBlock;
+    }
+
+    /**
+     * Gets nb block.
+     *
+     * @return the nb block
+     */
+    public int getNbBlock() {
+        return nbBlock;
+    }
+
+    /**
+     * Gets previous blocks.
+     *
+     * @return the previous blocks
+     */
+    public Block getPreviousBlocks() {
+        return blocks[indexBlock-1];
+    }
+
+    /**
+     * Gets current blocks.
+     *
+     * @return the current blocks
+     */
+    public Block getCurrentBlocks() {
+        return blocks[indexBlock];
+    }
+
+    /**
+     * Gets blocks.
+     *
+     * @param index the index
+     * @return the blocks
+     */
+    public Block getBlocks(int index) {
+        return blocks[index];
+    }
+
+    /**
+     * Gets difficulte.
+     *
+     * @return the difficulte
+     */
+    public int getDifficulte() {
+        return difficulte;
+    }
+
+    /**
+     * Transaction qui s'ajoute dans le bloc.
+     *
+     * @param message the message (User1 donne x Bnb à User2)
+     * @param mineur  The mineur qui va miner le block si il est complet.
+     */
     public void transaction(String message, Mineur mineur){
         if(indexBlock >= nbBlock){
             return;
-        }
-        if(indexBlock % 16 == 0){ //Inflation tous les 16 blocks
-            recompense /= 2;
         }
         if(nbTransaction <= nbTransactionMax){
             this.getCurrentBlocks().transaction(message);
@@ -54,6 +128,9 @@ public class BlockChain {
             nbTransactionMax = RandomNumber.getRandomNumberInRange(1, NB_TRANSACTION_MAX); //On regenère un nombre aléatoire de transaction pour le prochain block.
             this.getCurrentBlocks().setHashRootMerkle();
             this.getCurrentBlocks().calculateHashing(mineur, recompense);
+            if(indexBlock % nbBlock/2 == 0){ //Inflation tous les nbBlock/2 blocks
+                recompense /= 2;
+            }
             nbTransaction = 1;
             indexBlock++;
             transaction(message, mineur);
@@ -61,28 +138,12 @@ public class BlockChain {
         }
     }
 
-    public void setIndexBlock(int indexBlock) {
-        this.indexBlock = indexBlock;
-    }
-
-    public int getNbBlock() {
-        return nbBlock;
-    }
-
-    public Block getPreviousBlocks() {
-        return blocks[indexBlock-1];
-    }
-    public Block getCurrentBlocks() {
-        return blocks[indexBlock];
-    }
-    public Block getBlocks(int index) {
-        return blocks[index];
-    }
-
-    public int getDifficulte() {
-        return difficulte;
-    }
-
+    /**
+     * Check integrite bc boolean.
+     *
+     * @param mineur the mineur
+     * @return the boolean
+     */
     public boolean checkIntegriteBC(Mineur mineur){
         int tmpIndex = this.indexBlock;
         for (int i = 1; i < nbBlock; i++) { //Le bloc 1 est le genesis : hash du bloc : 0
@@ -96,6 +157,9 @@ public class BlockChain {
         return true;
     }
 
+    /**
+     * Affiche la BC en couleur
+     */
     public void printBC(){
         System.out.println("\u001B[33m[Contenu de la BlockChain]");
         for(int i = 0; i < nbBlock; i++){
@@ -115,6 +179,12 @@ public class BlockChain {
         }
     }
 
+    /**
+     * Trouver un mineur dans une liste.
+     *
+     * @param users the User list
+     * @return the first mineur that we fund in the User list
+     */
     public Mineur trouverMineur(User[] users){
         Mineur mineur = null;
         int rand3 = (int) (Math.random()*users.length);
@@ -129,22 +199,34 @@ public class BlockChain {
         return mineur;
     }
 
+    /**
+     * Fait une transaction aléatoire entre 2 users et un montant prix aléatoirement.
+     *
+     * @param users list
+     */
     public void transactionAleatoire(User[] users){
         int rand1, rand2, montant;
+        montant = RandomNumber.getRandomNumberInRange(1,10);
         do{
             rand1 = (int) (Math.random()*users.length);
             rand2 = (int) (Math.random()*users.length);
         }while(rand2 == rand1);
-        montant = RandomNumber.getRandomNumberInRange(1,10);
         User un = users[rand1];
+        if(!un.aAssezDArgent(montant)){ //Si le premier user qui doit donner n'a pas assez d'argent, alors on en cherche un autre en utilisant la même fonction
+            transactionAleatoire(users);
+            return;
+        }
         User deux = users[rand2];
         Mineur mineur = trouverMineur(users);
-        transaction(un.getNom() + " donne " + montant + " BNB à " + deux.getNom(), mineur);
-        //TODO faire perdre et gagner de l'argent a la personne qui donne et celle qui reçoit
+        transaction(un.getNom() + " envoie " + montant + " Bnb à " + deux.getNom(), mineur); //1.4 Sous forme Usern1 envoie X Bnb à Usern2
+        un.donnerBnb(deux, montant);
     }
 
 
-
+    /**
+     * Remplir bc avec des transactions aléatoire.
+     * @param users list
+     */
     public void remplirBC(User[] users){
         for(int i = 1; i < nbBlock; i++){
             int nbtransactTest = getNbTransactionMax();
