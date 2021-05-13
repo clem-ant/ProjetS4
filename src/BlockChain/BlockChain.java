@@ -112,28 +112,47 @@ public class BlockChain {
         }
     }
 
+    public Mineur trouverMineur(User[] users){
+        Mineur mineur = null;
+        int rand3 = (int) (Math.random()*users.length);
+
+        while(true){ //Tant qu'on a pas trouvé de mineur dans les users
+            if(users[rand3] instanceof Mineur){
+                mineur = (Mineur) users[rand3];
+                break;
+            }else{
+                rand3 = (int) (Math.random()*users.length);
+            }
+        }
+        return mineur;
+    }
+
     public void transactionAleatoire(User[] users){
-        int rand1, rand2, rand3, montant;
+        int rand1, rand2, montant;
         do{
             rand1 = (int) (Math.random()*users.length);
             rand2 = (int) (Math.random()*users.length);
-            rand3 = (int) (Math.random()*users.length);
-            montant = RandomNumber.getRandomNumberInRange(1,10);
         }while(rand2 == rand1);
+        montant = RandomNumber.getRandomNumberInRange(1,10);
         User un = users[rand1];
         User deux = users[rand2];
-        Mineur mineur = (Mineur) users[rand3];
+        Mineur mineur = trouverMineur(users);
         transaction(un.getNom() + " donne " + montant + " BNB à " + deux.getNom(), mineur);
         //TODO faire perdre et gagner de l'argent a la personne qui donne et celle qui reçoit
     }
 
     public User[] createNUsers(int nbUsers){
-        User[] users = new Mineur[nbUsers];// TODO
-        int nom;
+        User[] users = new User[nbUsers];// TODO
+        int nom, type;
         ArrayList<String> listePrenoms = new ArrayList<>(Arrays.asList("joyce","lola","brian","louis", "an", "charles","diane","ravi","achille","nathan","javier","chance","lois","dominique","pedro","karl","rose","james","constance","roland","christine","archibald","renard","angel","mary","sam","stepan","eugenio","eden","justice","bart","alix","guy","mo","alfred","francine","brigitte","iris","eddie","otto","fabia","roger","maurice","louise","camille","luis","sabine","chantal","val","paulo","lin","giselle","caroline","sandra","trace","michel","andré","pauline","jung","colombe","lou","miguel","francisco","gladys","edgar","rodrigo","oscar","young","ion","carl","li","edward","alex","fernando","avril","albert","temple","catherine","lourdes","sage","marin","douglas","gordon","jacqueline","colin","paco","julius","josé","scott","roy","felipe","ariane","marek","denise","london","taylor","hermine","philip","indigo","malvina"));
         for(int i = 0; i < nbUsers; i++){
+            type = RandomNumber.getRandomNumberInRange(0,1);
             nom = RandomNumber.getRandomNumberInRange(0,nbUsers-1);
-            users[i] = new Mineur(listePrenoms.get(nom), listePrenoms.get(nom), 0); //TODO Mineur mais aussi user aléatoire
+            if(type == 0){
+                users[i] = new User(listePrenoms.get(nom), listePrenoms.get(nom), 0);
+            }else{
+                users[i] = new Mineur(listePrenoms.get(nom), listePrenoms.get(nom), 0); //TODO Mineur mais aussi user aléatoire
+            }
         }
         return users;
     }

@@ -34,4 +34,6 @@ public class User {
         this.Bnb += montantBnb;
     }
 
+
+
 }
