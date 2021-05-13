@@ -21,13 +21,17 @@ public class User {
         return hashUser;
     } //TODO creer hash secret
 
-    public void donnerArgent(User destinataire, int montantDeBnb){
+    public void donnerBnb(User destinataire, int montantDeBnb){
         if(Bnb >= montantDeBnb) {
             destinataire.Bnb += montantDeBnb;
             Bnb -= montantDeBnb;
         }else{
             System.out.println("Vous n'avez pas assez d'argent");
         }
+    }
+
+    public void recevoirBnb(int montantBnb){
+        this.Bnb += montantBnb;
     }
 
 }

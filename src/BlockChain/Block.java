@@ -1,14 +1,14 @@
 package BlockChain;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import HashUtil.HashUtil;
+import Utilisateurs.Mineur;
 
 public class Block {
     private Date timeStamp; //La date au moment de la création
     private String hashPrecedent; //Hash du block précédent de la chaine
     private String hashRootMerkle = "";
-    private transient BlockChain blockChain;
+    private transient BlockChain blockChain; //Transient pour pas que le json soit recursif et donc infini
     private String hashBlockCourant;
     private ArrayList<String> listeTransaction = new ArrayList<>();
     private int nonce; //En cryptographie, un nonce est un nombre arbitraire destiné à être utilisé une seule fois. Il s'agit souvent d'un nombre aléatoire ou pseudo-aléatoire émis dans un protocole d'authentification pour garantir que les anciennes communications ne peuvent pas être réutilisées dans des attaques par rejeu
@@ -23,8 +23,7 @@ public class Block {
     }
 
     public String getHashPrecedent() {
-        hashPrecedent = blockChain.getPreviousBlocks().hashBlockCourant;
-        return hashPrecedent;
+        return blockChain.getPreviousBlocks().getHashBlockCourant();
     }
 
     public Date getTimeStamp() {
@@ -35,6 +34,9 @@ public class Block {
         return nonce;
     }
 
+    public void setNonce(int nonce) {
+        this.nonce = nonce;
+    }
 
     public Object calculateMerkleRoot(ArrayList<String> listTransaction){ //Last transact in a block
         if(listTransaction.size() == 1){
@@ -57,11 +59,11 @@ public class Block {
         return calculateMerkleRoot(parentHash);
     }
 
-    public String getHashRootMerkleGenesis() {
+    public String getHashMerkleRoot() {
         return hashRootMerkle;
     }
 
-    public String getHashBlockCourantGenesis() {
+    public String getHashBlockCourant() {
         return hashBlockCourant;
     }
 
@@ -73,20 +75,13 @@ public class Block {
         listeTransaction.add(message);
     }
 
-    public void calculateHashing(){
-        hashing(blockChain.getDifficulte(), 0);
+    public void calculateHashing(Mineur mineur){
+        hashBlockCourant = mineur.mining(blockChain.getDifficulte(), 0, this);
     }
 
-    protected String hashing(int difficulte, int nonce){
-        do {
-            hashBlockCourant = HashUtil.applySha256(String.valueOf(nonce) + getHashPrecedent() + hashRootMerkle + timeStamp);
-            nonce++;
-        }while(!hashBlockCourant.matches("[0]{"+difficulte+"}(.*)")); //Regex : On cherche uniquement [0]{difficulte} et ça fini par ce qu'on veut
-        this.nonce = nonce;
-        return hashBlockCourant;
-    }
 
-    protected boolean verifyHash(){
-        return hashing(blockChain.getDifficulte(), this.nonce) == hashBlockCourant;
+    protected boolean verifyHash(Mineur mineur){
+        String check = mineur.checkIntegrity(this);
+        return check.equals(this.getHashBlockCourant());
     }
 }

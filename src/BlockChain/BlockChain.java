@@ -10,15 +10,19 @@ import java.util.Arrays;
 
 
 public class BlockChain {
-    private int difficulte; //Difficultée de la blockChain
-    private int nbBlock; //Nombre de blocs de la blockChain ? Genesis ?
-    private Block[] blocks; //Tableau de blocs
+    private final int difficulte; //Difficultée de la blockChain
+    private final int nbBlock; //Nombre de blocs de la blockChain ? Genesis ?
     private final int  NB_TRANSACTION_MAX; //Nombre de transaction max par blocs
-    private int nbTransactionMax;
-    private int nbTransaction = 1;
-    private int indexBlock = 1;
+    private transient int nbTransactionMax;
+    private transient int nbTransaction = 1;
+    private transient int indexBlock = 1;
+    private final Block[] blocks; //Tableau de blocs
+
+    private int recompense = 50;
+
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
 
     public BlockChain(int difficulte, int nbBlock, Creator createur, int NB_TRANSACTION_MAX) { //Constructeur de BlockChain.BlockChain
         this.NB_TRANSACTION_MAX = NB_TRANSACTION_MAX;
@@ -36,7 +40,7 @@ public class BlockChain {
         return nbTransactionMax;
     }
 
-    public void transaction(String message){
+    public void transaction(String message, Mineur mineur){
         if(indexBlock >= nbBlock){
             return;
         }
@@ -44,20 +48,24 @@ public class BlockChain {
             this.getCurrentBlocks().transaction(message);
             nbTransaction++;
         }else{//TODO pb quand le NB_TRANSACTION_MAX == 1 pour le dernier block : Hashbock = null & Merkleroot ==
-            //TODO Il manque la dernière transaction dans le dernier block
             nbTransactionMax = RandomNumber.getRandomNumberInRange(1, NB_TRANSACTION_MAX); //On regenère un nombre aléatoire de transaction pour le prochain block.
-            this.getCurrentBlocks().calculateHashing();
             this.getCurrentBlocks().setHashRootMerkle();
+            this.getCurrentBlocks().calculateHashing(mineur);
             nbTransaction = 1;
             indexBlock++;
-            transaction(message);
+            transaction(message, mineur);
 
         }
+    }
+
+    public void setIndexBlock(int indexBlock) {
+        this.indexBlock = indexBlock;
     }
 
     public int getNbBlock() {
         return nbBlock;
     }
+
     public Block getPreviousBlocks() {
         return blocks[indexBlock-1];
     }
@@ -72,12 +80,16 @@ public class BlockChain {
         return difficulte;
     }
 
-    public boolean checkIntegriteBC(){
+    public boolean checkIntegriteBC(Mineur mineur){
+        int tmpIndex = this.indexBlock;
         for (int i = 1; i < nbBlock; i++) { //Le bloc 1 est le genesis : hash du bloc : 0
-            if(!blocks[i].verifyHash()){
+            setIndexBlock(i); //Changement d'index pour avoir le previous qui est bien de 0 à n au lieu de n-1 direct.
+            if(!this.getBlocks(i).verifyHash(mineur)){
+                setIndexBlock(tmpIndex);
                 return false;
             }
         }
+        setIndexBlock(tmpIndex);
         return true;
     }
 
@@ -90,33 +102,38 @@ public class BlockChain {
             System.out.println("| Liste de transaction : ");
             ArrayList<String> listTransaction = getBlocks(i).getListeTransactionGenesis();
             for(int j = 0; j < listTransaction.size(); j++){
-                System.out.println("    | " + j + " - " + listTransaction.get(j));
+                System.out.println(ANSI_BLUE + "    | " + j + " - " + listTransaction.get(j) + ANSI_RESET);
             }
-            System.out.println("| Hash Merkle root : " + getBlocks(i).getHashRootMerkleGenesis());
-            System.out.println("| Hash du block    : " + getBlocks(i).getHashBlockCourantGenesis() + "\n");
+            System.out.println("| Hash Merkle root        : " + getBlocks(i).getHashMerkleRoot());
+            if(i != 0) {
+                System.out.println("| Hash du block precedent : " + getBlocks(i - 1).getHashBlockCourant());
+            }
+            System.out.println("| Hash du block           : " + getBlocks(i).getHashBlockCourant() + "\n");
         }
     }
 
     public void transactionAleatoire(User[] users){
-        int rand1, rand2, montant;
+        int rand1, rand2, rand3, montant;
         do{
             rand1 = (int) (Math.random()*users.length);
             rand2 = (int) (Math.random()*users.length);
-            montant = RandomNumber.getRandomNumberInRange(1,1000);
+            rand3 = (int) (Math.random()*users.length);
+            montant = RandomNumber.getRandomNumberInRange(1,10);
         }while(rand2 == rand1);
         User un = users[rand1];
         User deux = users[rand2];
-        transaction(un.getNom() + " donne " + montant + " BNB à " + deux.getNom());
+        Mineur mineur = (Mineur) users[rand3];
+        transaction(un.getNom() + " donne " + montant + " BNB à " + deux.getNom(), mineur);
         //TODO faire perdre et gagner de l'argent a la personne qui donne et celle qui reçoit
     }
 
-    public User[] createNUsers(int nbUsers){//TODO Faire le creator
-        User[] users = new Mineur[nbUsers];
+    public User[] createNUsers(int nbUsers){
+        User[] users = new Mineur[nbUsers];// TODO
         int nom;
         ArrayList<String> listePrenoms = new ArrayList<>(Arrays.asList("joyce","lola","brian","louis", "an", "charles","diane","ravi","achille","nathan","javier","chance","lois","dominique","pedro","karl","rose","james","constance","roland","christine","archibald","renard","angel","mary","sam","stepan","eugenio","eden","justice","bart","alix","guy","mo","alfred","francine","brigitte","iris","eddie","otto","fabia","roger","maurice","louise","camille","luis","sabine","chantal","val","paulo","lin","giselle","caroline","sandra","trace","michel","andré","pauline","jung","colombe","lou","miguel","francisco","gladys","edgar","rodrigo","oscar","young","ion","carl","li","edward","alex","fernando","avril","albert","temple","catherine","lourdes","sage","marin","douglas","gordon","jacqueline","colin","paco","julius","josé","scott","roy","felipe","ariane","marek","denise","london","taylor","hermine","philip","indigo","malvina"));
         for(int i = 0; i < nbUsers; i++){
             nom = RandomNumber.getRandomNumberInRange(0,nbUsers-1);
-            users[i] = new Mineur(listePrenoms.get(nom), listePrenoms.get(nom), 10);
+            users[i] = new Mineur(listePrenoms.get(nom), listePrenoms.get(nom), 0); //TODO Mineur mais aussi user aléatoire
         }
         return users;
     }

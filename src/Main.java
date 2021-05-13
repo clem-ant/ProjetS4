@@ -1,16 +1,10 @@
 import BlockChain.BlockChain;
-import Tools.BCGui;
 import Tools.BCJsonUtils;
 import Tools.CreateGui;
+import Tools.RandomNumber;
 import Utilisateurs.Creator;
+import Utilisateurs.Mineur;
 import Utilisateurs.User;
-import com.google.gson.Gson;
-
-import javax.swing.*;
-import javax.swing.plaf.nimbus.NimbusLookAndFeel;
-import java.util.Scanner;
-
-
 
 
 /**
@@ -28,23 +22,23 @@ public class Main {
         int difficulte = guiBC.getDifficulte();
         int nbBlock = guiBC.getNbBlock();
         int nbMaxTransac = guiBC.getNbMaxTransac();
-        /*Scanner clavier = new Scanner(System.in);
-        System.out.print("Combien de blocs voulez vous pour votre blockchain : ");
-        int nbBlock = clavier.nextInt();
-        System.out.print("Quelle difficulté voulez vous : ");
-        int difficulte = clavier.nextInt();
-        System.out.print("Nombre maximum de transactions par block : ");
-        int nbMaxTransac = clavier.nextInt();*/
 
-        Creator simrun = new Creator("Simran", "Jesaispasencore", 20);
+
+        Creator simrun = new Creator("Simran", "Jesaispasencore", 50);
         BlockChain blockChain = new BlockChain(difficulte, nbBlock, simrun, nbMaxTransac);
+        simrun.recevoirBnb(50); //Recompense pour avoir créer le genesis par la coinbase
         User[] users = blockChain.createNUsers(100);
-        blockChain.remplirBC(users);
-        blockChain.printBC();
-        guiBC.setBC(blockChain);
-        System.out.println(blockChain.checkIntegriteBC());
+        for(int i = 0; i < 100; i++){
+            users[i].recevoirBnb(50); //Helicopter money
+        }
+
+        blockChain.remplirBC(users); //On fait des transactions aléatoire entre x et y avec un montant aléatoire m
+
+        blockChain.printBC(); //Print dans la console la blockchain
+        guiBC.setBC(blockChain); //Rempli le tableau sur l'interface
+        System.out.println(blockChain.checkIntegriteBC((Mineur)users[RandomNumber.getRandomNumberInRange(0,99)])); //On demande a un mineur de vérifier que la BC est integre. On choisit au hasard entre les 100 users
 
         BCJsonUtils jsonUtils = new BCJsonUtils();
-        jsonUtils.BCJsonWriter(blockChain, "out.json");
+        BCJsonUtils.BCJsonWriter(blockChain, "out.json");
     }
 }

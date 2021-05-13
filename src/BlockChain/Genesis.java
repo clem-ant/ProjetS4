@@ -16,11 +16,11 @@ public class Genesis extends Block{
         this.hashRootMerkleGenesis = calculateMerkleRoot(listeTransactionGenesis).toString();
     }
 
-    public String getHashRootMerkleGenesis() {
+    public String getHashMerkleRoot() {
         return hashRootMerkleGenesis;
     }
 
-    public String getHashBlockCourantGenesis() {
+    public String getHashBlockCourant() {
         return hashBlockCourantGenesis;
     }
 
