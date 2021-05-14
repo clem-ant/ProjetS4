@@ -71,7 +71,6 @@ public class Main {
         int nbMaxTransac = guiBC.getNbMaxTransac();
         JCheckBox jsonCheckBox = guiBC.getJsonCheckBox();
         User[] users = createNUsers(100);
-        guiBC.setUsers(users);
         Creator simrun = (Creator) users[0];
         BlockChain blockChain = new BlockChain(difficulte, nbBlock, simrun, nbMaxTransac);
         simrun.recevoirBnb(50); //Recompense pour avoir créer le genesis par la coinbase
@@ -83,7 +82,9 @@ public class Main {
         blockChain.remplirBC(users); //On fait des transactions aléatoire entre x et y avec un montant aléatoire m
 
         blockChain.printBC(); //Print dans la console la blockchain
+
         guiBC.setBC(blockChain); //Rempli le tableau sur l'interface
+        guiBC.setUsers(users); //Rempli le tableau des users
 
         System.out.println(blockChain.checkIntegriteBC(blockChain.trouverMineur(users))); //On demande a un mineur de vérifier que la BC est integre. On choisit au hasard entre les 100 users
         if(jsonCheckBox.isSelected()){

@@ -127,6 +127,8 @@ public class BCGui extends JFrame{
             modelUser.setValueAt(i,i, 0);
             modelUser.setValueAt(users[i].getClass().getSimpleName(), i, 1);
             modelUser.setValueAt(users[i].getNom(), i, 2);
+            modelUser.setValueAt(users[i].getHashUserPublic(), i, 3);
+            modelUser.setValueAt((users[i].getBnb() + " Bnb" ), i, 4);
         }
     }
 
@@ -135,9 +137,9 @@ public class BCGui extends JFrame{
      */
     private void createUIComponents() {
         String[] entetesBC = {"Index", "Nonce", "Merkle Root", "Hash du Bloc"};
-        String[] entetesUsers = {"Numero", "Type", "Nom"};
+        String[] entetesUsers = {"Numero", "Type", "Nom", "Hash public", "Argent"};
         Object[][] emptyBC = new Object[10000][4]; //Nombre max de bloc = 10000
-        Object[][] emptyUsers = new Object[1000][3];
+        Object[][] emptyUsers = new Object[1000][5];
         table1 = new JTable(emptyBC, entetesBC);
         table2 = new JTable(emptyUsers, entetesUsers);
     }

@@ -3,8 +3,9 @@ package Utilisateurs;
 import HashUtil.HashUtil;
 
 /**
- * @author Clément PAYET
  * The type User.
+ *
+ * @author Clément PAYET The type User.
  */
 public class User {
     private final String nom;
@@ -22,6 +23,15 @@ public class User {
         this.nom = nom; //Nom de l'user
         this.hashUser = HashUtil.applySha256(phraseHash+nom+Bnb);
         this.Bnb = Bnb; //Nombre de bonobos sur son compte à la création.
+    }
+
+    /**
+     * Gets bnb.
+     *
+     * @return the bnb
+     */
+    public int getBnb() {
+        return Bnb;
     }
 
     /**
