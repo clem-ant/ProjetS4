@@ -121,7 +121,7 @@ public class BlockChain {
         if(indexBlock >= nbBlock){
             return;
         }
-        if(nbTransaction <= nbTransactionMax){
+        if(nbTransaction <= nbTransactionMax){ //Si le nb de transaction est <= aux nombre max de transaction donné avec un rand, on les ajoutes au bloc courant
             this.getCurrentBlocks().transaction(message);
             nbTransaction++;
         }else{

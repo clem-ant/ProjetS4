@@ -84,9 +84,10 @@ public class Main {
 
         blockChain.printBC(); //Print dans la console la blockchain
         guiBC.setBC(blockChain); //Rempli le tableau sur l'interface
-        //printUsers(users);
+
         System.out.println(blockChain.checkIntegriteBC(blockChain.trouverMineur(users))); //On demande a un mineur de vérifier que la BC est integre. On choisit au hasard entre les 100 users
         if(jsonCheckBox.isSelected()){
+            printUsers(users);
             BCJsonUtils.BCJsonWriter(blockChain, "BC.json");
         }
     }

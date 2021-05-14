@@ -10,7 +10,6 @@ import Utilisateurs.Mineur;
  */
 public class Block {
     private final Date timeStamp; //La date au moment de la création
-    private String hashPrecedent; //Hash du block précédent de la chaine
     private String hashRootMerkle = "";
     private final transient BlockChain blockChain; //Transient pour pas que le json soit recursif et donc infini
     private String hashBlockCourant;

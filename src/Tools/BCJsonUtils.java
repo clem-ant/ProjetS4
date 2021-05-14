@@ -27,7 +27,6 @@ public class BCJsonUtils {
 
 	// Convert JSON to Java Object
             BlockChain bc = gson.fromJson(reader, BlockChain.class);
-            //System.out.println(bc);
             return bc;
 
 			// Convert JSON to JsonElement, and later to String
