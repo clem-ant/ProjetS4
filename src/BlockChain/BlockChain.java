@@ -117,7 +117,7 @@ public class BlockChain {
      * @param message the message (User1 donne x Bnb à User2)
      * @param mineur  The mineur qui va miner le block si il est complet.
      */
-    public void transaction(String message, Mineur mineur){
+    public void transaction(String message, Mineur mineur, int frais){
         if(indexBlock >= nbBlock){
             return;
         }
@@ -127,13 +127,13 @@ public class BlockChain {
         }else{
             nbTransactionMax = RandomNumber.getRandomNumberInRange(1, NB_TRANSACTION_MAX); //On regenère un nombre aléatoire de transaction pour le prochain block.
             this.getCurrentBlocks().setHashRootMerkle();
-            this.getCurrentBlocks().calculateHashing(mineur, recompense);
-            if(indexBlock % nbBlock/2 == 0){ //Inflation tous les nbBlock/2 blocks
-                recompense /= 2;
+            this.getCurrentBlocks().calculateHashing(mineur, recompense+frais);
+            if(indexBlock % nbBlock/3 == 0){ //Inflation tous les nbBlock/3 blocks
+                recompense /= 3;
             }
             nbTransaction = 1;
             indexBlock++;
-            transaction(message, mineur);
+            transaction(message, mineur, frais);
 
         }
     }
@@ -206,7 +206,7 @@ public class BlockChain {
      */
     public void transactionAleatoire(User[] users){
         int rand1, rand2, montant;
-        montant = RandomNumber.getRandomNumberInRange(1,10);
+        montant = RandomNumber.getRandomNumberInRange(1,100);
         do{
             rand1 = (int) (Math.random()*users.length);
             rand2 = (int) (Math.random()*users.length);
@@ -218,7 +218,7 @@ public class BlockChain {
         }
         User deux = users[rand2];
         Mineur mineur = trouverMineur(users);
-        transaction(un.getNom() + " envoie " + montant + " Bnb à " + deux.getNom(), mineur); //1.4 Sous forme Usern1 envoie X Bnb à Usern2
+        transaction(un.getNom() + " envoie " + montant + " Bnb à " + deux.getNom(), mineur, montant/10); //1.4 Sous forme Usern1 envoie X Bnb à Usern2
         un.donnerBnb(deux, montant);
     }
 
