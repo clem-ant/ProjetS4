@@ -4,13 +4,29 @@ import BlockChain.BlockChain;
 import BlockChain.Block;
 import BlockChain.Genesis;
 
-public class Creator extends User {
+/**
+ * @author Clément PAYET
+ * The type Creator.
+ */
+public class Creator extends Mineur {
+    /**
+     * Instantiates a new Creator.
+     *
+     * @param nom      the nom
+     * @param hashUser the hash user
+     * @param Bnb      the bnb
+     */
     public Creator(String nom, String hashUser, int Bnb) {
         super(nom, hashUser, Bnb);
     }
 
+    /**
+     * Create first block of the BC.
+     *
+     * @param bChain the b chain
+     * @return the block
+     */
     public Block createFirstBlock(BlockChain bChain){
-        Genesis block = new Genesis(bChain);
-        return block;
+        return new Genesis(bChain);
     }
 }

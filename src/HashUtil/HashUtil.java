@@ -2,9 +2,18 @@ package HashUtil;
 
 import java.security.MessageDigest;
 
+/**
+ * The type Hash util.
+ */
 public class HashUtil {
- 
- //Applies Sha256 to a string and returns the result. 
+
+ /**
+  * Apply sha 256 string.
+  *
+  * @param input the input
+  * @return the string
+  */
+//Applies Sha256 to a string and returns the result.
  public static String applySha256(String input){
   
   try {

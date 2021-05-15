@@ -8,8 +8,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 
+/**
+ * The type Bc json utils.
+ */
 public class BCJsonUtils {
 
+    /**
+     * Bc json reader block chain.
+     *
+     * @param filename the filename
+     * @return the block chain
+     */
     public static BlockChain BCJsonReader(String filename) {
 
         Gson gson = new Gson();
@@ -18,7 +27,6 @@ public class BCJsonUtils {
 
 	// Convert JSON to Java Object
             BlockChain bc = gson.fromJson(reader, BlockChain.class);
-            //System.out.println(bc);
             return bc;
 
 			// Convert JSON to JsonElement, and later to String
@@ -31,7 +39,13 @@ public class BCJsonUtils {
         }
         return null;
     }
-    
+
+    /**
+     * Bc json writer.
+     *
+     * @param BlockC   the block c
+     * @param filename the filename
+     */
     public static void BCJsonWriter(BlockChain BlockC, String filename){
         // JSON Parser
         //1. Convert object to JSON string

@@ -1,32 +1,38 @@
 package BlockChain;
 
-import HashUtil.HashUtil;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
+/**
+ * @author Clément PAYET
+ * The type Genesis.
+ */
 public class Genesis extends Block{
-    private Date timeStamp;
-    private ArrayList<String> listeTransaction = new ArrayList<>(Arrays.asList("Genesis"));
-    private String hashRootMerkle;
-    private String hashBlockCourant = "0";
+    private final ArrayList<String> listeTransactionGenesis = new ArrayList<>(Arrays.asList("Genesis"));
+    private final String hashRootMerkleGenesis;
 
+    /**
+     * Instantiates a new Genesis.
+     *
+     * @param blockChain the block chain
+     */
     public Genesis(BlockChain blockChain) {
         super(blockChain);
-        this.timeStamp = new Date();
-        this.hashRootMerkle = calculateMerkleRoot(listeTransaction).toString();
+        Date time = new Date();
+        this.hashRootMerkleGenesis = calculateMerkleRoot(listeTransactionGenesis).toString();
     }
 
-    public String getHashRootMerkle() {
-        return hashRootMerkle;
+    public String getHashMerkleRoot() {
+        return hashRootMerkleGenesis;
     }
 
     public String getHashBlockCourant() {
-        return hashBlockCourant;
+        String hashBlockCourantGenesis = "0";
+        return hashBlockCourantGenesis;
     }
 
-    public ArrayList<String> getListeTransaction() {
-        return listeTransaction;
+    public ArrayList<String> getListeTransactionGenesis() {
+        return listeTransactionGenesis;
     }
 }
