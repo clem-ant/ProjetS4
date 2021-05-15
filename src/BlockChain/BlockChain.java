@@ -117,8 +117,11 @@ public class BlockChain {
             return;
         }
         if(nbTransaction <= nbTransactionMax){ //Si le nb de transaction est <= aux nombre max de transaction donné avec un rand, on les ajoutes au bloc courant
-            this.getCurrentBlocks().transaction(u1, u2, montant, utxo);
-            nbTransaction++;
+            System.out.println(nombreBnbUser(u1) + " " + montant);
+            if(nombreBnbUser(u1) >= montant){
+                utxo.add(this.getCurrentBlocks().transaction(u1, u2, montant));
+                nbTransaction++;
+            }
         }else{
             nbTransactionMax = RandomNumber.getRandomNumberInRange(1, NB_TRANSACTION_MAX); //On regenère un nombre aléatoire de transaction pour le prochain block.
             this.getCurrentBlocks().setHashRootMerkle();
@@ -131,6 +134,18 @@ public class BlockChain {
             transaction(u1, u2, montant, mineur);
 
         }
+    }
+
+    private int nombreBnbUser(User u1){
+        int somme = 0;
+        for(int i = 0; i < utxo.size(); i++){
+            System.out.println(utxo.get(i).get(0));
+            if(utxo.get(i).get(0) == u1.getHashUserPublic()){
+                somme += (int) utxo.get(i).get(2);
+                System.out.println(somme);
+            }
+        }
+        return somme;
     }
 
     /**

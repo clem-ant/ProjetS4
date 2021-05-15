@@ -1,4 +1,5 @@
 package BlockChain;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import HashUtil.HashUtil;
@@ -129,8 +130,15 @@ public class Block {
      *  @param message the message
      * @param utxo
      */
-    public void transaction(User u1, User u2, int montant, ArrayList<ArrayList<Object>> utxo){
+    public ArrayList<Object> transaction(User u1, User u2, int montant){
         listeTransaction.add(u1.getHashUserPublic() + " donne "+ montant + " Bnb a " +u2.getHashUserPublic());
+        ArrayList<Object> transac = new ArrayList<>();
+        Date dateT = new Date();
+        transac.add(u1.getHashUserPublic());
+        transac.add(u2.getHashUserPublic());
+        transac.add(montant);
+        transac.add(dateT);
+        return transac;
 
     }
 
