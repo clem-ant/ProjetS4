@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import HashUtil.HashUtil;
 import Utilisateurs.Mineur;
+import Utilisateurs.User;
 
 /**
  * @author Clément PAYET
@@ -125,11 +126,12 @@ public class Block {
 
     /**
      * Transaction.
-     *
-     * @param message the message
+     *  @param message the message
+     * @param utxo
      */
-    public void transaction(String message){
-        listeTransaction.add(message);
+    public void transaction(User u1, User u2, int montant, ArrayList<ArrayList<Object>> utxo){
+        listeTransaction.add(u1.getHashUserPublic() + " donne "+ montant + " Bnb a " +u2.getHashUserPublic());
+
     }
 
     /**

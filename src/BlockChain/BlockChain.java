@@ -21,6 +21,7 @@ public class BlockChain {
     private transient int indexBlock = 1;
     private int recompense = 50;
     private final Block[] blocks; //Tableau de blocs
+    private ArrayList<ArrayList<Object>> utxo = new ArrayList<ArrayList<Object>>();
 
 
     private static final String ANSI_RESET = "\u001B[0m";
@@ -111,18 +112,12 @@ public class BlockChain {
         return difficulte;
     }
 
-    /**
-     * Transaction qui s'ajoute dans le bloc.
-     *
-     * @param message the message (User1 donne x Bnb à User2)
-     * @param mineur  The mineur qui va miner le block si il est complet.
-     */
-    public void transaction(String message, Mineur mineur){
+    public void transaction(User u1, User u2, int montant, Mineur mineur){
         if(indexBlock >= nbBlock){
             return;
         }
         if(nbTransaction <= nbTransactionMax){ //Si le nb de transaction est <= aux nombre max de transaction donné avec un rand, on les ajoutes au bloc courant
-            this.getCurrentBlocks().transaction(message);
+            this.getCurrentBlocks().transaction(u1, u2, montant, utxo);
             nbTransaction++;
         }else{
             nbTransactionMax = RandomNumber.getRandomNumberInRange(1, NB_TRANSACTION_MAX); //On regenère un nombre aléatoire de transaction pour le prochain block.
@@ -133,7 +128,7 @@ public class BlockChain {
             }
             nbTransaction = 1;
             indexBlock++;
-            transaction(message, mineur);
+            transaction(u1, u2, montant, mineur);
 
         }
     }
@@ -218,7 +213,7 @@ public class BlockChain {
         }
         User deux = users[rand2];
         Mineur mineur = trouverMineur(users);
-        transaction(un.getNom() + " envoie " + montant + " Bnb à " + deux.getNom(), mineur); //1.4 Sous forme Usern1 envoie X Bnb à Usern2
+        transaction(un,deux,montant, mineur); //1.4 Sous forme Usern1 envoie X Bnb à Usern2
         un.donnerBnb(deux, montant);
     }
 
