@@ -112,67 +112,6 @@ public class BlockChain {
         return difficulte;
     }
 
-    public void transaction(User u1, User u2, int montant, Mineur mineur){
-        if(indexBlock >= nbBlock){
-            return;
-        }
-        if(nbTransaction <= nbTransactionMax){ //Si le nb de transaction est <= aux nombre max de transaction donné avec un rand, on les ajoutes au bloc courant
-            this.getCurrentBlocks().transaction(u1, u2, montant, utxo);
-            nbTransaction++;
-        }else{
-            nbTransactionMax = RandomNumber.getRandomNumberInRange(1, NB_TRANSACTION_MAX); //On regenère un nombre aléatoire de transaction pour le prochain block.
-            this.getCurrentBlocks().setHashRootMerkle();
-            this.getCurrentBlocks().calculateHashing(mineur, recompense);
-            if(indexBlock % nbBlock/2 == 0){ //Inflation tous les nbBlock/2 blocks
-                recompense /= 2;
-            }
-            nbTransaction = 1;
-            indexBlock++;
-            transaction(u1, u2, montant, mineur);
-
-        }
-    }
-
-    /**
-     * Check integrite bc boolean.
-     *
-     * @param mineur the mineur
-     * @return the boolean
-     */
-    public boolean checkIntegriteBC(Mineur mineur){
-        int tmpIndex = this.indexBlock;
-        for (int i = 1; i < nbBlock; i++) { //Le bloc 1 est le genesis : hash du bloc : 0
-            setIndexBlock(i); //Changement d'index pour avoir le previous qui est bien de 0 à n au lieu de n-1 direct.
-            if(!this.getBlocks(i).verifyHash(mineur)){
-                setIndexBlock(tmpIndex);
-                return false;
-            }
-        }
-        setIndexBlock(tmpIndex);
-        return true;
-    }
-
-    /**
-     * Affiche la BC en couleur
-     */
-    public void printBC(){
-        System.out.println("\u001B[33m[Contenu de la BlockChain]");
-        for(int i = 0; i < nbBlock; i++){
-            System.out.println(ANSI_YELLOW + "[Block n°"+i+"]" + ANSI_RESET);
-            System.out.println("| Date de création : " + getBlocks(i).getTimeStamp());
-            System.out.println("| Nonce : " + getBlocks(i).getNonce());
-            System.out.println("| Liste de transaction : ");
-            ArrayList<String> listTransaction = getBlocks(i).getListeTransactionGenesis();
-            for(int j = 0; j < listTransaction.size(); j++){
-                System.out.println(ANSI_BLUE + "    | " + j + " - " + listTransaction.get(j) + ANSI_RESET);
-            }
-            System.out.println("| Hash Merkle root        : " + getBlocks(i).getHashMerkleRoot());
-            if(i != 0) {
-                System.out.println("| Hash du block precedent : " + getBlocks(i - 1).getHashBlockCourant());
-            }
-            System.out.println("| Hash du block           : " + getBlocks(i).getHashBlockCourant() + "\n");
-        }
-    }
 
     /**
      * Trouver un mineur dans une liste.
@@ -212,23 +151,90 @@ public class BlockChain {
             return;
         }
         User deux = users[rand2];
-        Mineur mineur = trouverMineur(users);
-        transaction(un,deux,montant, mineur); //1.4 Sous forme Usern1 envoie X Bnb à Usern2
         un.donnerBnb(deux, montant);
+        transaction(un.getNom() + " envoie " + montant + " Bnb à " + deux.getNom(), trouverMineur(users), montant/10); //1.4 Sous forme Usern1 envoie X Bnb à Usern2
     }
 
+    private void inflation(){
+        if(indexBlock % nbBlock/3 == 0){
+            this.recompense /= 3;
+        }
+    }
+    /**
+     * Transaction qui s'ajoute dans le bloc.
+     *
+     * @param message the message (User1 donne x Bnb à User2)
+     * @param mineur  The mineur qui va miner le block si il est complet.
+     */
+    public void transaction(String message, Mineur mineur, int frais){
+        if(indexBlock >= nbBlock){
+            return;
+        }
+        if(nbTransaction <= nbTransactionMax){ //Si le nb de transaction est <= aux nombre max de transaction donné avec un rand, on les ajoutes au bloc courant
+            this.getCurrentBlocks().transaction(u1, u2, montant, utxo);
+            nbTransaction++;
+        }else{
+            this.getCurrentBlocks().setHashRootMerkle();
+            this.getCurrentBlocks().calculateHashing(mineur, recompense+frais);
+            inflation();
+            nbTransaction = 1;
+            indexBlock++;
+            nbTransactionMax = RandomNumber.getRandomNumberInRange(1, NB_TRANSACTION_MAX); //On regenère un nombre aléatoire de transaction pour le prochain block.
+            transaction(message, mineur, frais);
+
+        }
+    }
+
+    /**
+     * Check integrite bc boolean.
+     *
+     * @param mineur the mineur
+     * @return the boolean
+     */
+    public boolean checkIntegriteBC(Mineur mineur){
+        int tmpIndex = this.indexBlock;
+        for (int i = 1; i < nbBlock; i++) { //Le bloc 1 est le genesis : hash du bloc : 0
+            setIndexBlock(i); //Changement d'index pour avoir le previous qui est bien de 0 à n au lieu de n-1 direct.
+            if(!this.getBlocks(i).verifyHash(mineur)){
+                setIndexBlock(tmpIndex);
+                return false;
+            }
+        }
+        setIndexBlock(tmpIndex);
+        return true;
+    }
+
+    /**
+     * Affiche la BC en couleur
+     */
+    public void printBC(){
+        System.out.println("\u001B[33m[Contenu de la BlockChain]");
+        for(int i = 0; i < nbBlock; i++){
+            System.out.println(ANSI_YELLOW + "[Block n°"+i+"]" + ANSI_RESET);
+            System.out.println("| Date de création : " + getBlocks(i).getTimeStamp());
+            System.out.println("| Nonce : " + getBlocks(i).getNonce());
+            System.out.println("| Liste de transaction : ");
+            ArrayList<String> listTransaction = getBlocks(i).getListeTransaction();
+            for(int j = 0; j < listTransaction.size(); j++){
+                System.out.println(ANSI_BLUE + "    | " + j + " - " + listTransaction.get(j) + ANSI_RESET);
+            }
+            System.out.println("| Hash Merkle root        : " + getBlocks(i).getHashMerkleRoot());
+            if(i != 0) {
+                System.out.println("| Hash du block precedent : " + getBlocks(i - 1).getHashBlockCourant());
+            }
+            System.out.println("| Hash du block           : " + getBlocks(i).getHashBlockCourant() + "\n");
+        }
+    }
 
     /**
      * Remplir bc avec des transactions aléatoire.
      * @param users list
      */
     public void remplirBC(User[] users){
-        for(int i = 1; i < nbBlock; i++){
+        for(int i = 1; i <= nbBlock; i++){
             int nbtransactTest = getNbTransactionMax();
-            int j = 0;
-            while(j < nbtransactTest){
+            for(int j = 0; j <= nbtransactTest; j++){
                 transactionAleatoire(users);
-                j++;
             }
         }
     }
