@@ -1,10 +1,12 @@
-//
-// Created by TONY DE FREITAS on 18/03/2021.
-//
+/// \file mining_utils.h
+/// \author Tony De Freitas
+/// \date 15 février 2021
+/// \brief Prototypes
 
 #ifndef PROJET_S4_MINING_UTILS_H
 #define PROJET_S4_MINING_UTILS_H
 #include "../block.h"
+
 char* blockItemsToString(const Block *block, char* blockItems);
 int numberCharBlock(const Block *block);
 

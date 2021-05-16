@@ -1,6 +1,7 @@
-//
-// Created by TONY DE FREITAS on 24/04/2021.
-//
+/// \file verification.c
+/// \author Tony De Freitas
+/// \date 1 avril 2021
+/// \brief Fonctions de vérification permettant de certifier si la blockchain n'est pas altérée
 
 #include <stdbool.h>
 #include <stdlib.h>
@@ -14,6 +15,11 @@
 #define GRN   "\x1B[32m"
 #define RESET "\x1B[0m"
 
+/*!
+ * \brief Vérifie le block est bien le génésis
+ * \param block Le block à vérifier (Le premier de la blockchain)
+ * \return Un boolean, true si c'est bien le génésis, false sinon
+ */
 bool isGenesis(const Block *block){
     if(strcmp(block->hashCode, "0") == 0 && block->nonce == 0
        && block->txList->txIndex == 1 && strcmp(block->txList->tx[0], "Genesis") == 0){
@@ -22,6 +28,11 @@ bool isGenesis(const Block *block){
     return false;
 }
 
+/*!
+ * \brief Compare le hash du merkle root stocké dans le block à celui obtenu par un nouveau calcul de celui-ci
+ * \param block Le block où doit être vérifié le hash du merkle root
+ * \return Un boolean, true si la propriété est vérifié, false sinon
+ */
 bool isMerkleRoot(const Block *block){
     char *currentMerkleRoot = getMerkleRoot(block);
     if(strcmp(currentMerkleRoot, block->hashMerkleTreeRoot) == 0){
@@ -32,6 +43,11 @@ bool isMerkleRoot(const Block *block){
     return false;
 }
 
+/*!
+ * \brief Compare le hash du block stocké dans le block à celui obtenu par un nouveau calcul de celui-ci
+ * \param block Le block où doit être vérifié le hash du block
+ * \return Un boolean, true si la propriété est vérifié, false sinon
+ */
 bool isHashCode(const Block *block){
     int i = numberCharBlock(block);
     int bufferSize = SHA256_BLOCK_SIZE;
@@ -48,6 +64,12 @@ bool isHashCode(const Block *block){
     return false;
 }
 
+/*!
+ * \briefVérifie si la le chaînage des blocks est correct
+ * \param previousBlock Le block précédant
+ * \param block Le block courant
+ * \return Un boolean, true si le hash code predecessor du block est égal au hash du previous block, false sinon
+ */
 bool isWellChained(const Block *previousBlock, const Block *block){
     if(strcmp(previousBlock->hashCode, block->hashCodePredecessor) == 0){
         return true;
@@ -55,6 +77,12 @@ bool isWellChained(const Block *previousBlock, const Block *block){
     return false;
 }
 
+/*!
+ * \brief Fonction principale utilisant les fonctions précédentes pour certifier ou non l'intégrité de la blockchain.
+ * Gère aussi un affichage sur la console pour que l'utilisateur soit au courant de ce qui est bon ou non.
+ * \param blockchain La blockchain qui doit être vérifiée
+ * \return Un Boolean, true si toutes les propriétés sont vérifiées, false sinon
+ */
 bool blockchainIntegrity(const Blockchain *blockchain){
     char* testGenesis = GRN "[OK]"; //Premier test, vérification si le premier block est bien le block génésis
     char* testWellChained = GRN "[OK]"; //Deuxième test, vérification si le chaînage des hash est valide

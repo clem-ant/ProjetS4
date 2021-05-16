@@ -1,10 +1,12 @@
-//
-// Created by TONY DE FREITAS on 24/04/2021.
-//
+/// \file verification.h
+/// \author Tony De Freitas
+/// \date 1 avril 2021
+/// \brief Prototypes
 
 #ifndef PROJET_S4_VERIFICATION_H
 #define PROJET_S4_VERIFICATION_H
 #include <stdbool.h>
 
 bool blockchainIntegrity(const Blockchain *blockchain);
+
 #endif //PROJET_S4_VERIFICATION_H

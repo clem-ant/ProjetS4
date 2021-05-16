@@ -1,6 +1,7 @@
-//
-// Created by TONY DE FREITAS on 26/04/2021.
-//
+/// \file user.h
+/// \author Tony De Freitas
+/// \date 22 avril 2021
+/// \brief Définition de structure et prototypes
 
 #ifndef PROJET_S4_USER_H
 #define PROJET_S4_USER_H
@@ -8,6 +9,12 @@
 #include "bcb.h"
 #include "../utils/queue.h"
 
+/*!
+ * \brief Objet User
+ *
+ * Contient une chaîne de caractère étant le nom, un entier pour l'ID de l'utilisateur et un autre pour
+ * le bank account
+ */
 typedef struct User User;
 struct User{
     char* name;

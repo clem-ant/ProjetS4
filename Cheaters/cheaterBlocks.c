@@ -1,6 +1,7 @@
-//
-// Created by Sabrina on 24/04/2021.
-//
+/// \file cheaterBlocks.c
+/// \author Sabrina Sikder
+/// \date 1 avril 2021
+/// \brief Suppression d'un block avec re-calcul des hashs des blocks
 
 #include "cheaterBlocks.h"
 #include "../Minage/mining.h"
@@ -12,6 +13,12 @@
 #define GRN   "\x1B[32m"
 #define RESET "\x1B[0m"
 
+/*!
+ * \brief Supprime un block de la blockchain, re-calcul les hashs des block, change les hash code predecessor et
+ * indique la durée de l'exécution de cette fonction.
+ * \param blockchain La blockchain où l'on doit doit supprimer le block
+ * \param blockIndex L'index du block que l'on doit supprimer
+ */
 void cheaterBlock(Blockchain *blockchain, int blockIndex){
     clock_t t1=clock();
     double time_spent=0.0;

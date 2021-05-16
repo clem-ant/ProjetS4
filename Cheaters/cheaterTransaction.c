@@ -1,6 +1,7 @@
-//
-// Created by Sabrina on 23/04/2021.
-//
+/// \file cheaterTransaction.c
+/// \author Sabrina Sikder
+/// \date 1 avril 2021
+/// \brief Suppression d'une transaction d'un block avec re-calcul du merkle root et des hashs des blocks
 
 #include "cheaterTransaction.h"
 #include "../merkleTree.h"
@@ -13,6 +14,13 @@
 #define GRN   "\x1B[32m"
 #define RESET "\x1B[0m"
 
+/*!
+ * \brief Supprime une transaction d'un block, re-calcul le hash de merkle root, les hashs des blocks, change les
+ * hash code predecessor et indique le durée d'exécution de cette fonction
+ * \param blockchain La blockchain où doit être supprimé une transaction d'un block
+ * \param blockIndex L'index du block où doit être supprimé la transaction
+ * \param txIndex L'index de la transaction à supprimer
+ */
 void cheaterTransaction(Blockchain *blockchain, int blockIndex, int txIndex) {
     clock_t t1=clock();
     double time_spent=0.0;
