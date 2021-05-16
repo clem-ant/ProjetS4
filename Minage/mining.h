@@ -5,6 +5,7 @@
 
 #ifndef PROJET_S4_MINING_H
 #define PROJET_S4_MINING_H
+
 #include "../block.h"
 
 void mining(Block *block, int difficulty);

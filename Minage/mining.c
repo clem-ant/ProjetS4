@@ -3,13 +3,12 @@
 /// \date 15 février 2021
 /// \brief Minage de block
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "mining.h"
+#include "mining_utils.h"
 #include "../block.h"
 #include "../Sha256/sha256_utils.h"
-#include "mining_utils.h"
-#include "mining.h"
 
 /*!
  * \brief Vérifie si le hash code respecte bien le critère de difficulté

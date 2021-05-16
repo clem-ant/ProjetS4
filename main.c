@@ -11,14 +11,9 @@
 #include <stdlib.h>
 #include "block.h"
 #include "blockchain.h"
-#include "merkleTree.h"
-#include "./Sha256/sha256.h"
-#include "./Sha256/sha256_utils.h"
-#include "Minage/mining_utils.h"
-#include "./Minage/mining.h"
 #include "./Verification/verification.h"
-#include "Cheaters/cheaterTransaction.h"
-#include "Cheaters/cheaterBlocks.h"
+#include "./Cheaters/cheaterTransaction.h"
+#include "./Cheaters/cheaterBlocks.h"
 #include "./BCB/bcb.h"
 
 #define RED   "\x1B[31m"
@@ -37,8 +32,7 @@ void helpMenu(){
 }
 
 int main(int argc, char *argv[]) {
-    int i = 1;
-    int difficulty, nbBlock, nbTx, nbUser, blockIndex, txIndex;
+    int difficulty, nbBlock, nbTx, nbUser, blockIndex = 0, txIndex = 0;
     char *endPtr;
 
     if (argc > 4) {
@@ -88,6 +82,11 @@ int main(int argc, char *argv[]) {
                                     "nombre total de block !\n" RESET "Suppression par defaut du dernier block...\n");
                 blockIndex = bcb->blockchain->blockCursor - 1;
             }
+        }
+        else{
+            fprintf(stderr, RED "[ERREUR] - La syntaxe de la commande n'est pas respecte !\n" RESET);
+            helpMenu();
+            return EXIT_FAILURE;
         }
 
         if(argc > 7){

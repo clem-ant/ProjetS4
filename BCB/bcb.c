@@ -6,10 +6,7 @@
 #include <stdlib.h>
 #include "bcb.h"
 #include "user.h"
-#include "../blockchain.h"
 #include "../GenerateTransactions.h"
-#include "../merkleTree.h"
-#include "../Minage/mining.h"
 
 /*!
  * \brief Créer un tableau de pointeur vers des users
@@ -118,7 +115,7 @@ void bcbStarting(Bcb *bcb){
     int i = 0;
     while(!queueEmpty(queue) && bcb->blockchain->blockCursor < bcb->blockchain->blockNumber){
         createBlock(bcb->users[i%(bcb->nbUser)], bcb, queue);
-        if(bcb->blockchain->blockCursor % 100 == 0){
+        if(bcb->blockchain->blockCursor % 20 == 0){
             bcb->reward = bcb->reward / 2;
         }
         i++;
@@ -126,5 +123,5 @@ void bcbStarting(Bcb *bcb){
 
     deleteTxInQueue(queue);
     deleteQueue(&queue);
-    printf("Masse monetaire = %d / Reward = %d\n", bcb->moneySupply, bcb->reward);
+    printf("Masse monetaire = %ld / Reward = %ld\n", bcb->moneySupply, bcb->reward);
 }

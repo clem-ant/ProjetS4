@@ -5,6 +5,7 @@
 
 #ifndef PROJET_S4_MINING_UTILS_H
 #define PROJET_S4_MINING_UTILS_H
+
 #include "../block.h"
 
 char* blockItemsToString(const Block *block, char* blockItems);

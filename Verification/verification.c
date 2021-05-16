@@ -6,11 +6,11 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "../Minage/mining_utils.h"
-#include "../blockchain.h"
 #include "verification.h"
+#include "../Minage/mining_utils.h"
 #include "../Sha256/sha256_utils.h"
 #include "../merkleTree.h"
+
 #define RED   "\x1B[31m"
 #define GRN   "\x1B[32m"
 #define RESET "\x1B[0m"

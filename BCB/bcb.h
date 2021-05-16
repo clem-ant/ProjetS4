@@ -5,6 +5,7 @@
 
 #ifndef PROJET_S4_BCB_H
 #define PROJET_S4_BCB_H
+
 #include "../blockchain.h"
 
 /*!

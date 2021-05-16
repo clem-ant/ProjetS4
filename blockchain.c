@@ -4,9 +4,9 @@
 /// \brief Fonctions permettant de construire une blockchain
 
 #include <stdlib.h>
-#include "blockchain.h"
-#include "block.h"
 #include <stdio.h>
+#include "blockchain.h"
+
 #define YEL   "\x1B[33m"
 
 /*!

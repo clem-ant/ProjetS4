@@ -5,8 +5,8 @@
 
 #include <time.h>
 #include <stdlib.h>
-#include "block.h"
 #include <stdio.h>
+#include "block.h"
 
 #define YEL   "\x1B[33m"
 #define RESET "\x1B[0m"

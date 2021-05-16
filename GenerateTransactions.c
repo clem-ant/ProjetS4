@@ -8,8 +8,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-#include "./BCB/user.h"
-#include "./utils/queue.h"
 
 /*!
  * \brief Permet de générer autant de transaction aléatoire que le spécifie le paramètre txNumber
@@ -19,7 +17,8 @@
  * \param queue Une queue permettant de stocker les transactions créées
  */
 void generateRandomTransaction(User **user, int usersNumber, int txNumber, Queue *queue){
-    int n1,n2,amount;
+    int n1,n2;
+    long int amount;
 
     srand((queueSize(queue)+1) * time(NULL));
 

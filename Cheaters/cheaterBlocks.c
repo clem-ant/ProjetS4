@@ -3,11 +3,10 @@
 /// \date 1 avril 2021
 /// \brief Suppression d'un block avec re-calcul des hashs des blocks
 
+#include <time.h>
+#include <stdio.h>
 #include "cheaterBlocks.h"
 #include "../Minage/mining.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <time.h>
 
 #define RED   "\x1B[31m"
 #define GRN   "\x1B[32m"

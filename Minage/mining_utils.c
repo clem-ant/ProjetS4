@@ -6,8 +6,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "../block.h"
-#include <time.h>
-#define STRLONG 60
 
 /*!
  * \brief Converti le contenu d'un block en chaîne de caractères

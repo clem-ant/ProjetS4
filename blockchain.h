@@ -5,8 +5,8 @@
 
 #ifndef PROJET_S4_BLOCKCHAIN_H
 #define PROJET_S4_BLOCKCHAIN_H
+
 #include "block.h"
-#define MAXIMAL_BLOCK 100
 
 /*!
  * \brief Objet Blockchain.

@@ -6,12 +6,8 @@
 #include <stdlib.h>
 #include "user.h"
 #include "../Minage/mining.h"
-#include "../block.h"
-#include "../blockchain.h"
-#include "../utils/queue.h"
 #include "../merkleTree.h"
 #include "../GenerateTransactions.h"
-#include "bcb.h"
 
 /*!
  * \brief Permet de créer un utilisateur

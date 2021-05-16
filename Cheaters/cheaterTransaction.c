@@ -3,12 +3,13 @@
 /// \date 1 avril 2021
 /// \brief Suppression d'une transaction d'un block avec re-calcul du merkle root et des hashs des blocks
 
-#include "cheaterTransaction.h"
-#include "cheaterBlocks.h"
-#include "../merkleTree.h"
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
+#include "cheaterTransaction.h"
+#include "cheaterBlocks.h"
+#include "../block.h"
+#include "../merkleTree.h"
 #include "../Minage/mining.h"
 
 #define RED   "\x1B[31m"

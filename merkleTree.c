@@ -3,7 +3,6 @@
 /// \date 15 février 2021
 /// \brief Calcul du hash du merkle tree d'un block
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "block.h"

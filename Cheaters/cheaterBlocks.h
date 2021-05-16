@@ -5,6 +5,7 @@
 
 #ifndef PROJET_S4_CHEATERBLOCKS_H
 #define PROJET_S4_CHEATERBLOCKS_H
+
 #include "../blockchain.h"
 
 void cheaterBlock(Blockchain *blockchain, int blockIndex);
