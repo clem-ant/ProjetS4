@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="Java GSON">
+    <archive path="/home/fourmi/Documents/Cours/S4/Projet/ProjetS4/src/Packages Java Moodle/Java GSON/gson-2.8.5.jar" />
+  </library>
+  <library name="MigLayout" />
+</eclipse-userlibraries>
+
