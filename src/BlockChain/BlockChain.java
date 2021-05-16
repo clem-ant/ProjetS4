@@ -112,6 +112,10 @@ public class BlockChain {
         return difficulte;
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> eb61aac285b2d81b6b55d1dbf5733f93d95bc1d6
     /**
      * Trouver un mineur dans une liste.
      *
@@ -181,10 +185,16 @@ public class BlockChain {
             inflation();
             nbTransaction = 1;
             indexBlock++;
+<<<<<<< HEAD
             transaction(u1, u2, montant, mineur);
 
             nbTransactionMax = RandomNumber.getRandomNumberInRange(1, NB_TRANSACTION_MAX); //On regenère un nombre aléatoire de transaction pour le prochain block.
             transaction(message, mineur, frais);
+=======
+            nbTransactionMax = RandomNumber.getRandomNumberInRange(1, NB_TRANSACTION_MAX); //On regenère un nombre aléatoire de transaction pour le prochain block.
+            transaction(message, mineur, frais);
+
+>>>>>>> eb61aac285b2d81b6b55d1dbf5733f93d95bc1d6
         }
     }
 
@@ -241,7 +251,10 @@ public class BlockChain {
         }
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> eb61aac285b2d81b6b55d1dbf5733f93d95bc1d6
     /**
      * Remplir bc avec des transactions aléatoire.
      * @param users list
