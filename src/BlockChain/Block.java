@@ -142,7 +142,7 @@ public class Block {
      * @param mineur     the mineur qui va miner
      * @param recompense the recompense gagner par le mineur
      */
-    public void calculateHashing(Mineur mineur, int recompense){
+    public void calculateHashing(Mineur mineur, double recompense){
         hashBlockCourant = mineur.mining(blockChain.getDifficulte(), 0, this, recompense);
     }
 

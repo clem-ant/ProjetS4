@@ -74,11 +74,10 @@ public class Main {
         Creator simrun = (Creator) users[0];
         BlockChain blockChain = new BlockChain(difficulte, nbBlock, simrun, nbMaxTransac);
 
-        blockChain.transaction("Coinbase donne 50 Bnb à Creator", simrun, 0);
+        blockChain.transaction("Coinbase donne 5000000000 satoBnb à Creator", simrun, 0);
         simrun.recevoirBnb(50); //Recompense pour avoir créer le genesis par la coinbase
-
         for(int i = 1; i < users.length; i++){ //On commence à 1 pour pas donner au Createur qui a déjà recu pour la création du genesis+
-            blockChain.transaction("Coinbase donne 50 Bnb à " + users[i].getNom() + " : " + users[i].getHashUserPublic(), blockChain.trouverMineur(users), 0);
+            blockChain.transaction("Coinbase donne 5000000000 satoBnb à " + users[i].getNom() + " : " + users[i].getHashUserPublic(), blockChain.trouverMineur(users), 0);
             users[i].recevoirBnb(50); //Helicopter money
         }
 

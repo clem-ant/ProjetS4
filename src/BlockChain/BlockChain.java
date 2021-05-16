@@ -19,7 +19,7 @@ public class BlockChain {
     private transient int nbTransactionMax;
     private transient int nbTransaction = 1;
     private transient int indexBlock = 1;
-    private int recompense = 50;
+    private double recompense = 500000000;
     private final Block[] blocks; //Tableau de blocs
     private ArrayList<ArrayList<Object>> utxo = new ArrayList<ArrayList<Object>>();
 
@@ -139,11 +139,13 @@ public class BlockChain {
      * @param users list
      */
     public void transactionAleatoire(User[] users){
-        int rand1, rand2, montant;
-        montant = RandomNumber.getRandomNumberInRange(1,10);
+        int rand1, rand2;
+        double montant, min = 1;
+        long max = 1000000000;
+        montant = RandomNumber.getRandomNumberInRange(min,max);
         do{
-            rand1 = (int) (Math.random()*users.length);
-            rand2 = (int) (Math.random()*users.length);
+            rand1 = RandomNumber.getRandomNumberInRange(0,users.length-1);
+            rand2 = RandomNumber.getRandomNumberInRange(0,users.length-1);
         }while(rand2 == rand1);
         User un = users[rand1];
         if(!un.aAssezDArgent(montant)){ //Si le premier user qui doit donner n'a pas assez d'argent, alors on en cherche un autre en utilisant la même fonction
@@ -152,12 +154,13 @@ public class BlockChain {
         }
         User deux = users[rand2];
         un.donnerBnb(deux, montant);
-        transaction(un.getNom() + " envoie " + montant + " Bnb à " + deux.getNom(), trouverMineur(users), montant/10); //1.4 Sous forme Usern1 envoie X Bnb à Usern2
+        transaction(un.getNom() + " envoie " + (int)montant + " satoBnb à " + deux.getNom(), trouverMineur(users), nbTransactionMax); //1.4 Sous forme Usern1 envoie X Bnb à Usern2
+        //Cast du montant en int car en double on a des exposants
     }
 
     private void inflation(){
-        if(indexBlock % nbBlock/3 == 0){
-            this.recompense /= 3;
+        if(indexBlock % (nbBlock/3) == 0){
+            this.recompense /= 2;
         }
     }
     /**
@@ -166,7 +169,7 @@ public class BlockChain {
      * @param message the message (User1 donne x Bnb à User2)
      * @param mineur  The mineur qui va miner le block si il est complet.
      */
-    public void transaction(String message, Mineur mineur, int frais){
+    public void transaction(String message, Mineur mineur, double frais){
         if(indexBlock >= nbBlock){
             return;
         }
@@ -175,7 +178,7 @@ public class BlockChain {
             nbTransaction++;
         }else{
             this.getCurrentBlocks().setHashRootMerkle();
-            this.getCurrentBlocks().calculateHashing(mineur, recompense+frais);
+            this.getCurrentBlocks().calculateHashing(mineur, (recompense+(frais*100000)));
             inflation();
             nbTransaction = 1;
             indexBlock++;
