@@ -16,8 +16,8 @@ public class Mineur extends User{
      * @param hashUser the hash user
      * @param Bnb      the bnb
      */
-    public Mineur(String nom, String hashUser, int Bnb) {
-        super(nom, hashUser, Bnb);
+    public Mineur(String nom, String hashUser, int Bnb, int salt) {
+        super(nom, hashUser, Bnb, salt);
     }
 
     /**
@@ -36,6 +36,7 @@ public class Mineur extends User{
         }while(!hashBlockCourant.matches("[0]{"+difficulte+"}(.*)")); //Regex : On cherche uniquement [0]{difficulte} et ça fini par ce qu'on veut
         block.setNonce(nonce);
         this.recevoirBnb(recompense); //On récompense le mineur pour son minage avec 50 Bnb
+        block.transaction("Coinbase envoie " + recompense + " à " + this.getNom() + " qui a miné le bloc");
         return hashBlockCourant;
     }
 

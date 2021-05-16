@@ -86,7 +86,7 @@
                     <properties>
                       <autoscrolls value="false"/>
                       <requestFocusEnabled value="true"/>
-                      <text value="500"/>
+                      <text value="100"/>
                       <visible value="true"/>
                     </properties>
                   </component>
@@ -99,7 +99,7 @@
                     </constraints>
                     <properties>
                       <autoscrolls value="false"/>
-                      <text value="20"/>
+                      <text value="10"/>
                     </properties>
                   </component>
                   <component id="7b4d" class="javax.swing.JTextField" binding="difficulte" default-binding="true">

@@ -19,9 +19,9 @@ public class User {
      * @param phraseHash the phrase hash
      * @param Bnb        the bnb
      */
-    public User(String nom, String phraseHash, int Bnb){
+    public User(String nom, String phraseHash, int Bnb, int salt){
         this.nom = nom; //Nom de l'user
-        this.hashUser = HashUtil.applySha256(phraseHash+nom+Bnb);
+        this.hashUser = HashUtil.applySha256(phraseHash+nom+Bnb+salt);
         this.Bnb = Bnb; //Nombre de bonobos sur son compte à la création.
     }
 
@@ -72,10 +72,6 @@ public class User {
         if(Bnb >= montantDeBnb) {
             destinataire.Bnb += montantDeBnb;
             Bnb -= montantDeBnb;
-        }else{
-            System.out.println("Vous n'avez pas assez d'argent" + this.getNom());
-            Bnb += montantDeBnb; //On ajoute des Bnb car il faut faire des echanges quand meme
-            donnerBnb(destinataire, montantDeBnb);
         }
     }
 

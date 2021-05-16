@@ -112,7 +112,65 @@ public class BlockChain {
         return difficulte;
     }
 
+<<<<<<< HEAD
     public void transaction(User u1, User u2, int montant, Mineur mineur){
+=======
+
+    /**
+     * Trouver un mineur dans une liste.
+     *
+     * @param users the User list
+     * @return the first mineur that we fund in the User list
+     */
+    public Mineur trouverMineur(User[] users){
+        Mineur mineur = null;
+        int rand3 = (int) (Math.random()*users.length);
+        while(true){ //Tant qu'on a pas trouvé de mineur dans les users
+            if(users[rand3] instanceof Mineur){
+                mineur = (Mineur) users[rand3];
+                break;
+            }else{
+                rand3 = (int) (Math.random()*users.length);
+            }
+        }
+        return mineur;
+    }
+
+    /**
+     * Fait une transaction aléatoire entre 2 users et un montant prix aléatoirement.
+     *
+     * @param users list
+     */
+    public void transactionAleatoire(User[] users){
+        int rand1, rand2, montant;
+        montant = RandomNumber.getRandomNumberInRange(1,10);
+        do{
+            rand1 = (int) (Math.random()*users.length);
+            rand2 = (int) (Math.random()*users.length);
+        }while(rand2 == rand1);
+        User un = users[rand1];
+        if(!un.aAssezDArgent(montant)){ //Si le premier user qui doit donner n'a pas assez d'argent, alors on en cherche un autre en utilisant la même fonction
+            transactionAleatoire(users);
+            return;
+        }
+        User deux = users[rand2];
+        un.donnerBnb(deux, montant);
+        transaction(un.getNom() + " envoie " + montant + " Bnb à " + deux.getNom(), trouverMineur(users), montant/10); //1.4 Sous forme Usern1 envoie X Bnb à Usern2
+    }
+
+    private void inflation(){
+        if(indexBlock % nbBlock/3 == 0){
+            this.recompense /= 3;
+        }
+    }
+    /**
+     * Transaction qui s'ajoute dans le bloc.
+     *
+     * @param message the message (User1 donne x Bnb à User2)
+     * @param mineur  The mineur qui va miner le block si il est complet.
+     */
+    public void transaction(String message, Mineur mineur, int frais){
+>>>>>>> Java
         if(indexBlock >= nbBlock){
             return;
         }
@@ -123,16 +181,18 @@ public class BlockChain {
                 nbTransaction++;
             }
         }else{
-            nbTransactionMax = RandomNumber.getRandomNumberInRange(1, NB_TRANSACTION_MAX); //On regenère un nombre aléatoire de transaction pour le prochain block.
             this.getCurrentBlocks().setHashRootMerkle();
-            this.getCurrentBlocks().calculateHashing(mineur, recompense);
-            if(indexBlock % nbBlock/2 == 0){ //Inflation tous les nbBlock/2 blocks
-                recompense /= 2;
-            }
+            this.getCurrentBlocks().calculateHashing(mineur, recompense+frais);
+            inflation();
             nbTransaction = 1;
             indexBlock++;
+<<<<<<< HEAD
             transaction(u1, u2, montant, mineur);
 
+=======
+            nbTransactionMax = RandomNumber.getRandomNumberInRange(1, NB_TRANSACTION_MAX); //On regenère un nombre aléatoire de transaction pour le prochain block.
+            transaction(message, mineur, frais);
+>>>>>>> Java
         }
     }
 
@@ -177,7 +237,7 @@ public class BlockChain {
             System.out.println("| Date de création : " + getBlocks(i).getTimeStamp());
             System.out.println("| Nonce : " + getBlocks(i).getNonce());
             System.out.println("| Liste de transaction : ");
-            ArrayList<String> listTransaction = getBlocks(i).getListeTransactionGenesis();
+            ArrayList<String> listTransaction = getBlocks(i).getListeTransaction();
             for(int j = 0; j < listTransaction.size(); j++){
                 System.out.println(ANSI_BLUE + "    | " + j + " - " + listTransaction.get(j) + ANSI_RESET);
             }
@@ -190,6 +250,7 @@ public class BlockChain {
     }
 
     /**
+<<<<<<< HEAD
      * Trouver un mineur dans une liste.
      *
      * @param users the User list
@@ -234,16 +295,16 @@ public class BlockChain {
 
 
     /**
+=======
+>>>>>>> Java
      * Remplir bc avec des transactions aléatoire.
      * @param users list
      */
     public void remplirBC(User[] users){
-        for(int i = 1; i < nbBlock; i++){
+        for(int i = 1; i <= nbBlock; i++){
             int nbtransactTest = getNbTransactionMax();
-            int j = 0;
-            while(j < nbtransactTest){
+            for(int j = 0; j <= nbtransactTest; j++){
                 transactionAleatoire(users);
-                j++;
             }
         }
     }
