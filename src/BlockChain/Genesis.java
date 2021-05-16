@@ -32,7 +32,7 @@ public class Genesis extends Block{
         return hashBlockCourantGenesis;
     }
 
-    public ArrayList<String> getListeTransactionGenesis() {
+    public ArrayList<String> getListeTransaction() {
         return listeTransactionGenesis;
     }
 }

@@ -1,7 +1,9 @@
 package BlockChain;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import HashUtil.HashUtil;
+import Tools.RandomNumber;
 import Utilisateurs.Mineur;
 
 /**
@@ -30,7 +32,8 @@ public class Block {
      * Sets hash root merkle.
      */
     public void setHashRootMerkle() {
-        this.hashRootMerkle = calculateMerkleRoot(listeTransaction).toString();
+        ArrayList<String> tmp = new ArrayList<>(listeTransaction);
+        hashRootMerkle = calculateMerkleRoot(tmp).toString();
     }
 
     /**
@@ -72,24 +75,24 @@ public class Block {
     /**
      * Calculate merkle root object.
      *
-     * @param listTransaction the list transaction
+     * @param transacList the list transaction
      * @return the object
      */
-    public Object calculateMerkleRoot(ArrayList<String> listTransaction){ //Last transact in a block
-        if(listTransaction.size() == 1){
-            return HashUtil.applySha256(listTransaction.toString());
+    public Object calculateMerkleRoot(ArrayList<String> transacList){ //Last transact in a block
+        if(transacList.size() == 1){
+            return HashUtil.applySha256(transacList.toString());
         }
         ArrayList<String> parentHash = new ArrayList<>();
 
-        if(listTransaction.size()%2 != 0){
-            listTransaction.add(listTransaction.get(listTransaction.size()-1));
+        if(transacList.size()%2 != 0){
+            transacList.add(transacList.get(transacList.size()-1));
         }
-        for(int i = 0; i < listTransaction.size(); i+=2){
-            String hashed = HashUtil.applySha256(listTransaction.get(i) + listTransaction.get(i + 1));
+        for(int i = 0; i < transacList.size(); i+=2){
+            String hashed = HashUtil.applySha256(transacList.get(i) + transacList.get(i + 1));
             parentHash.add(hashed);
         }
-        if(listTransaction.size() %2 == 1){
-            String lastHash = listTransaction.get(listTransaction.size()-1); //On lui donne le dernier hash
+        if(transacList.size() %2 == 1){
+            String lastHash = transacList.get(transacList.size()-1); //On lui donne le dernier hash
             String lastHashHashed = HashUtil.applySha256(lastHash);
             parentHash.add(lastHashHashed);
         }
@@ -119,7 +122,7 @@ public class Block {
      *
      * @return the liste transaction genesis
      */
-    public ArrayList<String> getListeTransactionGenesis() {
+    public ArrayList<String> getListeTransaction() {
         return listeTransaction;
     }
 
@@ -150,7 +153,6 @@ public class Block {
      * @return the boolean
      */
     protected boolean verifyHash(Mineur mineur){
-        String check = mineur.checkIntegrity(this);
-        return check.equals(this.getHashBlockCourant());
+        return mineur.checkIntegrity(this).equals(this.getHashBlockCourant());
     }
 }

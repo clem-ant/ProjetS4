@@ -17,7 +17,7 @@ public class Creator extends Mineur {
      * @param Bnb      the bnb
      */
     public Creator(String nom, String hashUser, int Bnb) {
-        super(nom, hashUser, Bnb);
+        super(nom, hashUser, Bnb, 0);
     }
 
     /**
