@@ -21,7 +21,7 @@ public class BlockChain {
     private transient int indexBlock = 1;
     private int recompense = 50;
     private final Block[] blocks; //Tableau de blocs
-    private ArrayList<ArrayList<Object>> utxo = new ArrayList<ArrayList<Object>>();
+    private ArrayList<ArrayList<Object>> utxo = new ArrayList<>();
 
 
     private static final String ANSI_RESET = "\u001B[0m";
@@ -112,10 +112,6 @@ public class BlockChain {
         return difficulte;
     }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> eb61aac285b2d81b6b55d1dbf5733f93d95bc1d6
     /**
      * Trouver un mineur dans une liste.
      *
@@ -134,6 +130,24 @@ public class BlockChain {
             }
         }
         return mineur;
+    }
+    public int montantWallet(ArrayList<ArrayList<Object>> wallet){
+        int somme = 0;
+        for(int i = 0; i < wallet.size(); i++){
+            somme += (int)wallet.get(i).get(2);
+        }
+        return somme;
+    }
+
+
+    public ArrayList<ArrayList<Object>> walletUser(User user){
+        ArrayList<ArrayList<Object>> wallet = new ArrayList<>();
+        for(int i = 0; i < utxo.size(); i++){
+            if(user.getHashUserPublic().equals(utxo.get(i).get(1))){
+                wallet.add(utxo.get(i));
+            }
+        }
+        return wallet;
     }
 
     /**
@@ -154,8 +168,7 @@ public class BlockChain {
             return;
         }
         User deux = users[rand2];
-        un.donnerBnb(deux, montant);
-        transaction(un.getNom() + " envoie " + montant + " Bnb à " + deux.getNom(), trouverMineur(users), montant/10); //1.4 Sous forme Usern1 envoie X Bnb à Usern2
+        transaction(un, deux, montant, trouverMineur(users));
     }
 
     private void inflation(){
@@ -163,52 +176,26 @@ public class BlockChain {
             this.recompense /= 3;
         }
     }
-    /**
-     * Transaction qui s'ajoute dans le bloc.
-     *
-     * @param message the message (User1 donne x Bnb à User2)
-     * @param mineur  The mineur qui va miner le block si il est complet.
-     */
-    public void transaction(String message, Mineur mineur, int frais){
+
+    public void transaction(User u1, User u2, int montant, Mineur mineur){
         if(indexBlock >= nbBlock){
             return;
         }
         if(nbTransaction <= nbTransactionMax){ //Si le nb de transaction est <= aux nombre max de transaction donné avec un rand, on les ajoutes au bloc courant
-            System.out.println(nombreBnbUser(u1) + " " + montant);
-            if(nombreBnbUser(u1) >= montant){
-                utxo.add(this.getCurrentBlocks().transaction(u1, u2, montant));
-                nbTransaction++;
-            }
+            utxo.add(this.getCurrentBlocks().transaction(u1, u2, montant));
+            nbTransaction++;
+            //Rajouter condition : && this.montantWallet(this.walletUser(u1)) >= montant ?
         }else{
             this.getCurrentBlocks().setHashRootMerkle();
-            this.getCurrentBlocks().calculateHashing(mineur, recompense+frais);
+            this.getCurrentBlocks().calculateHashing(mineur, recompense);
             inflation();
             nbTransaction = 1;
             indexBlock++;
-<<<<<<< HEAD
+            nbTransactionMax = RandomNumber.getRandomNumberInRange(1, NB_TRANSACTION_MAX); //On regenère un nombre aléatoire de transaction pour le prochain block.
             transaction(u1, u2, montant, mineur);
-
-            nbTransactionMax = RandomNumber.getRandomNumberInRange(1, NB_TRANSACTION_MAX); //On regenère un nombre aléatoire de transaction pour le prochain block.
-            transaction(message, mineur, frais);
-=======
-            nbTransactionMax = RandomNumber.getRandomNumberInRange(1, NB_TRANSACTION_MAX); //On regenère un nombre aléatoire de transaction pour le prochain block.
-            transaction(message, mineur, frais);
-
->>>>>>> eb61aac285b2d81b6b55d1dbf5733f93d95bc1d6
         }
     }
 
-    private int nombreBnbUser(User u1){
-        int somme = 0;
-        for(int i = 0; i < utxo.size(); i++){
-            System.out.println(utxo.get(i).get(0));
-            if(utxo.get(i).get(0) == u1.getHashUserPublic()){
-                somme += (int) utxo.get(i).get(2);
-                System.out.println(somme);
-            }
-        }
-        return somme;
-    }
 
     /**
      * Check integrite bc boolean.
@@ -251,10 +238,6 @@ public class BlockChain {
         }
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> eb61aac285b2d81b6b55d1dbf5733f93d95bc1d6
     /**
      * Remplir bc avec des transactions aléatoire.
      * @param users list

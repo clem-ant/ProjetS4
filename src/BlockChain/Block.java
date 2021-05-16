@@ -128,13 +128,10 @@ public class Block {
         return listeTransaction;
     }
 
-    /**
-     * Transaction.
-     *  @param message the message
-     * @param utxo
-     */
+
+
     public ArrayList<Object> transaction(User u1, User u2, int montant){
-        listeTransaction.add(u1.getHashUserPublic() + " donne "+ montant + " Bnb a " +u2.getHashUserPublic());
+        listeTransaction.add((u1.getHashUserPublic() + " donne "+ montant + " Bnb a " +u2.getHashUserPublic()));
         ArrayList<Object> transac = new ArrayList<>();
         Date dateT = new Date();
         transac.add(u1.getHashUserPublic());
