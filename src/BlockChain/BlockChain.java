@@ -21,6 +21,7 @@ public class BlockChain {
     private transient int indexBlock = 1;
     private int recompense = 50;
     private final Block[] blocks; //Tableau de blocs
+    private ArrayList<ArrayList<Object>> utxo = new ArrayList<ArrayList<Object>>();
 
 
     private static final String ANSI_RESET = "\u001B[0m";
@@ -170,7 +171,7 @@ public class BlockChain {
             return;
         }
         if(nbTransaction <= nbTransactionMax){ //Si le nb de transaction est <= aux nombre max de transaction donné avec un rand, on les ajoutes au bloc courant
-            this.getCurrentBlocks().transaction(message);
+            this.getCurrentBlocks().transaction(u1, u2, montant, utxo);
             nbTransaction++;
         }else{
             this.getCurrentBlocks().setHashRootMerkle();
@@ -180,6 +181,7 @@ public class BlockChain {
             indexBlock++;
             nbTransactionMax = RandomNumber.getRandomNumberInRange(1, NB_TRANSACTION_MAX); //On regenère un nombre aléatoire de transaction pour le prochain block.
             transaction(message, mineur, frais);
+
         }
     }
 
