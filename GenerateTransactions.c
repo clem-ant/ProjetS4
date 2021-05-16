@@ -23,11 +23,11 @@ void generateRandomTransaction(User **user, int usersNumber, int txNumber, Queue
     srand((queueSize(queue)+1) * time(NULL));
 
     for (int i=0; i < txNumber; i++){
-        n1 = rand() % usersNumber;
-        n2 = rand() % usersNumber;
+        n1 = rand() % usersNumber; //Indice aléatoire pour obtenir un utilisateur dans le tableau
+        n2 = rand() % usersNumber; //Indice aléatoire pour obtenir un utilisateur dans le tableau
         if(user[n1]->bankAccount > 1) {
             amount = rand() % (user[n1]->bankAccount) + 1;
-            while (n1 == n2) {
+            while (n1 == n2) { //Permet de ne pas avoir deux fois le même indice
                 n2 = rand() % usersNumber;
             }
             user[n1]->bankAccount -= amount;

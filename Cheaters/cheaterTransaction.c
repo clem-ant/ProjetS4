@@ -25,13 +25,15 @@
  */
 void cheaterTransaction(Blockchain *blockchain, int blockIndex, int txIndex) {
     clock_t t1=clock();
-    double time_spent=0.0;
+    double time_spent=0.0; // Chronomètre à 0 pour le début de la fonction
 
     printf(RED "\n[Cheater de transaction]" RESET " - Suppression de la transaction %d du block %d.\n", txIndex, blockIndex);
     printf("Operation en cours ...\n");
 
     free(blockchain->blocks[blockIndex]->txList->tx[txIndex]);
     int txNumber = blockchain->blocks[blockIndex]->txList->txIndex;
+
+    //Décalage des transactions
     for (int i = txIndex; i < txNumber - 1; i++){
         blockchain->blocks[blockIndex]->txList->tx[i] = blockchain->blocks[blockIndex]->txList->tx[i+1];
     }
@@ -51,6 +53,8 @@ void cheaterTransaction(Blockchain *blockchain, int blockIndex, int txIndex) {
             mining(blockchain->blocks[i], blockchain->difficulty);
         }
     }
+
+    //Calcul du temps d'exécution de la fonction
     clock_t t2 = clock();
     time_spent += (double) (t2 - t1) / CLOCKS_PER_SEC;
     printf(GRN "[Cheater de transaction] - Operation terminee\n");

@@ -33,7 +33,8 @@ User *createUser(char* name, int userId){
 Block *createBlock(User *user, Bcb *bcb, Queue *queue){
     Block *block = addBlock(bcb->blockchain);
     queuePush(queue, generateChar("Coinbase", user->name, bcb->reward));
-    srand((queueSize(queue)+1) * time(NULL));
+    srand((queueSize(queue)+1) * time(NULL)); /* La taille de la queue permet d'obtenir un nombre plus aléatoire que
+                                                time(NULL) qui est plus pseudo-aléatoire */
 
     for(int i = 0; i < (rand() % 10 + 1) && !queueEmpty(queue); i++){
         char *tx = (char *) queueTop(queue);

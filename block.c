@@ -17,7 +17,7 @@
  */
 char* getTimeStamp(){
     char* localTime = malloc(sizeof(char) * 26);
-    time_t ltime = time(NULL);
+    time_t ltime = time(NULL); //Permet d'obtenir le temps courant
     sprintf(localTime, "%s", ctime(&ltime));
     return localTime;
 }
@@ -28,7 +28,7 @@ char* getTimeStamp(){
  */
 TxList *initTxList(){
     TxList *txList = malloc(sizeof(TxList));
-    txList->txIndex = 0;
+    txList->txIndex = 0; //Inialisation à 0 car c'est l'index de la première transaction qui devra être remplie
     txList->tx = malloc(MAXIMAL_TX * sizeof(char*));
     return txList;
 }

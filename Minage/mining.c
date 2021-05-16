@@ -36,9 +36,9 @@ void mining(Block *block, int difficulty){
     char *blockContent = malloc((i+1) * sizeof(char));
     char hashRes[bufferSize*2 + 1]; // contiendra le hash en hexadécimal
     while(true){
-        blockItemsToString(block, blockContent);
-        sha256ofString((BYTE*) blockContent, hashRes);
-        if(difficultyHashCheck(hashRes, difficulty)){
+        blockItemsToString(block, blockContent); //Conversion des éléments du block en string
+        sha256ofString((BYTE*) blockContent, hashRes); //Calcul du hash à partir du string obtenu précédemment
+        if(difficultyHashCheck(hashRes, difficulty)){ //Vérification du respect de la difficulté
             strcpy(block->hashCode, hashRes);
             free(blockContent);
             return;

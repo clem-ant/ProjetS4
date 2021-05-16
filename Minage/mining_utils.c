@@ -20,6 +20,7 @@ char* blockItemsToString(const Block *block, char* blockItems){
     strcat(blockItems, block->timestamp);
     strcat(blockItems, block->hashCodePredecessor);
     strcat(blockItems, block->hashMerkleTreeRoot);
+    //On concatène à tout cela les transactions
     for(int i = 0; i < block->txList->txIndex; i++){
         strcat(blockItems, block->txList->tx[i]);
     }
@@ -37,6 +38,7 @@ int numberCharBlock(const Block *block){
     numberChar += (int) strlen(block->timestamp);
     numberChar += (int) strlen(block->hashCodePredecessor);
     numberChar += (int) strlen(block->hashMerkleTreeRoot);
+    //On ajoute à tout cela le nombre de caractère des transactions
     for(int i = 0; i < block->txList->txIndex; i++){
         numberChar += (int) strlen(block->txList->tx[i]);
     }

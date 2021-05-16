@@ -1,7 +1,3 @@
-//
-// Created by TONY DE FREITAS on 23/02/2021.
-//
-
 #include <assert.h>
 #include <stdlib.h>
 #include "queue.h"

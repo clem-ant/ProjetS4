@@ -62,7 +62,8 @@ Block *addBlock(Blockchain *blockchain){
  */
 Block *createGenesis(Blockchain *blockchain){
     Block *block = addBlock(blockchain);
-    char *txGenesis = malloc(8*sizeof(char));
+    char *txGenesis = malloc(8 * sizeof(char)); /* Allocation dynamique pour ne pas gérer de cas particulier
+                                                lors de la suppression */
     strcpy(txGenesis, "Genesis");
     addTx(block, txGenesis);
     strcpy(block->hashCode, "0");

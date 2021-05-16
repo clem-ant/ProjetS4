@@ -8,6 +8,7 @@
 #include "user.h"
 #include "../GenerateTransactions.h"
 
+#define CYCLE 20
 /*!
  * \brief Créer un tableau de pointeur vers des users
  * \param userNumber Le nombre d'user
@@ -16,8 +17,9 @@
 User **initUserTab(int userNumber){
     User **users = malloc(userNumber * sizeof(User*));
     users[0] = createUser("Creator", 0);
-    char userIndex[5];
+    char userIndex[5]; // Permet de stocker un entier sous forme de char[]
 
+    //Génération des utilisateurs
     for(int i = 1; i < userNumber; i++){
         char *userName = malloc(10 * sizeof(char));
         strcpy(userName, "User ");
@@ -53,6 +55,7 @@ Bcb *initBcb(int nbUser, int nbTx, int nbBlock, int difficulty){
  * \param size La taille du tableau
  */
 void deleteUserTab(User **users, int size){
+    //Fonction récursive, supprime tout les utilisateurs puis le creator et enfin le tableau
     if(size > 1){
         free(users[--size]->name);
         free(users[size]);
@@ -70,8 +73,8 @@ void deleteTxInQueue(Queue* queueToDelete){
     unsigned int queueToDeleteSize = queueSize(queueToDelete);
     for (unsigned int i = 0; i < queueToDeleteSize; i++){
         char *tx = queueTop(queueToDelete);
-        queuePop(queueToDelete);
-        free(tx);
+        queuePop(queueToDelete); //On enlève la valeur de la queue
+        free(tx); //On libère la mémoire alloué à cette tx
     }
 }
 
@@ -115,8 +118,8 @@ void bcbStarting(Bcb *bcb){
     int i = 0;
     while(!queueEmpty(queue) && bcb->blockchain->blockCursor < bcb->blockchain->blockNumber){
         createBlock(bcb->users[i%(bcb->nbUser)], bcb, queue);
-        if(bcb->blockchain->blockCursor % 20 == 0){
-            bcb->reward = bcb->reward / 2;
+        if(bcb->blockchain->blockCursor % CYCLE == 0){
+            bcb->reward = bcb->reward / 2; //On divise par deux la récompense tout les
         }
         i++;
     }

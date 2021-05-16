@@ -20,12 +20,13 @@
  */
 void cheaterBlock(Blockchain *blockchain, int blockIndex){
     clock_t t1=clock();
-    double time_spent=0.0;
+    double time_spent=0.0; // Chronomètre à 0 pour le début de la fonction
 
     printf(RED "\n[Cheater de block]" RESET " - Suppression du block %d.\n", blockIndex);
     printf("Operation en cours...\n");
 
     deleteBlock(blockchain->blocks[blockIndex]);
+    //Décalage des blocks + re-calcul des hashs + update des hash code predecessor
     for (int i = blockIndex; i > 0 && i < blockchain->blockCursor - 1; ++i) {
         blockchain->blocks[i] = blockchain->blocks[i+1];
         blockchain->blocks[i]->nonce = 0;
@@ -36,6 +37,7 @@ void cheaterBlock(Blockchain *blockchain, int blockIndex){
     blockchain->blocks[blockchain->blockCursor-1] = NULL;
     blockchain->blockCursor--;
 
+    //Calcul du temps d'exécution de la fonction
     clock_t t2=clock();
     time_spent += (double)(t2- t1) / CLOCKS_PER_SEC;
     printf(GRN "[Cheater de block] - Operation terminee\n");

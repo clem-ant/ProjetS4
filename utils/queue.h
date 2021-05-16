@@ -1,7 +1,3 @@
-//
-// Created by TONY DE FREITAS on 23/02/2021.
-//
-
 #ifndef PROJET_S4_QUEUE_H
 #define PROJET_S4_QUEUE_H
 #include <stdio.h>

@@ -22,6 +22,7 @@ char** initTransactionHashing (const Block *block) {
         transactionHashList[i] = malloc((bufferSize*2+1) * sizeof(char));
     }
 
+    // Calcul du hash de chaque transaction
     for(int i = 0; i < block->txList->txIndex; i++){
         sha256ofString((BYTE*) block->txList->tx[i], hashRes);
         strcpy(transactionHashList[i], hashRes);

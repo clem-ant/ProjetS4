@@ -25,10 +25,10 @@ void helpMenu(){
     printf("NAME\n");
     printf("\tBonoboland Central Bank\n");
     printf("SYNOPSIS\n");
-    printf("\tbcb [INT1] [INT2] [INT3]... [OPTION]...\n");
+    printf("\tbcb [DIFFICULTY] [NB_BLOCK] [NB_TX] [NB_USER]... [OPTION]...\n");
     printf("DESCRIPTION\n");
     printf("-c [INT] [INT]\n\tActivation du cheater, premier entier obligatoire pour l'index du block, deuxieme "
-           "entier optionel pour le numero de transaction\n");
+           "entier optionnel pour le numero de transaction\n");
 }
 
 int main(int argc, char *argv[]) {
