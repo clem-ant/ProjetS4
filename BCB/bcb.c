@@ -44,7 +44,7 @@ Bcb *initBcb(int nbUser, int nbTx, int nbBlock, int difficulty){
     Bcb *bcb = malloc(sizeof(Bcb));
     bcb->blockchain = initBlockchain(difficulty, nbBlock, nbTx);
     bcb->moneySupply = 0;
-    bcb->reward = 50;
+    bcb->reward = 5000000000;
     bcb->nbUser = nbUser;
     bcb->users = (void **) initUserTab(nbUser);
     return bcb;

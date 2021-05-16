@@ -19,7 +19,7 @@ typedef struct User User;
 struct User{
     char* name;
     int userId;
-    int bankAccount;
+    long int bankAccount;
 };
 
 User *createUser(char* name, int userId);

@@ -9,6 +9,6 @@
 #include "./utils/queue.h"
 #include "./BCB/user.h"
 
-char* generateChar(char* user1,char* user2,int amount);
+char* generateChar(char* user1,char* user2, long int amount);
 void generateRandomTransaction(User **user, int usersNumber, int txNumber, Queue *queue);
 #endif //PROJETS4_C_GENERATETRANSACTIONS_H

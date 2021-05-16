@@ -10,13 +10,13 @@
 /*!
  * \brief Objet bcb
  *
- * Contient un entier pour la masse monétaire, la récompense et le nombre d'utilisateur, contient aussi une blockchain
- * un pointeur void sur un futur tableau de user
+ * Contient un long int pour la masse monétaire et la récompense, un int pour le nombre d'utilisateur, contient aussi
+ * une blockchain et un pointeur void sur un futur tableau de user
  */
 typedef struct Bcb Bcb;
 struct Bcb{
-    int moneySupply;
-    int reward;
+    long int moneySupply;
+    long int reward;
     int nbUser;
     Blockchain *blockchain;
     void **users;

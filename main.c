@@ -85,8 +85,8 @@ int main(int argc, char *argv[]) {
             }
             else if(blockIndex >= bcb->blockchain->blockCursor){
                 fprintf(stderr, RED "[ERREUR] - L'index de block pour le cheater est supérieur ou égale au "
-                                    "nombre total de block !\n" RESET);
-                return EXIT_FAILURE;
+                                    "nombre total de block !\n" RESET "Suppression par defaut du dernier block...\n");
+                blockIndex = bcb->blockchain->blockCursor - 1;
             }
         }
 
@@ -98,11 +98,12 @@ int main(int argc, char *argv[]) {
             }
             else if(txIndex < 0 || txIndex >= bcb->blockchain->blocks[blockIndex]->txList->txIndex){
                 fprintf(stderr, RED "[ERREUR] - L'index de la transaction pour le cheater est inferieur a 0 ou "
-                                    "est superieur ou egale au nombre de transaction maximal !\n" RESET);
-                return EXIT_FAILURE;
+                                    "est superieur ou egale au nombre de transaction du block !\n" RESET
+                                    "Suppression par defaut de la derniere transaction...\n");
+                txIndex = bcb->blockchain->blocks[blockIndex]->txList->txIndex - 1;
             }
             cheaterTransaction(bcb->blockchain, blockIndex, txIndex);
-            printBlock(bcb->blockchain->blocks[blockIndex], blockIndex);
+            printBlockchain(bcb->blockchain);
         }
         else{
             cheaterBlock(bcb->blockchain, blockIndex);

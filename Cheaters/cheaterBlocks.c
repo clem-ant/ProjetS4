@@ -23,7 +23,7 @@ void cheaterBlock(Blockchain *blockchain, int blockIndex){
     clock_t t1=clock();
     double time_spent=0.0;
 
-    printf(RED "[Cheater de block]" RESET " - Suppression du block %d.\n", blockIndex);
+    printf(RED "\n[Cheater de block]" RESET " - Suppression du block %d.\n", blockIndex);
     printf("Operation en cours...\n");
 
     deleteBlock(blockchain->blocks[blockIndex]);

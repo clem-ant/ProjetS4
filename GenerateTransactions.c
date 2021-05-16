@@ -48,14 +48,14 @@ void generateRandomTransaction(User **user, int usersNumber, int txNumber, Queue
  * \param amount Le montant échangé
  * \return Une chaîne de caractère étant la transaction effectuée
  */
-char* generateChar(char* user1,char* user2,int amount){
+char* generateChar(char* user1,char* user2, long int amount){
     char* str= malloc(100*sizeof (char));
     char buffer [33];
-    sprintf(buffer, "%d", amount);
+    sprintf(buffer, "%ld", amount);
     strcpy(str, user1);
     strcat(str, " donne ");
     strcat(str, buffer);
-    strcat(str," BNB ");
+    strcat(str," satoBnb ");
     strcat(str, "a ");
     strcat(str, user2);
     return str;
