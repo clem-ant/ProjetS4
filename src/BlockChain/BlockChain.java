@@ -171,7 +171,7 @@ public class BlockChain {
             return;
         }
         if(nbTransaction <= nbTransactionMax){ //Si le nb de transaction est <= aux nombre max de transaction donné avec un rand, on les ajoutes au bloc courant
-            this.getCurrentBlocks().transaction(u1, u2, montant, utxo);
+            this.getCurrentBlocks().transaction(message);
             nbTransaction++;
         }else{
             this.getCurrentBlocks().setHashRootMerkle();
