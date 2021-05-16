@@ -33,7 +33,7 @@ Queue *createQueue();
 	queue_push : Queue x int -> Queue
 	@note : side effect on the queue q
 */
-Queue *queuePush(Queue *q, const void *v);
+Queue *queuePush(Queue *q, void *v);
 
 /** Destructor : delete the queue.
  */
@@ -49,7 +49,7 @@ Queue *queuePop(Queue *q);
 	queue_top : Queue -> int
 	@pre !queue_empty(q)
 */
-const void *queueTop(Queue *q);
+void *queueTop(Queue *q);
 
 /** Operator : is the queue empty ?
 	queue_empty : Queue -> boolean

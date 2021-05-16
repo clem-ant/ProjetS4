@@ -1,6 +1,7 @@
-//
-// Created by TONY DE FREITAS on 23/02/2021.
-//
+/// \file block.h
+/// \author Tony De Freitas
+/// \date 11 février 2021
+/// \brief Définition de structures et prototypes
 
 #ifndef PROJET_S4_BLOCK_H
 #define PROJET_S4_BLOCK_H
@@ -11,12 +12,24 @@
 
 #define MAXIMAL_TX 50
 
+/*!
+ * \brief Objet TxList.
+ *
+ * C'est une liste de string, soit une liste de transaction avec un int indiquant
+ * l'index de la transaction courante.
+ */
 typedef struct TxList TxList;
 struct TxList{
-    int txNumber;
+    int txIndex;
     char** tx;
 };
 
+/*!
+ * \brief Objet Block.
+ *
+ * Contient un entier représentant la nonce, la date sous forme de string, un hash code, le hash code
+ * du block précédent, le hash code du merkle tree et l'objet txList
+ */
 typedef struct Block Block;
 struct Block{
     int nonce;

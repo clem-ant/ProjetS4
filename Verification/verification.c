@@ -16,7 +16,7 @@
 
 bool isGenesis(const Block *block){
     if(strcmp(block->hashCode, "0") == 0 && block->nonce == 0
-    && block->txList->txNumber == 1 && strcmp(block->txList->tx[0], "Genesis") == 0){
+       && block->txList->txIndex == 1 && strcmp(block->txList->tx[0], "Genesis") == 0){
         return true;
     }
     return false;

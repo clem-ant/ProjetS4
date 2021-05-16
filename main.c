@@ -1,3 +1,12 @@
+/// \file main.c
+/// \author Tony De Freitas
+/// \date 11 février 2021
+/// \brief Programme principal permettant d'exécuter en fonction des paramètres plusieurs fonctions
+
+/*!
+ * \mainpage Bonoland Central Bank - Blockchain avec simulation de transaction
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "block.h"
@@ -17,16 +26,91 @@
 #define YEL   "\x1B[33m"
 #define RESET "\x1B[0m"
 
+void helpMenu(){
+    printf("NAME\n");
+    printf("\tBonoboland Central Bank\n");
+    printf("SYNOPSIS\n");
+    printf("\tbcb [INT1] [INT2] [INT3]... [OPTION]...\n");
+    printf("DESCRIPTION\n");
+    printf("-c [INT] [INT]\n\tActivation du cheater, premier entier obligatoire pour l'index du block, deuxieme "
+           "entier optionel pour le numero de transaction\n");
+}
+
 int main(int argc, char *argv[]) {
-    Blockchain *blockchain = initBlockchain(4, 1000);
+    int i = 1;
+    int difficulty, nbBlock, nbTx, nbUser, blockIndex, txIndex;
+    char *endPtr;
 
-    //blockchainIntegrity(blockchain);
-    //deleteTransaction(blockchain, 2, 1);
-    //cheaterBlock(blockchain, 3);
-    bcb(blockchain);
-    printBlockchain(blockchain);
-    blockchainIntegrity(blockchain);
-    deleteBlockchain(blockchain);
+    if (argc > 4) {
+        difficulty = (int) strtol(argv[1], &endPtr, 10);
+        if(endPtr == argv[1]){
+            fprintf(stderr, RED "[ERREUR] - La difficulte n'est pas un entier !\n" RESET);
+            return EXIT_FAILURE;
+        }
 
-    return 0;
+        nbBlock = (int) strtol(argv[2], &endPtr, 10);
+        if(endPtr == argv[2]){
+            fprintf(stderr, RED "[ERREUR] - Le nombre de block n'est pas un entier !\n" RESET);
+            return EXIT_FAILURE;
+        }
+
+        nbTx = (int) strtol(argv[3], &endPtr, 10);
+        if(endPtr == argv[3]){
+            fprintf(stderr, RED "[ERREUR] - La nombre de transaction n'est pas un entier !\n" RESET);
+            return EXIT_FAILURE;
+        }
+
+        nbUser = (int) strtol(argv[4], &endPtr, 10);
+        if(endPtr == argv[4]){
+            fprintf(stderr, RED "[ERREUR] - La nombre d'utilisateur n'est pas un entier !\n" RESET);
+            return EXIT_FAILURE;
+        }
+    }
+    else{
+        fprintf(stderr, RED "[ERREUR] - La syntaxe de la commande n'est pas respecte !\n" RESET);
+        helpMenu();
+        return EXIT_FAILURE;
+    }
+
+    Bcb *bcb = initBcb(nbUser, nbTx, nbBlock, difficulty);
+    bcbStarting(bcb);
+    printBlockchain(bcb->blockchain);
+
+    if (argc > 6){
+        if(strcmp(argv[5], "-c") == 0){
+            blockIndex = (int) strtol(argv[6], &endPtr, 10);
+            if(endPtr == argv[6]){
+                fprintf(stderr, RED "[ERREUR] - L'index de block pour le cheater n'est pas un entier !\n" RESET);
+                return EXIT_FAILURE;
+            }
+            else if(blockIndex >= bcb->blockchain->blockCursor){
+                fprintf(stderr, RED "[ERREUR] - L'index de block pour le cheater est supérieur ou égale au "
+                                    "nombre total de block !\n" RESET);
+                return EXIT_FAILURE;
+            }
+        }
+
+        if(argc > 7){
+            txIndex = (int) strtol(argv[7], &endPtr, 10);
+            if(endPtr == argv[7]){
+                fprintf(stderr, RED "[ERREUR] - L'index de la transaction pour le cheater n'est pas un entier !\n" RESET);
+                return EXIT_FAILURE;
+            }
+            else if(txIndex < 0 || txIndex >= bcb->blockchain->blocks[blockIndex]->txList->txIndex){
+                fprintf(stderr, RED "[ERREUR] - L'index de la transaction pour le cheater est inferieur a 0 ou "
+                                    "est superieur ou egale au nombre de transaction maximal !\n" RESET);
+                return EXIT_FAILURE;
+            }
+            cheaterTransaction(bcb->blockchain, blockIndex, txIndex);
+            printBlock(bcb->blockchain->blocks[blockIndex], blockIndex);
+        }
+        else{
+            cheaterBlock(bcb->blockchain, blockIndex);
+            printBlockchain(bcb->blockchain);
+        }
+    }
+
+    blockchainIntegrity(bcb->blockchain);
+    deleteBcb(bcb);
+    return EXIT_SUCCESS;
 }

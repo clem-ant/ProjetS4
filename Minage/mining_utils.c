@@ -16,7 +16,7 @@ char* blockItemsToString(const Block *block, char* blockItems){
     strcat(blockItems, block->timestamp);
     strcat(blockItems, block->hashCodePredecessor);
     strcat(blockItems, block->hashMerkleTreeRoot);
-    for(int i = 0; i < block->txList->txNumber; i++){
+    for(int i = 0; i < block->txList->txIndex; i++){
         strcat(blockItems, block->txList->tx[i]);
     }
     return blockItems;
@@ -28,7 +28,7 @@ int numberCharBlock(const Block *block){
     numberChar += (int) strlen(block->timestamp);
     numberChar += (int) strlen(block->hashCodePredecessor);
     numberChar += (int) strlen(block->hashMerkleTreeRoot);
-    for(int i = 0; i < block->txList->txNumber; i++){
+    for(int i = 0; i < block->txList->txIndex; i++){
         numberChar += (int) strlen(block->txList->tx[i]);
     }
     return numberChar;

@@ -1,6 +1,7 @@
-//
-// Created by Sabrina on 22/04/2021.
-//
+/// \file generateTransaction.c
+/// \author Sabrina Sikder
+/// \date 1 avril 2021
+/// \brief Génération de transaction aléatoire
 
 #include "GenerateTransactions.h"
 #include <stdlib.h>
@@ -10,30 +11,45 @@
 #include "./BCB/user.h"
 #include "./utils/queue.h"
 
-
-// peut etre faire une fonction add/delete user pour les rajouter dans la liste
-
-void generateRandomTransaction(User **user, int usersNumber, Queue *queue){
+/*!
+ * \brief Permet de générer autant de transaction aléatoire que le spécifie le paramètre txNumber
+ * \param user Un tableau de pointeur d'user
+ * \param usersNumber Un entier représentant le nombre d'utilisateur
+ * \param txNumber Un entier représentant le nombre de transaction
+ * \param queue Une queue permettant de stocker les transactions créées
+ */
+void generateRandomTransaction(User **user, int usersNumber, int txNumber, Queue *queue){
     int n1,n2,amount;
 
     srand((queueSize(queue)+1) * time(NULL));
-    int txNumber = (rand() % 10) + 1;
 
     for (int i=0; i < txNumber; i++){
         n1 = rand() % usersNumber;
         n2 = rand() % usersNumber;
-        amount= rand();
-        while(n1==n2)
-        {
-            n2=rand() % usersNumber;
+        if(user[n1]->bankAccount > 1) {
+            amount = rand() % (user[n1]->bankAccount) + 1;
+            while (n1 == n2) {
+                n2 = rand() % usersNumber;
+            }
+            user[n1]->bankAccount -= amount;
+            user[n2]->bankAccount += amount;
+            queuePush(queue, generateChar(user[n1]->name, user[n2]->name, amount));
         }
-        queuePush(queue, generateChar(user[n1]->name, user[n2]->name, amount));
+        else{
+            i--;
+        }
     }
 }
 
-
+/*!
+ * \brief Construit une chaîne de caractère qui sera une transaction
+ * \param user1 L'utilisateur qui donne de l'argent
+ * \param user2 L'utilisateur qui reçoit de l'argent
+ * \param amount Le montant échangé
+ * \return Une chaîne de caractère étant la transaction effectuée
+ */
 char* generateChar(char* user1,char* user2,int amount){
-    char* str= malloc(150*sizeof (char));
+    char* str= malloc(100*sizeof (char));
     char buffer [33];
     sprintf(buffer, "%d", amount);
     strcpy(str, user1);
@@ -44,9 +60,3 @@ char* generateChar(char* user1,char* user2,int amount){
     strcat(str, user2);
     return str;
 }
-
-
-
-
-
-

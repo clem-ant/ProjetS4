@@ -8,7 +8,7 @@
 
 /* Full definition of the queue structure */
 typedef struct s_internalQueue {
-    const void *value;
+    void *value;
     struct s_internalQueue *next;
 } InternalQueue;
 
@@ -36,7 +36,7 @@ void deleteQueue(ptrQueue *q) {
     *q = NULL;
 }
 
-Queue *queuePush(Queue *q, const void *v) {
+Queue *queuePush(Queue *q, void *v) {
     InternalQueue **insert_at = (q->size ? &(q->tail->next) : &(q->head));
     InternalQueue *new = malloc(sizeof(InternalQueue));
     new->value = v;
@@ -56,7 +56,7 @@ Queue *queuePop(Queue *q) {
     return (q);
 }
 
-const void *queueTop(Queue *q) {
+void *queueTop(Queue *q) {
     assert (!queueEmpty(q));
     return (q->head->value);
 }

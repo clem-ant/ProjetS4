@@ -8,5 +8,5 @@
 #include "../blockchain.h"
 
 
-void deleteTransaction(Blockchain *blockchain,int blockIndex, int txIndex);
+void cheaterTransaction(Blockchain *blockchain, int blockIndex, int txIndex);
 #endif //MAIN_C_CHEATERTRANSACTION_H

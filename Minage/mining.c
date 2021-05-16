@@ -10,8 +10,7 @@
 #include "mining_utils.h"
 #include "mining.h"
 
-bool difficultyHashCheck(const char hashRes[SHA256_BLOCK_SIZE*2 + 1]){
-    int difficulty = DIFFICULTY;
+bool difficultyHashCheck(const char hashRes[SHA256_BLOCK_SIZE*2 + 1], int difficulty){
     for(int i = 0; i < difficulty; i++){
         if(hashRes[i] != '0'){
             return false;
@@ -20,7 +19,7 @@ bool difficultyHashCheck(const char hashRes[SHA256_BLOCK_SIZE*2 + 1]){
     return true;
 }
 
-void mining(Block *block){
+void mining(Block *block, int difficulty){
     int i = numberCharBlock(block);
     int bufferSize = SHA256_BLOCK_SIZE;
     char *blockContent = malloc((i+1) * sizeof(char));
@@ -28,7 +27,7 @@ void mining(Block *block){
     while(true){
         blockItemsToString(block, blockContent);
         sha256ofString((BYTE*) blockContent, hashRes);
-        if(difficultyHashCheck(hashRes)){
+        if(difficultyHashCheck(hashRes, difficulty)){
             strcpy(block->hashCode, hashRes);
             free(blockContent);
             return;

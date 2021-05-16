@@ -24,7 +24,7 @@ void cheaterBlock(Blockchain *blockchain, int blockIndex){
         blockchain->blocks[i] = blockchain->blocks[i+1];
         blockchain->blocks[i]->nonce = 0;
         strcpy(blockchain->blocks[i]->hashCodePredecessor, blockchain->blocks[i-1]->hashCode);
-        mining(blockchain->blocks[i]);
+        mining(blockchain->blocks[i], blockchain->difficulty);
     }
 
     blockchain->blocks[blockchain->blockCursor-1] = NULL;
@@ -33,5 +33,5 @@ void cheaterBlock(Blockchain *blockchain, int blockIndex){
     clock_t t2=clock();
     time_spent += (double)(t2- t1) / CLOCKS_PER_SEC;
     printf(GRN "[Cheater de block] - Operation terminee\n");
-    printf(RESET "Temps d'execution : %f seconde(s)\n", time_spent);
+    printf(RESET "Temps d'execution : %f seconde(s)\n\n", time_spent);
 }
