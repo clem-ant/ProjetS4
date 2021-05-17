@@ -20,7 +20,7 @@ public class Genesis extends Block{
      *
      * @param blockChain the block chain
      */
-    public Genesis(BlockChain blockChain, Creator createur) {
+    public Genesis(BlockChain blockChain) {
         super(blockChain);
         this.hashRootMerkleGenesis = calculateMerkleRoot(listeTransactionGenesis).toString();
     }

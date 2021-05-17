@@ -27,6 +27,6 @@ public class Creator extends Mineur {
      * @return the block
      */
     public Block createFirstBlock(BlockChain bChain){
-        return new Genesis(bChain, this);
+        return new Genesis(bChain);
     }
 }
