@@ -36,7 +36,7 @@ public class Mineur extends User{
         }while(!hashBlockCourant.matches("[0]{"+difficulte+"}(.*)")); //Regex : On cherche uniquement [0]{difficulte} et ça fini par ce qu'on veut
         block.setNonce(nonce);
         this.recevoirsatoBnb(recompense); //On récompense le mineur pour son minage avec 50 Bnb
-        block.transaction("Coinbase envoie " + (int)recompense + " satoBnb à " + this.getNom() + " qui a miné le bloc");
+        block.transaction("Coinbase envoie " + (long)recompense + " satoBnb à " + this.getNom());
         return hashBlockCourant;
     }
 

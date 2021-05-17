@@ -140,8 +140,8 @@ public class BlockChain {
     public void transactionAleatoire(User[] users){
         int rand1, rand2;
         long montant;
-        long min = 1;
-        long max = 999999999; //Montant max de la transaction : 10 00000000 donc entre 0 et 99,99 Bnb
+        long min = 1L;
+        long max = 10000000000L; //Montant max de la transaction : 100 00000000 donc entre 0 et 100 Bnb : L met le long sur 64 bits
         montant = RandomNumber.getRandomNumberInRange(min,max);
         do{
             rand1 = RandomNumber.getRandomNumberInRange(0,users.length-1);
@@ -154,7 +154,7 @@ public class BlockChain {
         }
         User deux = users[rand2];
         un.donnerSatoBnb(deux, montant);
-        transaction(un.getNom() + " envoie " + (int)montant + " satoBnb à " + deux.getNom(), trouverMineur(users), montant/10); //1.4 Sous forme Usern1 envoie X Bnb à Usern2
+        transaction(un.getNom() + " envoie " + montant + " satoBnb à " + deux.getNom(), trouverMineur(users), montant/10); //1.4 Sous forme Usern1 envoie X Bnb à Usern2
         //Cast du montant en int car en long on a des exposants
     }
 
