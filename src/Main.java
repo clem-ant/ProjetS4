@@ -1,11 +1,10 @@
 import BlockChain.BlockChain;
-import Tools.BCJsonUtils;
 import Tools.CreateGui;
 import Tools.RandomNumber;
 import Utilisateurs.Creator;
 import Utilisateurs.Mineur;
 import Utilisateurs.User;
-
+import static Tools.BCJsonUtils.*;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -90,7 +89,7 @@ public class Main {
         System.out.println(blockChain.checkIntegriteBC(blockChain.trouverMineur(users))); //On demande a un mineur de vérifier que la BC est integre. On choisit au hasard entre les 100 users
         if(jsonCheckBox.isSelected()){
             //printUsers(users);
-            BCJsonUtils.BCJsonWriter(blockChain, "BC.json");
+            BCJsonWriter(blockChain, "BC.json");
         }
     }
 }
