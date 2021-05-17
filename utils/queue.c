@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include "queue.h"
 
-/* Full definition of the queue structure */
 typedef struct s_internalQueue {
     void *value;
     struct s_internalQueue *next;

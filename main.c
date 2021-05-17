@@ -68,13 +68,13 @@ int main(int argc, char *argv[]) {
 
     Bcb *bcb = initBcb(nbUser, nbTx, nbBlock, difficulty);
     bcbStarting(bcb);
-    printBlockchain(bcb->blockchain);
 
     if (argc > 6){
         if(strcmp(argv[5], "-c") == 0){
             blockIndex = (int) strtol(argv[6], &endPtr, 10);
             if(endPtr == argv[6]){
                 fprintf(stderr, RED "[ERREUR] - L'index de block pour le cheater n'est pas un entier !\n" RESET);
+                deleteBcb(bcb);
                 return EXIT_FAILURE;
             }
             else if(blockIndex >= bcb->blockchain->blockCursor){
@@ -86,6 +86,7 @@ int main(int argc, char *argv[]) {
         else{
             fprintf(stderr, RED "[ERREUR] - La syntaxe de la commande n'est pas respecte !\n" RESET);
             helpMenu();
+            deleteBcb(bcb);
             return EXIT_FAILURE;
         }
 
@@ -93,6 +94,7 @@ int main(int argc, char *argv[]) {
             txIndex = (int) strtol(argv[7], &endPtr, 10);
             if(endPtr == argv[7]){
                 fprintf(stderr, RED "[ERREUR] - L'index de la transaction pour le cheater n'est pas un entier !\n" RESET);
+                deleteBcb(bcb);
                 return EXIT_FAILURE;
             }
             else if(txIndex < 0 || txIndex >= bcb->blockchain->blocks[blockIndex]->txList->txIndex){
