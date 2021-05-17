@@ -63,16 +63,14 @@ public class User {
     }
 
     /**
-     * Donner bnb.
+     * Donner satoBnb.
      *
      * @param destinataire the destinataire
      * @param montantDeSatoBnb the montant de bnb
      */
-    public void donnerBnb(User destinataire, double montantDeSatoBnb){
-        if(Bnb >= montantDeSatoBnb) {
-            destinataire.Bnb += montantDeSatoBnb/100000000;
-            Bnb -= montantDeSatoBnb/100000000;
-        }
+    public void donnerSatoBnb(User destinataire, double montantDeSatoBnb){
+        destinataire.Bnb += montantDeSatoBnb/100000000;
+        Bnb -= montantDeSatoBnb/100000000;
     }
 
     /**
@@ -80,8 +78,12 @@ public class User {
      *
      * @param montantSatoBnb the montant Satobnb
      */
-    public void recevoirBnb(double montantSatoBnb){
+    public void recevoirsatoBnb(double montantSatoBnb){
         this.Bnb += montantSatoBnb/100000000;
+    }
+
+    public void recevoirBnb(int montantBnb){
+        this.Bnb += montantBnb;
     }
 
 

@@ -1,5 +1,6 @@
 package Tools;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author Clément PAYET
@@ -14,18 +15,11 @@ public class RandomNumber {
      * @return the int
      */
     public static int getRandomNumberInRange(int min, int max){
-        Random r = new Random();
-        return r.nextInt((max - min) + 1) + min;
+        return ThreadLocalRandom.current().nextInt(min,max);
     }
 
-    public static double getRandomNumberInRange(double min, double max){
-        Random r = new Random();
-        return min + (max - min) * r.nextDouble();
-    }
-
-    public static double getRandomNumberInRange(long min, long max){
-        Random r = new Random();
-        return min + (max - min) * r.nextLong();
+    public static long getRandomNumberInRange(long min, long max){
+        return ThreadLocalRandom.current().nextLong(min, max);
     }
 
 

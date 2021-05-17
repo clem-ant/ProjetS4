@@ -31,7 +31,8 @@ public class Main {
         ArrayList<String> listePrenoms = new ArrayList<>(Arrays.asList("joyce","lola","brian","louis", "an", "charles","diane","ravi","achille","nathan","javier","chance","lois","dominique","pedro","karl","rose","james","constance","roland","christine","archibald","renard","angel","mary","sam","stepan","eugenio","eden","justice","bart","alix","guy","mo","alfred","francine","brigitte","iris","eddie","otto","fabia","roger","maurice","louise","camille","luis","sabine","chantal","val","paulo","lin","giselle","caroline","sandra","trace","michel","andré","pauline","jung","colombe","lou","miguel","francisco","gladys","edgar","rodrigo","oscar","young","ion","carl","li","edward","alex","fernando","avril","albert","temple","catherine","lourdes","sage","marin","douglas","gordon","jacqueline","colin","paco","julius","josé","scott","roy","felipe","ariane","marek","denise","london","taylor","hermine","philip","indigo","malvina"));
         users[0] = new Creator(listePrenoms.get(RandomNumber.getRandomNumberInRange(0,1)), listePrenoms.get(RandomNumber.getRandomNumberInRange(0,1)), 0);
         for(int i = 1; i < nbUsers; i++){
-            type = RandomNumber.getRandomNumberInRange(0,1);
+            type = RandomNumber.getRandomNumberInRange(0,2);
+            System.out.println(type);
             nom = RandomNumber.getRandomNumberInRange(0,100-1);
             if(type == 0){
                 users[i] = new User(listePrenoms.get(nom), listePrenoms.get(nom), 0, i);
