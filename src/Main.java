@@ -32,7 +32,6 @@ public class Main {
         users[0] = new Creator(listePrenoms.get(RandomNumber.getRandomNumberInRange(0,1)), listePrenoms.get(RandomNumber.getRandomNumberInRange(0,1)), 0);
         for(int i = 1; i < nbUsers; i++){
             type = RandomNumber.getRandomNumberInRange(0,2);
-            System.out.println(type);
             nom = RandomNumber.getRandomNumberInRange(0,100-1);
             if(type == 0){
                 users[i] = new User(listePrenoms.get(nom), listePrenoms.get(nom), 0, i);
