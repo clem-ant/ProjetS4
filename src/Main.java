@@ -99,6 +99,8 @@ public class Main {
         guiBC.setUsers(users); //Rempli le tableau des users
 
         blockChain.checkIntegriteBC(blockChain.trouverMineur(users)); //On demande a un mineur de vérifier que la BC est integre. On choisit au hasard entre les 100 users
+        blockChain.afficherMasseMonetaire(users);
+
         if(jsonCheckBox.isSelected()){
             //printUsers(users);
             BCJsonWriter(blockChain, "BCSave.json");

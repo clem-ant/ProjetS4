@@ -200,12 +200,12 @@ public class BlockChain {
             setIndexBlock(i); //Changement d'index pour avoir le previous qui est bien de 0 à n au lieu de n-1 direct.
             if(!this.getBlocks(i).verifyHash(mineur)){
                 setIndexBlock(tmpIndex);
-                System.out.println("La bloc chaine n'est pas integre");
+                System.out.println("La bloc chaine n'est pas intègre");
                 return false;
             }
         }
         setIndexBlock(tmpIndex);
-        System.out.println("La bloc chaine est integre");
+        System.out.println("La bloc chaine est intègre");
         return true;
     }
 
@@ -242,5 +242,13 @@ public class BlockChain {
                 transactionAleatoire(users);
             }
         }
+    }
+
+    public void afficherMasseMonetaire(User[] users){
+        long masse = 0;
+        for(int i = 0; i < users.length; i++){
+            masse+=users[i].getBnb();
+        }
+        System.out.println("Masse monetaire : " + masse + " Bnb");
     }
 }

@@ -4,7 +4,7 @@ import BlockChain.Block;
 import HashUtil.HashUtil;
 
 /**
- * @author Clément PAYET
+ * @author Clement PAYET
  * The type Mineur.
  * @see User
  */
