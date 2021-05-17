@@ -29,7 +29,7 @@ public class Mineur extends User{
      * @param recompense the recompense
      * @return the string
      */
-    public String mining(int difficulte, int nonce, Block block, double recompense){ //TODO Revoir la recompense
+    public String mining(int difficulte, int nonce, Block block, double recompense){
         String hashBlockCourant;
         do {
             hashBlockCourant = HashUtil.applySha256(String.valueOf(nonce++) + block.getHashPrecedent() + block.getHashMerkleRoot() + block.getTimeStamp());

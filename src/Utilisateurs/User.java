@@ -50,7 +50,7 @@ public class User {
      */
     public String getHashUserPublic() {
         return hashUser;
-    } //TODO creer hash secret
+    }
 
     /**
      * A assez d argent boolean.

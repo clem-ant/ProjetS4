@@ -1,11 +1,8 @@
 package BlockChain;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import HashUtil.HashUtil;
-import Tools.RandomNumber;
 import Utilisateurs.Mineur;
-import Utilisateurs.User;
 
 /**
  * @author Clément PAYET
