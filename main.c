@@ -47,6 +47,10 @@ int main(int argc, char *argv[]) {
             fprintf(stderr, RED "[ERREUR] - Le nombre de block n'est pas un entier !\n" RESET);
             return EXIT_FAILURE;
         }
+        else if(nbBlock <= 1){
+            fprintf(stderr, RED "[ERREUR] - Il faut un entier au moins égale à 1 pour le nombre de block !\n" RESET);
+            return EXIT_FAILURE;
+        }
 
         nbTx = (int) strtol(argv[3], &endPtr, 10);
         if(endPtr == argv[3]){
@@ -68,6 +72,7 @@ int main(int argc, char *argv[]) {
 
     Bcb *bcb = initBcb(nbUser, nbTx, nbBlock, difficulty);
     bcbStarting(bcb);
+    printBlockchain(bcb->blockchain);
 
     if (argc > 6){
         if(strcmp(argv[5], "-c") == 0){

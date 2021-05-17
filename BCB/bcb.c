@@ -117,10 +117,9 @@ void bcbStarting(Bcb *bcb){
 
     int i = 0;
     while(!queueEmpty(queue) && bcb->blockchain->blockCursor < bcb->blockchain->blockNumber){
-        printBlock(createBlock(bcb->users[i%(bcb->nbUser)], bcb, queue), i);
+        createBlock(bcb->users[i%(bcb->nbUser)], bcb, queue);
         if(bcb->blockchain->blockCursor % CYCLE == 0){
             bcb->reward = bcb->reward / 2; //On divise par deux la récompense tout les CYCLE
-            printf("Masse monetaire = %ld / Reward = %ld\n", bcb->moneySupply, bcb->reward);
         }
         i++;
     }
