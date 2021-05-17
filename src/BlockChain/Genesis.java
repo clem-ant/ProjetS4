@@ -9,7 +9,7 @@ import java.util.Date;
  * The type Genesis.
  */
 public class Genesis extends Block{
-    private final ArrayList<String> listeTransactionGenesis = new ArrayList<>(Arrays.asList("Genesis"));
+    private final ArrayList<Transaction> listeTransactionGenesis = new ArrayList<>(Arrays.asList(new Transaction("Genesis")));
     private final String hashRootMerkleGenesis;
 
     /**
@@ -32,7 +32,7 @@ public class Genesis extends Block{
         return hashBlockCourantGenesis;
     }
 
-    public ArrayList<String> getListeTransaction() {
+    public ArrayList<Transaction> getListeTransaction() {
         return listeTransactionGenesis;
     }
 }

@@ -5,7 +5,10 @@ import Tools.RandomNumber;
 import Utilisateurs.Mineur;
 import Utilisateurs.User;
 
+import javax.swing.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 
 /**
@@ -15,13 +18,14 @@ import java.util.ArrayList;
 public class BlockChain {
     private final int difficulte; //Difficultée de la blockChain
     private final int nbBlock; //Nombre de blocs de la blockChain ? Genesis ?
-    private final int  NB_TRANSACTION_MAX; //Nombre de transaction max par blocs
+    private final int NB_TRANSACTION_MAX; //Nombre de transaction max par blocs
     private transient int nbTransactionMax;
     private transient int nbTransaction = 1;
     private transient int indexBlock = 1;
-    private int recompense = 50;
+    private double recompense = 500000000;
     private final Block[] blocks; //Tableau de blocs
-    private ArrayList<ArrayList<Object>> utxo = new ArrayList<>();
+    private ArrayList<UTXO> utxoList = new ArrayList<UTXO>(); // liste globale des UTXO
+    private Queue<Exchanges> exchangesLine = new LinkedList<Exchanges>(); // liste d'attente des echanges
 
 
     private static final String ANSI_RESET = "\u001B[0m";
@@ -43,7 +47,7 @@ public class BlockChain {
         this.nbBlock = nbBlock;
         blocks = new Block[nbBlock];
         blocks[0] = createur.createFirstBlock(this);
-        for(int i = 1; i < nbBlock; i++){
+        for (int i = 1; i < nbBlock; i++) {
             blocks[i] = new Block(this);
         }
     }
@@ -81,7 +85,7 @@ public class BlockChain {
      * @return the previous blocks
      */
     public Block getPreviousBlocks() {
-        return blocks[indexBlock-1];
+        return blocks[indexBlock - 1];
     }
 
     /**
@@ -112,42 +116,25 @@ public class BlockChain {
         return difficulte;
     }
 
+
     /**
      * Trouver un mineur dans une liste.
      *
      * @param users the User list
      * @return the first mineur that we fund in the User list
      */
-    public Mineur trouverMineur(User[] users){
+    public Mineur trouverMineur(User[] users) {
         Mineur mineur = null;
-        int rand3 = (int) (Math.random()*users.length);
-        while(true){ //Tant qu'on a pas trouvé de mineur dans les users
-            if(users[rand3] instanceof Mineur){
+        int rand3 = (int) (Math.random() * users.length);
+        while (true) { //Tant qu'on a pas trouvé de mineur dans les users
+            if (users[rand3] instanceof Mineur) {
                 mineur = (Mineur) users[rand3];
                 break;
-            }else{
-                rand3 = (int) (Math.random()*users.length);
+            } else {
+                rand3 = (int) (Math.random() * users.length);
             }
         }
         return mineur;
-    }
-    public int montantWallet(ArrayList<ArrayList<Object>> wallet){
-        int somme = 0;
-        for(int i = 0; i < wallet.size(); i++){
-            somme += (int)wallet.get(i).get(2);
-        }
-        return somme;
-    }
-
-
-    public ArrayList<ArrayList<Object>> walletUser(User user){
-        ArrayList<ArrayList<Object>> wallet = new ArrayList<>();
-        for(int i = 0; i < utxo.size(); i++){
-            if(user.getHashUserPublic().equals(utxo.get(i).get(1))){
-                wallet.add(utxo.get(i));
-            }
-        }
-        return wallet;
     }
 
     /**
@@ -155,12 +142,14 @@ public class BlockChain {
      *
      * @param users list
      */
-    public void transactionAleatoire(User[] users){
-        int rand1, rand2, montant;
-        montant = RandomNumber.getRandomNumberInRange(1,10);
+    //  public void transactionAleatoire(User[] users){
+       /* int rand1, rand2;
+        double montant, min = 1;
+        long max = 1000000000;
+        montant = RandomNumber.getRandomNumberInRange(min,max);
         do{
-            rand1 = (int) (Math.random()*users.length);
-            rand2 = (int) (Math.random()*users.length);
+            rand1 = RandomNumber.getRandomNumberInRange(0,users.length-1);
+            rand2 = RandomNumber.getRandomNumberInRange(0,users.length-1);
         }while(rand2 == rand1);
         User un = users[rand1];
         if(!un.aAssezDArgent(montant)){ //Si le premier user qui doit donner n'a pas assez d'argent, alors on en cherche un autre en utilisant la même fonction
@@ -168,34 +157,42 @@ public class BlockChain {
             return;
         }
         User deux = users[rand2];
-        transaction(un, deux, montant, trouverMineur(users));
-    }
 
-    private void inflation(){
-        if(indexBlock % nbBlock/3 == 0){
-            this.recompense /= 3;
+        */
+    //  un.donnerBnb(deux, montant);
+    //transaction(un.getNom() + " envoie " + (int)montant + " satoBnb à " + deux.getNom(), trouverMineur(users), nbTransactionMax); //1.4 Sous forme Usern1 envoie X Bnb à Usern2
+    //Cast du montant en int car en double on a des exposants
+    //  }
+    private void inflation() {
+        if (indexBlock % (nbBlock / 3) == 0) {
+            this.recompense /= 2;
         }
     }
 
-    public void transaction(User u1, User u2, int montant, Mineur mineur){
-        if(indexBlock >= nbBlock){
+    /**
+     * Transaction qui s'ajoute dans le bloc.
+     *
+     * @param message the message (User1 donne x Bnb à User2)
+     * @param mineur  The mineur qui va miner le block si il est complet.
+     */
+    public void transaction(String message, Mineur mineur, double frais) {
+        if (indexBlock >= nbBlock) {
             return;
         }
-        if(nbTransaction <= nbTransactionMax){ //Si le nb de transaction est <= aux nombre max de transaction donné avec un rand, on les ajoutes au bloc courant
-            utxo.add(this.getCurrentBlocks().transaction(u1, u2, montant));
+        if (nbTransaction <= nbTransactionMax) { //Si le nb de transaction est <= aux nombre max de transaction donné avec un rand, on les ajoutes au bloc courant
+            this.getCurrentBlocks().transaction(message);
             nbTransaction++;
-            //Rajouter condition : && this.montantWallet(this.walletUser(u1)) >= montant ?
-        }else{
+        } else {
             this.getCurrentBlocks().setHashRootMerkle();
-            this.getCurrentBlocks().calculateHashing(mineur, recompense);
+            this.getCurrentBlocks().calculateHashing(mineur, (recompense + (frais * 100000)));
             inflation();
             nbTransaction = 1;
             indexBlock++;
             nbTransactionMax = RandomNumber.getRandomNumberInRange(1, NB_TRANSACTION_MAX); //On regenère un nombre aléatoire de transaction pour le prochain block.
-            transaction(u1, u2, montant, mineur);
+            transaction(message, mineur, frais);
+
         }
     }
-
 
     /**
      * Check integrite bc boolean.
@@ -203,11 +200,11 @@ public class BlockChain {
      * @param mineur the mineur
      * @return the boolean
      */
-    public boolean checkIntegriteBC(Mineur mineur){
+    public boolean checkIntegriteBC(Mineur mineur) {
         int tmpIndex = this.indexBlock;
         for (int i = 1; i < nbBlock; i++) { //Le bloc 1 est le genesis : hash du bloc : 0
             setIndexBlock(i); //Changement d'index pour avoir le previous qui est bien de 0 à n au lieu de n-1 direct.
-            if(!this.getBlocks(i).verifyHash(mineur)){
+            if (!this.getBlocks(i).verifyHash(mineur)) {
                 setIndexBlock(tmpIndex);
                 return false;
             }
@@ -219,19 +216,19 @@ public class BlockChain {
     /**
      * Affiche la BC en couleur
      */
-    public void printBC(){
+    public void printBC() {
         System.out.println("\u001B[33m[Contenu de la BlockChain]");
-        for(int i = 0; i < nbBlock; i++){
-            System.out.println(ANSI_YELLOW + "[Block n°"+i+"]" + ANSI_RESET);
+        for (int i = 0; i < nbBlock; i++) {
+            System.out.println(ANSI_YELLOW + "[Block n°" + i + "]" + ANSI_RESET);
             System.out.println("| Date de création : " + getBlocks(i).getTimeStamp());
             System.out.println("| Nonce : " + getBlocks(i).getNonce());
             System.out.println("| Liste de transaction : ");
-            ArrayList<String> listTransaction = getBlocks(i).getListeTransaction();
-            for(int j = 0; j < listTransaction.size(); j++){
-                System.out.println(ANSI_BLUE + "    | " + j + " - " + listTransaction.get(j) + ANSI_RESET);
+            ArrayList<Transaction> listTransaction = getBlocks(i).getListeTransaction();
+            for (int j = 0; j < listTransaction.size(); j++) {
+                System.out.println(ANSI_BLUE + "    | " + j + " - " + listTransaction.get(j).getComment() + ANSI_RESET);
             }
             System.out.println("| Hash Merkle root        : " + getBlocks(i).getHashMerkleRoot());
-            if(i != 0) {
+            if (i != 0) {
                 System.out.println("| Hash du block precedent : " + getBlocks(i - 1).getHashBlockCourant());
             }
             System.out.println("| Hash du block           : " + getBlocks(i).getHashBlockCourant() + "\n");
@@ -240,14 +237,105 @@ public class BlockChain {
 
     /**
      * Remplir bc avec des transactions aléatoire.
+     *
      * @param users list
      */
-    public void remplirBC(User[] users){
-        for(int i = 1; i <= nbBlock; i++){
+    public void remplirBC(User[] users) {
+        for (int i = 1; i <= nbBlock; i++) {
             int nbtransactTest = getNbTransactionMax();
-            for(int j = 0; j <= nbtransactTest; j++){
-                transactionAleatoire(users);
+            for (int j = 0; j <= nbtransactTest; j++) {
+                applyExchanges();
             }
         }
     }
+
+
+    /**
+     * génère un donneur, un receveur et un montant au hasard
+     *
+     * @param users
+     * @return exchange
+     */
+    public Exchanges genExchange(User[] users) {
+        int rand1;
+        int rand2;
+        long amount;
+        amount = RandomNumber.getRandomNumberInRange(1, 10);
+        do {
+            rand1 = (int) (Math.random() * users.length);
+            rand2 = (int) (Math.random() * users.length);
+        } while (rand2 == rand1);
+        User un = users[rand1];
+        User deux = users[rand2];
+        Exchanges exchange = new Exchanges(un, deux, amount);
+        return exchange;
+    }
+
+    /**
+     * Initialise la file de transactions (au sens échange d'argent)
+     *
+     * @param users
+     */
+    public void initExchangeList(User[] users) {
+        for (int i = 1; i < nbBlock; i++) {
+            nbTransaction = RandomNumber.getRandomNumberInRange(1, NB_TRANSACTION_MAX);
+
+            for (int k = 0; k < nbTransaction; k++) {
+                this.exchangesLine.add(genExchange(users));
+            }
+        }
+    }
+
+    /**
+     * Ajoute une nouvelle transaction dans la liste d'UTXO
+     *
+     * @param utxo
+     */
+    public void addUTXO(UTXO utxo) {
+        utxoList.add(utxo);
+    }
+
+    /**
+     * Crée une nouvelle transaction
+     *
+     * @param uxto
+     * @return tx
+     */
+    public Transaction generateTransaction(UTXO uxto) {
+        Transaction tx = new Transaction("market");
+        return tx;
+    }
+
+    /**
+     * Pour chaque échange dans la file d'échange, chercher les UTXO necéssaires
+     * pour payer la transaction
+     */
+    public void applyExchanges() {
+        for (Exchanges exchange : exchangesLine) {
+            searchUTXO(exchange);
+        }
+
+    }
+
+    public void searchUTXO(Exchanges exchange) {
+        boolean found = false;
+        long amountFound = 0;
+        for (UTXO utxo : utxoList) {
+            if (found == false || amountFound < exchange.getAmount()) {
+                if (utxo.belongsToOwner(exchange.getGiver())) {
+                    found = true;
+                    amountFound += utxo.getAmount();
+                    Transaction tx = generateTransaction(utxo); // on crée une nouvelle transaction
+                    TxInputs input = new TxInputs(utxo.getAmount()); // on crée une input a partir de l'utxo trouvé
+                    tx.addInput(input); // on l'ajoute dans la liste des inputs de la transaction
+                    utxoList.remove(utxo); // enlever l'utxo de la liste globale
+                    tx.generateOutputs(exchange, this); // on genere la liste d'outputs
+
+                }
+            }
+        }
+        exchangesLine.poll(); // on passe a l'échange suivant dans la file
+    }
+
+
 }

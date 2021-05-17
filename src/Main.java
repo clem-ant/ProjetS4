@@ -1,13 +1,11 @@
 import BlockChain.BlockChain;
-import Tools.BCJsonUtils;
 import Tools.CreateGui;
 import Tools.RandomNumber;
 import Utilisateurs.Creator;
 import Utilisateurs.Mineur;
 import Utilisateurs.User;
-
+import static Tools.BCJsonUtils.*;
 import javax.swing.*;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -74,25 +72,16 @@ public class Main {
         User[] users = createNUsers(100);
         Creator simrun = (Creator) users[0];
         BlockChain blockChain = new BlockChain(difficulte, nbBlock, simrun, nbMaxTransac);
-        User coinBase = new User("CoinBase", "CoinBase", 2000000, 0);
-        blockChain.transaction(coinBase, simrun, 50, blockChain.trouverMineur(users));
 
-        for(int i = 1; i < users.length; i++){ //On commence à 1 pour pas donner au Createur qui a déjà recu pour la création du genesis
-            blockChain.transaction(coinBase, users[i], 50, blockChain.trouverMineur(users));
+        blockChain.transaction("Coinbase donne 5000000000 satoBnb à Creator", simrun, 0);
+        simrun.recevoirBnb(50); //Recompense pour avoir créer le genesis par la coinbase
+        for(int i = 1; i < users.length; i++){ //On commence à 1 pour pas donner au Createur qui a déjà recu pour la création du genesis+
+            blockChain.transaction("Coinbase donne 5000000000 satoBnb à " + users[i].getNom() + " : " + users[i].getHashUserPublic(), blockChain.trouverMineur(users), 0);
+            users[i].recevoirBnb(50); //Helicopter money
         }
 
+       blockChain.remplirBC(users); //On fait des transactions aléatoire entre x et y avec un montant aléatoire m
 
-        ArrayList<ArrayList<Object>> simrunWallet = blockChain.walletUser(simrun);
-        System.out.println("Wallet de simrun : " + simrunWallet);
-        System.out.println(blockChain.montantWallet(simrunWallet));
-        System.out.println(blockChain.montantWallet(blockChain.walletUser(users[20])));
-
-
-        blockChain.remplirBC(users); //On fait des transactions aléatoire entre x et y avec un montant aléatoire m
-
-        System.out.println(blockChain.montantWallet(blockChain.walletUser(users[20])));
-
-        
         blockChain.printBC(); //Print dans la console la blockchain
         guiBC.setBC(blockChain); //Rempli le tableau sur l'interface
         guiBC.setUsers(users); //Rempli le tableau des users
@@ -100,7 +89,9 @@ public class Main {
         System.out.println(blockChain.checkIntegriteBC(blockChain.trouverMineur(users))); //On demande a un mineur de vérifier que la BC est integre. On choisit au hasard entre les 100 users
         if(jsonCheckBox.isSelected()){
             //printUsers(users);
-            BCJsonUtils.BCJsonWriter(blockChain, "BC.json");
+            BCJsonWriter(blockChain, "BC.json");
         }
+        blockChain.initExchangeList(users);
+
     }
 }

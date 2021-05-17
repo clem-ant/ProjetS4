@@ -1,12 +1,8 @@
 package BlockChain;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import HashUtil.HashUtil;
-import Tools.RandomNumber;
 import Utilisateurs.Mineur;
-import Utilisateurs.User;
 
 /**
  * @author Clément PAYET
@@ -17,7 +13,7 @@ public class Block {
     private String hashRootMerkle = "";
     private final transient BlockChain blockChain; //Transient pour pas que le json soit recursif et donc infini
     private String hashBlockCourant;
-    private ArrayList<String> listeTransaction = new ArrayList<>();
+    private ArrayList<Transaction> listeTransaction = new ArrayList<>();
     private int nonce; //En cryptographie, un nonce est un nombre arbitraire destiné à être utilisé une seule fois. Il s'agit souvent d'un nombre aléatoire ou pseudo-aléatoire émis dans un protocole d'authentification pour garantir que les anciennes communications ne peuvent pas être réutilisées dans des attaques par rejeu
 
     /**
@@ -34,7 +30,7 @@ public class Block {
      * Sets hash root merkle.
      */
     public void setHashRootMerkle() {
-        ArrayList<String> tmp = new ArrayList<>(listeTransaction);
+        ArrayList<Transaction> tmp = new ArrayList<>(listeTransaction);
         hashRootMerkle = calculateMerkleRoot(tmp).toString();
     }
 
@@ -80,23 +76,23 @@ public class Block {
      * @param transacList the list transaction
      * @return the object
      */
-    public Object calculateMerkleRoot(ArrayList<String> transacList){ //Last transact in a block
+    public Object calculateMerkleRoot(ArrayList<Transaction> transacList){ //Last transact in a block
         if(transacList.size() == 1){
             return HashUtil.applySha256(transacList.toString());
         }
-        ArrayList<String> parentHash = new ArrayList<>();
+        ArrayList<Transaction> parentHash = new ArrayList<>();
 
         if(transacList.size()%2 != 0){
             transacList.add(transacList.get(transacList.size()-1));
         }
         for(int i = 0; i < transacList.size(); i+=2){
-            String hashed = HashUtil.applySha256(transacList.get(i) + transacList.get(i + 1));
-            parentHash.add(hashed);
+            String hashed = HashUtil.applySha256(transacList.get(i).getComment() + transacList.get(i + 1).getComment());
+            parentHash.add(new Transaction(hashed));
         }
         if(transacList.size() %2 == 1){
-            String lastHash = transacList.get(transacList.size()-1); //On lui donne le dernier hash
+            String lastHash = transacList.get(transacList.size()-1).getComment(); //On lui donne le dernier hash
             String lastHashHashed = HashUtil.applySha256(lastHash);
-            parentHash.add(lastHashHashed);
+            parentHash.add(new Transaction(lastHashHashed));
         }
         return calculateMerkleRoot(parentHash);
     }
@@ -124,22 +120,16 @@ public class Block {
      *
      * @return the liste transaction genesis
      */
-    public ArrayList<String> getListeTransaction() {
+    public ArrayList<Transaction> getListeTransaction() {
         return listeTransaction;
     }
 
-
-
-    public ArrayList<Object> transaction(User u1, User u2, int montant){
-        listeTransaction.add((u1.getHashUserPublic() + " donne "+ montant + " Bnb a " +u2.getHashUserPublic()));
-        ArrayList<Object> transac = new ArrayList<>();
-        Date dateT = new Date();
-        transac.add(u1.getHashUserPublic());
-        transac.add(u2.getHashUserPublic());
-        transac.add(montant);
-        transac.add(dateT);
-        return transac;
-
+    /**
+     * Transaction.
+     *  @param message the message
+     */
+    public void transaction(String message){
+        listeTransaction.add(new Transaction(message));
     }
 
     /**
@@ -148,7 +138,7 @@ public class Block {
      * @param mineur     the mineur qui va miner
      * @param recompense the recompense gagner par le mineur
      */
-    public void calculateHashing(Mineur mineur, int recompense){
+    public void calculateHashing(Mineur mineur, double recompense){
         hashBlockCourant = mineur.mining(blockChain.getDifficulte(), 0, this, recompense);
     }
 
