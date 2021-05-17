@@ -69,10 +69,23 @@ public class Main {
         int nbBlock = guiBC.getNbBlock();
         int nbMaxTransac = guiBC.getNbMaxTransac();
         JCheckBox jsonCheckBox = guiBC.getJsonCheckBox();
-        User[] users = createNUsers(100);
-        Creator simrun = (Creator) users[0];
+        JCheckBox fullCheckBox = guiBC.getFullCheckBox();
+        Creator simrun;
+        User[] users;
+
+        if(fullCheckBox.isSelected()){
+            users = createNUsers(1000);
+            simrun = (Creator) users[0];
+            nbBlock = 10000;
+            difficulte = 1; //Pour éviter d'avoir trop de temps
+            nbMaxTransac = 100;
+        }else{
+            users = createNUsers(100);
+            simrun = (Creator) users[0];
+        }
+
         BlockChain blockChain = new BlockChain(difficulte, nbBlock, simrun, nbMaxTransac);
-        blockChain.transaction("Coinbase donne 5000000000 satoBnb à Creator", simrun, 0);
+        blockChain.transaction("Coinbase donne 5000000000 satoBnb à Creator : " + simrun.getHashUserPublic(), simrun, 0);
         simrun.recevoirBnb(50); //Recompense pour avoir créer le genesis par la coinbase
         for(int i = 1; i < users.length; i++){ //On commence à 1 pour pas donner au Createur qui a déjà recu pour la création du genesis+
             blockChain.transaction("Coinbase donne 5000000000 satoBnb à " + users[i].getNom() + " : " + users[i].getHashUserPublic(), blockChain.trouverMineur(users), 0);
@@ -85,7 +98,7 @@ public class Main {
         guiBC.setBC(blockChain); //Rempli le tableau sur l'interface
         guiBC.setUsers(users); //Rempli le tableau des users
 
-        System.out.println("Integrite de la BC : " + blockChain.checkIntegriteBC(blockChain.trouverMineur(users))); //On demande a un mineur de vérifier que la BC est integre. On choisit au hasard entre les 100 users
+        blockChain.checkIntegriteBC(blockChain.trouverMineur(users)); //On demande a un mineur de vérifier que la BC est integre. On choisit au hasard entre les 100 users
         if(jsonCheckBox.isSelected()){
             //printUsers(users);
             BCJsonWriter(blockChain, "BCSave.json");

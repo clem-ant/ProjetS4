@@ -26,6 +26,9 @@ public class BCGui extends JFrame{
     private JCheckBox jsonCheckBox;
     private JScrollPane Userpanel;
     private JTable table2;
+
+
+    private JCheckBox fullCheckBox;
     private int nbBlock;
     private int diff;
     private int difMax;
@@ -50,7 +53,9 @@ public class BCGui extends JFrame{
         return jsonCheckBox;
     }
 
-
+    public JCheckBox getFullCheckBox() {
+        return fullCheckBox;
+    }
     /**
      * Is go boolean.
      *

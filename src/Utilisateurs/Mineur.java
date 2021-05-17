@@ -32,9 +32,9 @@ public class Mineur extends User{
     public String mining(int difficulte, int nonce, Block block, double recompense){
         String hashBlockCourant;
         do {
-            hashBlockCourant = HashUtil.applySha256(String.valueOf(nonce++) + block.getHashPrecedent() + block.getHashMerkleRoot() + block.getTimeStamp());
+            hashBlockCourant = HashUtil.applySha256((nonce++) + block.getHashPrecedent() + block.getHashMerkleRoot() + block.getTimeStamp());
         }while(!hashBlockCourant.matches("[0]{"+difficulte+"}(.*)")); //Regex : On cherche uniquement [0]{difficulte} et ça fini par ce qu'on veut
-        block.setNonce(nonce);
+        block.setNonce(nonce-1);
         this.recevoirsatoBnb(recompense); //On récompense le mineur pour son minage avec 50 Bnb
         block.transaction("Coinbase envoie " + (long)recompense + " satoBnb à " + this.getNom());
         return hashBlockCourant;
@@ -47,6 +47,6 @@ public class Mineur extends User{
      * @return the string
      */
     public String checkIntegrity(Block block){
-        return HashUtil.applySha256(String.valueOf(block.getNonce()-1 + block.getHashPrecedent() + block.getHashMerkleRoot() + block.getTimeStamp()));
+        return HashUtil.applySha256(block.getNonce() + block.getHashPrecedent() + block.getHashMerkleRoot() + block.getTimeStamp());
     }
 }

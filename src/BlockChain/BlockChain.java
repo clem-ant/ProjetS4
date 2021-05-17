@@ -21,7 +21,6 @@ public class BlockChain {
     private transient int indexBlock = 1;
     private transient long recompense = 50;
     private final Block[] blocks; //Tableau de blocs
-    private Genesis genesis;
 
 
     private static final String ANSI_RESET = "\u001B[0m";
@@ -179,7 +178,7 @@ public class BlockChain {
             nbTransaction++;
         }else{
             this.getCurrentBlocks().setHashRootMerkle();
-            this.getCurrentBlocks().calculateHashing(mineur, ((recompense*100000000)+frais));
+            this.getCurrentBlocks().calculateHashing(mineur, ((recompense*100000000L)+frais));
             inflation();
             nbTransaction = 1;
             indexBlock++;
@@ -201,10 +200,12 @@ public class BlockChain {
             setIndexBlock(i); //Changement d'index pour avoir le previous qui est bien de 0 à n au lieu de n-1 direct.
             if(!this.getBlocks(i).verifyHash(mineur)){
                 setIndexBlock(tmpIndex);
+                System.out.println("La bloc chaine n'est pas integre");
                 return false;
             }
         }
         setIndexBlock(tmpIndex);
+        System.out.println("La bloc chaine est integre");
         return true;
     }
 

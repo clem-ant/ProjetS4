@@ -16,6 +16,7 @@ public class CreateGui {
     private int nbBlock;
     private int nbMaxTransac;
     private JCheckBox jsonCheckBox;
+    private JCheckBox fullCheckBox;
     private BCGui guiBC;
     private static BlockChain BC;
 
@@ -47,6 +48,7 @@ public class CreateGui {
         nbBlock = guiBC.getNbBlock();
         nbMaxTransac = guiBC.getDifMax();
         jsonCheckBox = guiBC.getJsonCheckBox();
+        fullCheckBox = guiBC.getFullCheckBox();
 
     }
 
@@ -65,6 +67,10 @@ public class CreateGui {
 
     public JCheckBox getJsonCheckBox() {
         return jsonCheckBox;
+    }
+
+    public JCheckBox getFullCheckBox() {
+        return fullCheckBox;
     }
 
     /**

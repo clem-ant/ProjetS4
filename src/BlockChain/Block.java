@@ -9,8 +9,8 @@ import Utilisateurs.Mineur;
  * The type Block.
  */
 public class Block {
-    private final Date timeStamp; //La date au moment de la création
-    private String hashRootMerkle = "";
+    private Date timeStamp = new Date(); //La date au moment de la création
+    private String hashRootMerkle;
     private final transient BlockChain blockChain; //Transient pour pas que le json soit recursif et donc infini
     private String hashBlockCourant;
     private ArrayList<String> listeTransaction = new ArrayList<>();
@@ -23,7 +23,6 @@ public class Block {
      */
     public Block(BlockChain blockChain){
         this.blockChain = blockChain;
-        this.timeStamp = new Date();
     }
 
     /**

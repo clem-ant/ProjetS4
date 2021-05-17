@@ -59,7 +59,7 @@ public class User {
      * @return the boolean
      */
     public boolean aAssezDArgent(long montant){
-        return Bnb >= montant/100000000L;
+        return Bnb >= montant/100000000;
     }
 
     /**
@@ -69,8 +69,8 @@ public class User {
      * @param montantDeSatoBnb the montant de bnb
      */
     public void donnerSatoBnb(User destinataire, double montantDeSatoBnb){
-        destinataire.Bnb += montantDeSatoBnb/100000000L;
-        Bnb -= montantDeSatoBnb/100000000L;
+        destinataire.Bnb += montantDeSatoBnb/100000000L+1;
+        Bnb -= (montantDeSatoBnb/100000000L);
     }
 
     /**
