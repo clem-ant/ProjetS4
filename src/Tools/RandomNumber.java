@@ -15,7 +15,7 @@ public class RandomNumber {
      * @return the int
      */
     public static int getRandomNumberInRange(int min, int max){
-        return ThreadLocalRandom.current().nextInt(min,max);
+        return ThreadLocalRandom.current().nextInt(min,max+1);
     }
 
     public static long getRandomNumberInRange(long min, long max){

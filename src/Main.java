@@ -72,7 +72,6 @@ public class Main {
         User[] users = createNUsers(100);
         Creator simrun = (Creator) users[0];
         BlockChain blockChain = new BlockChain(difficulte, nbBlock, simrun, nbMaxTransac);
-
         blockChain.transaction("Coinbase donne 5000000000 satoBnb à Creator", simrun, 0);
         simrun.recevoirBnb(50); //Recompense pour avoir créer le genesis par la coinbase
         for(int i = 1; i < users.length; i++){ //On commence à 1 pour pas donner au Createur qui a déjà recu pour la création du genesis+
@@ -89,7 +88,7 @@ public class Main {
         System.out.println("Integrite de la BC : " + blockChain.checkIntegriteBC(blockChain.trouverMineur(users))); //On demande a un mineur de vérifier que la BC est integre. On choisit au hasard entre les 100 users
         if(jsonCheckBox.isSelected()){
             //printUsers(users);
-            BCJsonWriter(blockChain, "BC.json");
+            BCJsonWriter(blockChain, "BCSave.json");
         }
     }
 }

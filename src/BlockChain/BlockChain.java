@@ -19,8 +19,9 @@ public class BlockChain {
     private transient int nbTransactionMax;
     private transient int nbTransaction = 1;
     private transient int indexBlock = 1;
-    private long recompense = 50;
+    private transient long recompense = 50;
     private final Block[] blocks; //Tableau de blocs
+    private Genesis genesis;
 
 
     private static final String ANSI_RESET = "\u001B[0m";
@@ -211,7 +212,7 @@ public class BlockChain {
      * Affiche la BC en couleur
      */
     public void printBC(){
-        System.out.println("\u001B[33m[Contenu de la BlockChain]");
+        System.out.println(ANSI_YELLOW + "[Contenu de la BlockChain]");
         for(int i = 0; i < nbBlock; i++){
             System.out.println(ANSI_YELLOW + "[Block n°"+i+"]" + ANSI_RESET);
             System.out.println("| Date de création : " + getBlocks(i).getTimeStamp());

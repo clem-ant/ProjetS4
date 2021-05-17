@@ -58,8 +58,8 @@ public class User {
      * @param montant the montant
      * @return the boolean
      */
-    public boolean aAssezDArgent(double montant){
-        return Bnb >= montant/100000000;
+    public boolean aAssezDArgent(long montant){
+        return Bnb >= montant/100000000L;
     }
 
     /**
@@ -69,8 +69,8 @@ public class User {
      * @param montantDeSatoBnb the montant de bnb
      */
     public void donnerSatoBnb(User destinataire, double montantDeSatoBnb){
-        destinataire.Bnb += montantDeSatoBnb/100000000;
-        Bnb -= montantDeSatoBnb/100000000;
+        destinataire.Bnb += montantDeSatoBnb/100000000L;
+        Bnb -= montantDeSatoBnb/100000000L;
     }
 
     /**
@@ -79,7 +79,7 @@ public class User {
      * @param montantSatoBnb the montant Satobnb
      */
     public void recevoirsatoBnb(double montantSatoBnb){
-        this.Bnb += montantSatoBnb/100000000;
+        this.Bnb += montantSatoBnb/100000000L;
     }
 
     public void recevoirBnb(int montantBnb){
